@@ -8,7 +8,7 @@ const config: ThemeConfig = {
 const styles = {
   global: {
     body: {
-      bg: "black.100",
+      bg: "black",
       color: "white",
     },
   },
