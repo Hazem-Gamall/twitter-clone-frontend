@@ -7,6 +7,7 @@ export const Main = () => {
     <Grid
       templateAreas={`"sidebar main trending"`}
       templateColumns={"0.5fr 2fr 1fr"}
+      gap={3}
     >
       <GridItem area={"sidebar"}>
         <Sidebar />
