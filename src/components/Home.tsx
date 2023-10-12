@@ -1,4 +1,5 @@
 import { Button, ButtonGroup, Text, VStack } from "@chakra-ui/react";
+import { HomeContent } from "./HomeContent";
 
 export const Home = () => {
   return (
@@ -19,6 +20,8 @@ export const Home = () => {
           Following
         </Button>
       </ButtonGroup>
+
+      <HomeContent></HomeContent>
     </VStack>
   );
 };

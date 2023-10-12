@@ -1,5 +1,10 @@
-import { List } from "@chakra-ui/react";
+import { VStack } from "@chakra-ui/react";
+import { NewTweet } from "./NewTweet";
 
 export const HomeContent = () => {
-  return <List></List>;
+  return (
+    <VStack>
+      <NewTweet />
+    </VStack>
+  );
 };
