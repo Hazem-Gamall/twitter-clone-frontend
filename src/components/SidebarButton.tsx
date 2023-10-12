@@ -1,20 +1,21 @@
-import { Button } from "@chakra-ui/react";
+import { Button, Icon } from "@chakra-ui/react";
 import { ReactElement, ReactNode } from "react";
 import { IconType } from "react-icons";
 
 interface Props {
-  icon: ReactElement<IconType>;
+  icon: IconType;
   children?: ReactNode;
 }
 
 export const SidebarButton = ({ icon, children }: Props) => {
   return (
     <Button
-      borderRadius={20}
+      borderRadius={30}
+      size={"lg"}
       fontSize={"xl"}
-      bg={"black"}
+      variant={"ghost"}
       fontWeight={"light"}
-      leftIcon={icon}
+      leftIcon={<Icon as={icon} fontSize={"24px"} />}
     >
       {children}
     </Button>
