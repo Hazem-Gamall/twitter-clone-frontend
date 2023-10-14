@@ -21,7 +21,7 @@ export const Home = () => {
         </Button>
       </ButtonGroup>
 
-      <HomeContent></HomeContent>
+      <HomeContent />
     </VStack>
   );
 };
