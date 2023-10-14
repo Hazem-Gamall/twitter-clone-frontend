@@ -1,4 +1,4 @@
-import { Button, IconButton, List, ListItem } from "@chakra-ui/react";
+import { Button, IconButton, List, ListItem, VStack } from "@chakra-ui/react";
 import { FaXTwitter } from "react-icons/fa6";
 import { CgHome } from "react-icons/cg";
 import { BsSearch, BsPeople, BsPerson } from "react-icons/bs";
@@ -8,49 +8,33 @@ import { SidebarButton } from "./SidebarButton";
 
 export const Sidebar = () => {
   return (
-    <List px={3}>
-      <ListItem>
-        <IconButton
-          variant={"ghost"}
-          borderRadius={20}
-          fontSize={"30px"}
-          aria-label="twitter"
-          ml={4}
-          icon={<FaXTwitter />}
-        />
-      </ListItem>
-      <ListItem>
-        <SidebarButton icon={CgHome}>Home</SidebarButton>
-      </ListItem>
+    <VStack px={3} align={"start"}>
+      <IconButton
+        variant={"ghost"}
+        borderRadius={20}
+        fontSize={"30px"}
+        aria-label="twitter"
+        ml={4}
+        icon={<FaXTwitter />}
+      />
 
-      <ListItem>
-        <SidebarButton icon={BsSearch}>Explore</SidebarButton>
-      </ListItem>
+      <SidebarButton icon={CgHome}>Home</SidebarButton>
 
-      <ListItem>
-        <SidebarButton icon={RiNotification2Line}>Notifications</SidebarButton>
-      </ListItem>
+      <SidebarButton icon={BsSearch}>Explore</SidebarButton>
 
-      <ListItem>
-        <SidebarButton icon={FiMail}>Messages</SidebarButton>
-      </ListItem>
+      <SidebarButton icon={RiNotification2Line}>Notifications</SidebarButton>
 
-      <ListItem>
-        <SidebarButton icon={RiFileListLine}>Lists</SidebarButton>
-      </ListItem>
+      <SidebarButton icon={FiMail}>Messages</SidebarButton>
 
-      <ListItem>
-        <SidebarButton icon={BsPeople}>Communities</SidebarButton>
-      </ListItem>
+      <SidebarButton icon={RiFileListLine}>Lists</SidebarButton>
 
-      <ListItem>
-        <SidebarButton icon={BsPerson}>Profile</SidebarButton>
-      </ListItem>
-      <ListItem>
-        <Button width={"100%"} borderRadius={30} colorScheme={"twitter"}>
-          Post
-        </Button>
-      </ListItem>
-    </List>
+      <SidebarButton icon={BsPeople}>Communities</SidebarButton>
+
+      <SidebarButton icon={BsPerson}>Profile</SidebarButton>
+
+      <Button width={"100%"} borderRadius={30} colorScheme={"twitter"}>
+        Post
+      </Button>
+    </VStack>
   );
 };
