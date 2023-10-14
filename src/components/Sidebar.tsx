@@ -1,4 +1,4 @@
-import { Button, IconButton, List, ListItem, VStack } from "@chakra-ui/react";
+import { Button, IconButton, VStack } from "@chakra-ui/react";
 import { FaXTwitter } from "react-icons/fa6";
 import { CgHome } from "react-icons/cg";
 import { BsSearch, BsPeople, BsPerson } from "react-icons/bs";
