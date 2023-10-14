@@ -8,13 +8,14 @@ import { SidebarButton } from "./SidebarButton";
 
 export const Sidebar = () => {
   return (
-    <List ml={8}>
+    <List px={3}>
       <ListItem>
         <IconButton
           variant={"ghost"}
           borderRadius={20}
           fontSize={"30px"}
           aria-label="twitter"
+          ml={4}
           icon={<FaXTwitter />}
         />
       </ListItem>

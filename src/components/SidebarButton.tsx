@@ -10,6 +10,7 @@ interface Props {
 export const SidebarButton = ({ icon, children }: Props) => {
   return (
     <Button
+      p={4}
       borderRadius={30}
       size={"lg"}
       fontSize={"xl"}
