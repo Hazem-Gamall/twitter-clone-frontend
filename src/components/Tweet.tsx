@@ -15,33 +15,34 @@ import {
 export const Tweet = () => {
   return (
     <LinkBox as={"article"}>
-      <LinkOverlay href="/">
-        <Card
-          width={"100%"}
-          variant={"unstyled"}
-          bg="black"
-          _hover={{ bg: "gray.900" }}
-          p={2}
-        >
-          <CardHeader py={0} pt={3}>
-            <HStack justifyContent={"space-between"}>
-              <HStack>
-                <Avatar name="test" />
-                <Link href="/22">Test</Link>
-                <Link href="t" fontWeight={"light"} color={"gray.500"}>
-                  @test &#183; 14m
-                </Link>
-              </HStack>
-              <Button
-                zIndex={3}
-                variant={"ghost"}
-                borderRadius={30}
-                onClick={() => console.log("button click")}
-              >
-                ...
-              </Button>
+      <Card
+        width={"100%"}
+        variant={"unstyled"}
+        bg="black"
+        _hover={{ bg: "gray.900" }}
+        p={2}
+        borderRadius={0}
+      >
+        <CardHeader py={0} pt={3}>
+          <HStack justifyContent={"space-between"}>
+            <HStack>
+              <Avatar name="test" />
+              <Link href="/22">Test</Link>
+              <Link href="t" fontWeight={"light"} color={"gray.500"}>
+                @test &#183; 14m
+              </Link>
             </HStack>
-          </CardHeader>
+            <Button
+              zIndex={1}
+              variant={"ghost"}
+              borderRadius={30}
+              onClick={() => console.log("button click")}
+            >
+              ...
+            </Button>
+          </HStack>
+        </CardHeader>
+        <LinkOverlay href="/">
           <CardBody px={20} py={0} pb={5}>
             <Text>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad et
@@ -55,8 +56,8 @@ export const Tweet = () => {
 
             <Image></Image>
           </CardBody>
-        </Card>
-      </LinkOverlay>
+        </LinkOverlay>
+      </Card>
     </LinkBox>
   );
 };
