@@ -2,6 +2,8 @@ import { Grid, GridItem } from "@chakra-ui/react";
 import { Sidebar } from "./Sidebar";
 import { Home } from "./Home";
 import { Trending } from "./Trending";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { Profile } from "./Profile";
 
 export const Main = () => {
   return (
@@ -16,7 +18,11 @@ export const Main = () => {
       </GridItem>
 
       <GridItem area={"main"}>
-        <Home />
+        <Routes>
+          <Route path="/" element={<Navigate to="/home" />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/:username" element={<Profile />} />
+        </Routes>
       </GridItem>
 
       <GridItem area={"trending"}>

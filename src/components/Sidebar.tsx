@@ -5,11 +5,14 @@ import { BsSearch, BsPeople, BsPerson } from "react-icons/bs";
 import { RiNotification2Line, RiFileListLine } from "react-icons/ri";
 import { FiMail } from "react-icons/fi";
 import { SidebarButton } from "./SidebarButton";
+import { Link } from "react-router-dom";
 
 export const Sidebar = () => {
   return (
     <VStack px={3} align={"start"}>
       <IconButton
+        as={Link}
+        to="/"
         variant={"ghost"}
         borderRadius={20}
         fontSize={"30px"}
@@ -18,19 +21,33 @@ export const Sidebar = () => {
         icon={<FaXTwitter />}
       />
 
-      <SidebarButton icon={CgHome}>Home</SidebarButton>
+      <SidebarButton to="/home" icon={CgHome}>
+        Home
+      </SidebarButton>
 
-      <SidebarButton icon={BsSearch}>Explore</SidebarButton>
+      <SidebarButton to="/explore" icon={BsSearch}>
+        Explore
+      </SidebarButton>
 
-      <SidebarButton icon={RiNotification2Line}>Notifications</SidebarButton>
+      <SidebarButton to="/notifications" icon={RiNotification2Line}>
+        Notifications
+      </SidebarButton>
 
-      <SidebarButton icon={FiMail}>Messages</SidebarButton>
+      <SidebarButton to="/messages" icon={FiMail}>
+        Messages
+      </SidebarButton>
 
-      <SidebarButton icon={RiFileListLine}>Lists</SidebarButton>
+      <SidebarButton to="/lists" icon={RiFileListLine}>
+        Lists
+      </SidebarButton>
 
-      <SidebarButton icon={BsPeople}>Communities</SidebarButton>
+      <SidebarButton to="/communities" icon={BsPeople}>
+        Communities
+      </SidebarButton>
 
-      <SidebarButton icon={BsPerson}>Profile</SidebarButton>
+      <SidebarButton to="/username" icon={BsPerson}>
+        Profile
+      </SidebarButton>
 
       <Button width={"100%"} borderRadius={30} colorScheme={"twitter"}>
         Post
