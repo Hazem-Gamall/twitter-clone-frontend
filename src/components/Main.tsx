@@ -4,6 +4,7 @@ import { Home } from "./Home";
 import { Trending } from "./Trending";
 import { Route, Routes } from "react-router-dom";
 import { Profile } from "./Profile";
+import { RequireAuth } from "./RequireAuth";
 
 export const Main = () => {
   return (
@@ -20,8 +21,16 @@ export const Main = () => {
 
         <GridItem area={"main"}>
           <Routes>
-            <Route path="/home" element={<Home />} />
-            <Route path="/:username" element={<Profile />} />
+            <Route element={<RequireAuth />}>
+              <Route path="/home" element={<Home />} />
+              <Route path="/:username" element={<Profile />} />
+              <Route
+                path="*"
+                element={(() => (
+                  <div>not found</div>
+                ))()}
+              />
+            </Route>
           </Routes>
         </GridItem>
 
