@@ -1,13 +1,22 @@
 import { createContext, useState } from "react";
 
-const AuthContext = createContext({});
+export interface IAuthContext {
+  access?: string;
+  refresh?: string;
+  [propName: string]: any;
+}
+
+const AuthContext = createContext<IAuthContext>({});
 
 interface Props {
   children: React.ReactNode;
 }
 
 export const AuthProvider = ({ children }: Props) => {
-  const [auth, setAuth] = useState({});
+  const localStorageAuth = localStorage.getItem("auth");
+  const [auth, setAuth] = useState(
+    localStorageAuth ? JSON.parse(localStorageAuth) : {}
+  );
 
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>
