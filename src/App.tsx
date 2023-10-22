@@ -4,6 +4,7 @@ import { Main } from "./components/Main";
 import AuthContext from "./context/AuthProvider";
 import { AnonHome } from "./components/AnonHome";
 import { Route, Routes } from "react-router-dom";
+import { RequireAuth } from "./components/RequireAuth";
 
 function App() {
   useContext(AuthContext);
@@ -11,7 +12,9 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<AnonHome />} />
-        <Route path="/*" element={<Main />}></Route>
+        <Route element={<RequireAuth />}>
+          <Route path="/*" element={<Main />}></Route>
+        </Route>
       </Routes>
     </>
   );
