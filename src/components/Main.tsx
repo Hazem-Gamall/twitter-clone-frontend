@@ -11,7 +11,7 @@ export const Main = () => {
     <>
       <Grid
         templateAreas={`"sidebar main trending"`}
-        templateColumns={"0.5fr 2fr 1fr"}
+        templateColumns={"0.7fr 2fr 1.2fr"}
         py={3}
         px={5}
       >
