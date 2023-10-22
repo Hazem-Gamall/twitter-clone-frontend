@@ -13,14 +13,12 @@ import {
 } from "@chakra-ui/react";
 import IPost from "./Profile/types/Post";
 import { Link } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
 
 interface Props {
   post: IPost;
 }
 
 export const Post = ({ post }: Props) => {
-  const { auth } = useAuth();
   return (
     <LinkBox as={"article"} width={"100%"} borderBottomWidth={1}>
       <Card
@@ -57,7 +55,10 @@ export const Post = ({ post }: Props) => {
             </Button>
           </HStack>
         </CardHeader>
-        <LinkOverlay as={Link} to={`/${auth.username}/status/${post.id}`}>
+        <LinkOverlay
+          as={Link}
+          to={`/${post.post_user.username}/status/${post.id}`}
+        >
           <CardBody px={20} py={0} pb={5}>
             <Text>{post.text}</Text>
 

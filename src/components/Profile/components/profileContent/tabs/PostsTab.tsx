@@ -1,16 +1,16 @@
 import { TabPanel, VStack } from "@chakra-ui/react";
-import useAuth from "../../../../../hooks/useAuth";
 import IPost from "../../../types/Post";
 import useData from "../../../../../hooks/useData";
 import { Post } from "../../../../Post";
+import { useParams } from "react-router-dom";
 
 export const PostsTab = () => {
-  const { auth } = useAuth();
+  const { username } = useParams();
   const {
     data: posts,
     isLoading,
     error,
-  } = useData<IPost[]>(`/users/${auth.username}/posts/`);
+  } = useData<IPost[]>(`/users/${username}/posts/`);
   console.log("loading", isLoading);
   console.log("posts", posts);
 

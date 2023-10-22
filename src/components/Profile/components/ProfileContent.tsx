@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react";
 import { IUserProfile } from "../types/User";
 import { Tab, TabList, TabPanels, Tabs } from "@chakra-ui/react";
-import useApiClient from "../../../hooks/useApiClient";
-import { Link } from "react-router-dom";
+import { Link, Route, Routes } from "react-router-dom";
 import { PostsTab } from "./profileContent/tabs/PostsTab";
 
 interface Props {
@@ -10,11 +8,6 @@ interface Props {
 }
 
 export const ProfileContent = ({ userProfile }: Props) => {
-  const [currentTab, setCurrentTab] = useState(0);
-  const apiClient = useApiClient();
-  useEffect(() => {
-    apiClient.get("/posts");
-  }, [currentTab]);
   return (
     <Tabs>
       <TabList
@@ -23,13 +16,30 @@ export const ProfileContent = ({ userProfile }: Props) => {
         px={5}
         justifyContent={"space-between"}
       >
-        <Tab>Posts</Tab>
-        <Tab>Replies</Tab>
-        <Tab>Media</Tab>
-        <Tab>Likes</Tab>
+        <Tab flexGrow={1} as={Link} to={`/${userProfile.user.username}`}>
+          Posts
+        </Tab>
+        <Tab
+          flexGrow={1}
+          as={Link}
+          to={`/${userProfile.user.username}/with_replies`}
+        >
+          Replies
+        </Tab>
+        <Tab flexGrow={1} as={Link} to={`/${userProfile.user.username}/media`}>
+          Media
+        </Tab>
+        <Tab flexGrow={1} as={Link} to={`/${userProfile.user.username}/likes`}>
+          Likes
+        </Tab>
       </TabList>
       <TabPanels>
-        <PostsTab></PostsTab>
+        <Routes>
+          <Route path="/">
+            <Route index element={<PostsTab />} />
+            <Route path="with_replies" />
+          </Route>
+        </Routes>
       </TabPanels>
     </Tabs>
   );
