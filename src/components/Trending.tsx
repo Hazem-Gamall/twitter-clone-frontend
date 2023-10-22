@@ -70,7 +70,7 @@ const Trend = () => {
 
 export const Trending = () => {
   return (
-    <VStack px={5} mr={3} spacing={10}>
+    <VStack px={5} mr={3} spacing={10} borderLeftWidth={1} height={"100%"}>
       <Search />
       <Trend />
     </VStack>
