@@ -43,11 +43,12 @@ export const LoginModal = () => {
 
   const onSubmit = async (data: FieldValues) => {
     try {
-      const result = await apiClient.post<ApiResponse>("/token/", data);
-      localStorage.setItem("auth", JSON.stringify(result.data));
+      const tokenResult = await apiClient.post<ApiResponse>("/token/", data);
+
+      localStorage.setItem("auth", JSON.stringify({ ...tokenResult.data }));
       setAuth((prev: { access: string; refresh: string }) => ({
         ...prev,
-        ...result.data,
+        ...tokenResult.data,
       }));
     } catch (e) {
       if (e instanceof AxiosError && e.response?.status === 401) {
