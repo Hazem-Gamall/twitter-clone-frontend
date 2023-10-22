@@ -2,6 +2,7 @@ interface User {
   name: string;
   username: string;
   email: string;
+  date_joined: string;
 }
 
 export interface UserProfile {
