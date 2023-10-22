@@ -1,12 +1,11 @@
 import { VStack } from "@chakra-ui/react";
-import { NewTweet } from "./NewTweet";
-import { Tweet } from "./Tweet";
+import { NewPost } from "./NewPost";
 
 export const HomeContent = () => {
   return (
     <VStack>
-      <NewTweet />
-      <Tweet />
+      <NewPost />
+      {/* <Post text="test" /> */}
     </VStack>
   );
 };

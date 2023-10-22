@@ -21,6 +21,7 @@ import apiClient from "../services/apiClient";
 import { useContext } from "react";
 import AuthContext from "../context/AuthProvider";
 import { AxiosError } from "axios";
+import getObjectFromJWT from "../utils/getObjectFromJwt";
 
 interface ApiResponse {
   access: string;
@@ -44,11 +45,14 @@ export const LoginModal = () => {
   const onSubmit = async (data: FieldValues) => {
     try {
       const tokenResult = await apiClient.post<ApiResponse>("/token/", data);
-
-      localStorage.setItem("auth", JSON.stringify({ ...tokenResult.data }));
+      const newAuth = {
+        ...tokenResult.data,
+        username: getObjectFromJWT(tokenResult.data.access).username,
+      };
+      localStorage.setItem("auth", JSON.stringify(newAuth));
       setAuth((prev: { access: string; refresh: string }) => ({
         ...prev,
-        ...tokenResult.data,
+        ...newAuth,
       }));
     } catch (e) {
       if (e instanceof AxiosError && e.response?.status === 401) {

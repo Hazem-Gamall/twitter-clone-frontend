@@ -6,7 +6,7 @@ import { RiNotification2Line, RiFileListLine } from "react-icons/ri";
 import { FiMail } from "react-icons/fi";
 import { SidebarButton } from "./SidebarButton";
 import { Link } from "react-router-dom";
-import getObjectFromJwt from "../utils/getObjectFromJwt";
+import getObjectFromJWT from "../utils/getObjectFromJwt";
 import useAuth from "../hooks/useAuth";
 
 export const Sidebar = () => {
@@ -49,7 +49,7 @@ export const Sidebar = () => {
       </SidebarButton>
 
       <SidebarButton
-        to={`/${getObjectFromJwt(auth?.access)?.username}`}
+        to={`/${getObjectFromJWT(auth?.access)?.username}`}
         icon={BsPerson}
       >
         Profile

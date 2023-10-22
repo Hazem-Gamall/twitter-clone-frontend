@@ -5,7 +5,7 @@ interface User {
   date_joined: string;
 }
 
-export interface UserProfile {
+export interface IUserProfile {
   user: User;
   date_of_birth: Date;
   follower_count: number;

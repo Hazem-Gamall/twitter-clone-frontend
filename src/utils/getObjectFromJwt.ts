@@ -1,7 +1,13 @@
 import jwtDecode from "jwt-decode";
 
-const getObjectFromJwt: any = (token: string) => {
+interface JWTObject {
+  token_type: string;
+  user_id: number;
+  username: string;
+}
+
+const getObjectFromJWT = (token: string): JWTObject => {
   return jwtDecode(token);
 };
 
-export default getObjectFromJwt;
+export default getObjectFromJWT;

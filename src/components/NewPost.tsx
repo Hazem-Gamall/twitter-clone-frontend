@@ -36,7 +36,7 @@ const PrivacyMenu = () => {
   );
 };
 
-export const NewTweet = () => {
+export const NewPost = () => {
   return (
     <form>
       <VStack alignItems={"flex-end"}>

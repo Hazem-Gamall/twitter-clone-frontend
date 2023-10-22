@@ -10,7 +10,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { UserProfile } from "../types/User";
+import { IUserProfile } from "../types/User";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { MdOutlineNotificationAdd } from "react-icons/md";
 import { FiMail } from "react-icons/fi";
@@ -19,7 +19,7 @@ import formatDate from "../../../utils/formatDate";
 import { Link } from "react-router-dom";
 
 interface Props {
-  userProfile: UserProfile;
+  userProfile: IUserProfile;
 }
 
 export const UserDetail = ({ userProfile }: Props) => {

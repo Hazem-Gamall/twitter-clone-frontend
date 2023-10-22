@@ -6,15 +6,21 @@ import {
   CardHeader,
   HStack,
   Image,
-  Link,
+  Link as ChakraLink,
   LinkBox,
   LinkOverlay,
   Text,
 } from "@chakra-ui/react";
+import IPost from "./Profile/types/Post";
+import { Link } from "react-router-dom";
 
-export const Tweet = () => {
+interface Props {
+  post: IPost;
+}
+
+export const Post = ({ post }: Props) => {
   return (
-    <LinkBox as={"article"}>
+    <LinkBox as={"article"} width={"100%"} borderBottomWidth={1}>
       <Card
         width={"100%"}
         variant={"unstyled"}
@@ -26,11 +32,18 @@ export const Tweet = () => {
         <CardHeader py={0} pt={3}>
           <HStack justifyContent={"space-between"}>
             <HStack>
-              <Avatar name="test" />
-              <Link href="/22">Test</Link>
-              <Link href="t" fontWeight={"light"} color={"gray.500"}>
-                @test &#183; 14m
-              </Link>
+              <Avatar src={post.post_user.avatar} />
+              <ChakraLink as={Link} to={`/${post.post_user.username}`}>
+                {post.post_user.name}
+              </ChakraLink>
+              <ChakraLink
+                as={Link}
+                to={`/${post.post_user.username}`}
+                fontWeight={"light"}
+                color={"gray.500"}
+              >
+                @{post.post_user.username} &#183; {post.creation}
+              </ChakraLink>
             </HStack>
             <Button
               zIndex={1}
@@ -44,15 +57,7 @@ export const Tweet = () => {
         </CardHeader>
         <LinkOverlay href="/">
           <CardBody px={20} py={0} pb={5}>
-            <Text>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad et
-              suscipit ipsa neque veniam optio, laboriosam esse officiis ducimus
-              sit! Reprehenderit ducimus vitae harum laudantium, assumenda
-              expedita saepe amet dolorem? Non voluptates aliquid molestiae,
-              explicabo aut earum unde necessitatibus fugit ullam ipsam ad quo
-              quaerat eius consequatur sit, itaque dolorem ut deserunt.
-              Reiciendis illo at dolorum incidunt pariatur? Vitae, maxime!
-            </Text>
+            <Text>{post.text}</Text>
 
             <Image></Image>
           </CardBody>

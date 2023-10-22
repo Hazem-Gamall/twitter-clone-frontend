@@ -3,6 +3,7 @@ import { createContext, useState } from "react";
 export interface IAuthContext {
   access?: string;
   refresh?: string;
+  username?: string;
   [propName: string]: any;
 }
 
