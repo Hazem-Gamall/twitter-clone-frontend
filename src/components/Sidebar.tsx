@@ -6,13 +6,16 @@ import { RiNotification2Line, RiFileListLine } from "react-icons/ri";
 import { FiMail } from "react-icons/fi";
 import { SidebarButton } from "./SidebarButton";
 import { Link } from "react-router-dom";
+import getObjectFromJwt from "../utils/getObjectFromJwt";
+import useAuth from "../hooks/useAuth";
 
 export const Sidebar = () => {
+  const { auth, setAuth } = useAuth();
   return (
     <VStack px={3} align={"start"}>
       <IconButton
         as={Link}
-        to="/"
+        to="/home"
         variant={"ghost"}
         borderRadius={20}
         fontSize={"30px"}
@@ -45,12 +48,24 @@ export const Sidebar = () => {
         Communities
       </SidebarButton>
 
-      <SidebarButton to="/username" icon={BsPerson}>
+      <SidebarButton
+        to={`/${getObjectFromJwt(auth?.access)?.username}`}
+        icon={BsPerson}
+      >
         Profile
       </SidebarButton>
 
       <Button width={"100%"} borderRadius={30} colorScheme={"twitter"}>
         Post
+      </Button>
+
+      <Button
+        onClick={() => setAuth({})}
+        width={"100%"}
+        borderRadius={30}
+        colorScheme={"twitter"}
+      >
+        SignOut
       </Button>
     </VStack>
   );
