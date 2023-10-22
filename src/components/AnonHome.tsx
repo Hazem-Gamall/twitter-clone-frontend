@@ -18,7 +18,7 @@ export const AnonHome = () => {
   const { auth } = useAuth();
   useEffect(() => {
     if (auth.access) navigate("/home", { replace: true });
-  }, []);
+  }, [auth]);
 
   return (
     <Grid
