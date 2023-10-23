@@ -8,13 +8,11 @@ const useRefreshToken = () => {
       const response = await apiClient.post("/token/refresh/", {
         refresh: auth.refresh,
       });
-      console.log("refresh response", response);
-      console.log("auth", auth);
 
       setAuth({ ...auth, ...response.data });
       return response.data.access;
     } catch (e) {
-      console.log("error", e);
+      console.log("error refresh token", e);
     }
   };
 };
