@@ -15,11 +15,15 @@ const useApiClient = () => {
           config.headers.Authorization = `Bearer ${auth.access}`;
         return config;
       },
-      (error) => Promise.reject(error)
+      (error) => {
+        return Promise.reject(error);
+      }
     );
 
     const responseInterceptor = apiClient.interceptors.response.use(
-      (response) => response,
+      (response) => {
+        return response;
+      },
       async (error) => {
         const prevRequest = error?.config;
         if (error?.response?.status === 401 && !prevRequest?.sent) {
@@ -29,8 +33,8 @@ const useApiClient = () => {
             prevRequest.headers.Authorization = `Bearer ${access}`;
             return apiClient(prevRequest);
           }
-          return Promise.reject(error);
         }
+        return Promise.reject(error);
       }
     );
     return () => {
