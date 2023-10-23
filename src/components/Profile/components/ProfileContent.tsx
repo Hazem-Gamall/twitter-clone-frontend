@@ -1,7 +1,7 @@
-import { IUserProfile } from "../types/User";
 import { Tab, TabList, TabPanels, Tabs } from "@chakra-ui/react";
 import { Link, Route, Routes } from "react-router-dom";
 import { PostsTab } from "./profileContent/tabs/PostsTab";
+import { IUserProfile } from "../../../types/User";
 
 interface Props {
   userProfile: IUserProfile;
@@ -10,12 +10,7 @@ interface Props {
 export const ProfileContent = ({ userProfile }: Props) => {
   return (
     <Tabs>
-      <TabList
-        as={Link}
-        to={`/${userProfile.user.username}`}
-        px={5}
-        justifyContent={"space-between"}
-      >
+      <TabList px={5} justifyContent={"space-between"}>
         <Tab flexGrow={1} as={Link} to={`/${userProfile.user.username}`}>
           Posts
         </Tab>
