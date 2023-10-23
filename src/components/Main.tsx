@@ -23,7 +23,7 @@ export const Main = () => {
           <Routes>
             <Route element={<RequireAuth />}>
               <Route path="/home" element={<Home />} />
-              <Route path="/:username" element={<Profile />} />
+              <Route path="/:username/*" element={<Profile />} />
               <Route
                 path="*"
                 element={(() => (
