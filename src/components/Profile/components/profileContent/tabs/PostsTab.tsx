@@ -3,6 +3,7 @@ import IPost from "../../../../../types/Post";
 import useData from "../../../../../hooks/useData";
 import { Post } from "../../../../Post";
 import { useParams } from "react-router-dom";
+import { Fragment } from "react";
 
 export const PostsTab = () => {
   const { username } = useParams();
@@ -20,10 +21,10 @@ export const PostsTab = () => {
       <VStack align={"stretch"}>
         {!isLoading &&
           posts.map((post) => (
-            <>
-              <Post key={post.id} post={post} />
-              <Divider></Divider>
-            </>
+            <Fragment key={post.id}>
+              <Post post={post} />
+              <Divider />
+            </Fragment>
           ))}
       </VStack>
     </TabPanel>
