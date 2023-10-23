@@ -7,7 +7,7 @@ interface User {
 
 export interface IUserProfile {
   user: User;
-  date_of_birth: Date;
+  date_of_birth: string;
   follower_count: number;
   following_count: number;
   avatar?: string;
