@@ -1,5 +1,5 @@
-import { TabPanel, VStack } from "@chakra-ui/react";
-import IPost from "../../../types/Post";
+import { Divider, TabPanel, VStack } from "@chakra-ui/react";
+import IPost from "../../../../../types/Post";
 import useData from "../../../../../hooks/useData";
 import { Post } from "../../../../Post";
 import { useParams } from "react-router-dom";
@@ -18,7 +18,13 @@ export const PostsTab = () => {
     <TabPanel p={0}>
       {error && <div>{error}</div>}
       <VStack align={"stretch"}>
-        {!isLoading && posts.map((post) => <Post key={post.id} post={post} />)}
+        {!isLoading &&
+          posts.map((post) => (
+            <>
+              <Post key={post.id} post={post} />
+              <Divider></Divider>
+            </>
+          ))}
       </VStack>
     </TabPanel>
   );
