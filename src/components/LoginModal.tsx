@@ -17,11 +17,12 @@ import {
 import { FieldValues, useForm } from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import apiClient from "../services/apiClient";
+
 import { useContext } from "react";
 import AuthContext from "../context/AuthProvider";
 import { AxiosError } from "axios";
 import getObjectFromJWT from "../utils/getObjectFromJwt";
+import useApiClient from "../hooks/useApiClient";
 
 interface ApiResponse {
   access: string;
@@ -41,13 +42,13 @@ export const LoginModal = () => {
   });
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { setAuth } = useContext(AuthContext);
-
+  const apiClient = useApiClient();
   const onSubmit = async (data: FieldValues) => {
     try {
       const tokenResult = await apiClient.post<ApiResponse>("/token/", data);
       const newAuth = {
         ...tokenResult.data,
-        username: getObjectFromJWT(tokenResult.data.access).username,
+        username: getObjectFromJWT(tokenResult.data.access)?.username,
       };
       localStorage.setItem("auth", JSON.stringify(newAuth));
       setAuth((prev: { access: string; refresh: string }) => ({
