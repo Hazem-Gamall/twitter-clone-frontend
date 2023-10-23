@@ -1,9 +1,10 @@
 import { Divider, TabPanel, VStack } from "@chakra-ui/react";
 import IPost from "../../../../../types/Post";
-import useData from "../../../../../hooks/useData";
+import useData from "../../../../../hooks/useList";
 import { Post } from "../../../../Post";
 import { useParams } from "react-router-dom";
 import { Fragment } from "react";
+import { userPostsServiceFactory } from "../../../../../services/httpServiceFactories";
 
 export const PostsTab = () => {
   const { username } = useParams();
@@ -11,9 +12,7 @@ export const PostsTab = () => {
     data: posts,
     isLoading,
     error,
-  } = useData<IPost[]>(`/users/${username}/posts/`);
-  console.log("loading", isLoading);
-  console.log("posts", posts);
+  } = useData<IPost>(userPostsServiceFactory(username as string));
 
   return (
     <TabPanel p={0}>

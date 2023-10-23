@@ -1,73 +1,40 @@
 import {
-  Avatar,
-  Button,
   HStack,
   Heading,
   Icon,
-  IconButton,
   Image,
   Link as ChakraLink,
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { IUserProfile } from "../types/User";
-import { FiMoreHorizontal } from "react-icons/fi";
-import { MdOutlineNotificationAdd } from "react-icons/md";
-import { FiMail } from "react-icons/fi";
+
 import { BsCalendar3 } from "react-icons/bs";
 import formatDate from "../../../utils/formatDate";
 import { Link } from "react-router-dom";
+import { IUserProfile } from "../../../types/User";
+import useAuth from "../../../hooks/useAuth";
+import { AuthUserDetailButtons } from "./profileContent/UserDetailButtons/AuthUserDetailButtons";
+import { OtherUserDetailButtons } from "./profileContent/UserDetailButtons/OtherUserDetailButtons";
 
 interface Props {
   userProfile: IUserProfile;
 }
 
 export const UserDetail = ({ userProfile }: Props) => {
+  const { auth } = useAuth();
   return (
     <VStack align={"stretch"}>
       <Image
         overflow={"clip"}
-        // width={"sm"}
         src="https://pbs.twimg.com/profile_banners/1434937735089958914/1673200466/1500x500"
       />
       <VStack align={"stretch"} mx={3}>
         <HStack justifyContent={"flex-end"}>
-          <Avatar
-            name={userProfile.user.name}
-            src="https://pbs.twimg.com/profile_images/1528400499527008256/hsUTV88y_400x400.jpg"
-            position={"absolute"}
-            border={"4px"}
-            color={"black"}
-            left={300}
-            top={230}
-            boxSize={130}
-          />
-          <IconButton
-            aria-label="more"
-            icon={<FiMoreHorizontal />}
-            borderRadius={30}
-            fontSize={"xl"}
-            variant={"outline"}
-          />
-
-          <IconButton
-            aria-label="messages"
-            icon={<FiMail />}
-            borderRadius={30}
-            fontSize={"xl"}
-            variant={"outline"}
-          />
-
-          <IconButton
-            aria-label="more"
-            icon={<MdOutlineNotificationAdd />}
-            borderRadius={30}
-            fontSize={"xl"}
-            variant={"outline"}
-          />
-          <Button variant={"outline"} borderRadius={30}>
-            Following
-          </Button>
+          {userProfile.user.username === auth.username ? (
+            <AuthUserDetailButtons userProfile={userProfile} />
+          ) : (
+            <OtherUserDetailButtons />
+          )}
         </HStack>
 
         <VStack ml={1} mt={10} alignItems={"flex-start"}>
