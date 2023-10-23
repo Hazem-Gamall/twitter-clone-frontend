@@ -6,8 +6,9 @@ interface JWTObject {
   username: string;
 }
 
-const getObjectFromJWT = (token: string): JWTObject => {
-  return jwtDecode(token);
+const getObjectFromJWT = (token: string): JWTObject | null => {
+  if (token) return jwtDecode(token);
+  return null;
 };
 
 export default getObjectFromJWT;

@@ -10,7 +10,7 @@ const useAuth = () => {
     setAuth: (data: any) => {
       if (Object.keys(data).length === 0) localStorage.removeItem("auth");
       else localStorage.setItem("auth", JSON.stringify(data));
-      setAuth({ ...data, username: getObjectFromJWT(data.access).username });
+      setAuth({ ...data, username: getObjectFromJWT(data.access)?.username });
     },
   };
 };
