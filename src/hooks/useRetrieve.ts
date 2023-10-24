@@ -26,7 +26,7 @@ const useRetrieve = <T>(httpService: HttpService, id: string, deps?: [any]) => {
     deps ? [...deps] : []
   );
 
-  return { data, isLoading, error };
+  return { data, setData, isLoading, error };
 };
 
 export default useRetrieve;
