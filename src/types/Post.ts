@@ -16,4 +16,5 @@ export default interface IPost {
     username: string;
   };
   embed: boolean;
+  replies_count: number;
 }

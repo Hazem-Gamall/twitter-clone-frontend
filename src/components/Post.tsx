@@ -3,16 +3,17 @@ import {
   Button,
   Card,
   CardBody,
-  CardHeader,
   HStack,
   Image,
   Link as ChakraLink,
   Text,
   Grid,
   GridItem,
+  CardFooter,
 } from "@chakra-ui/react";
 import IPost from "../types/Post";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { PostInteractionButton } from "./PostInteractionButton";
 
 interface Props {
   post: IPost;
@@ -27,17 +28,19 @@ export const Post = ({ post }: Props) => {
       variant={"unstyled"}
       bg="black"
       _hover={{ bg: "gray.900", cursor: "pointer" }}
-      p={3}
+      p={2}
+      pl={4}
+      pt={4}
       borderRadius={0}
-      onClick={() =>
-        navigate(`/${post.post_user.username}/status/${post.id}`, {
-          state: { from: location.pathname },
-        })
-      }
     >
-      <CardHeader p={0}></CardHeader>
-
-      <CardBody py={0} pb={5}>
+      <CardBody
+        py={0}
+        onClick={() =>
+          navigate(`/${post.post_user.username}/status/${post.id}`, {
+            state: { from: location.pathname },
+          })
+        }
+      >
         <Grid templateAreas={`"avatar content"`} templateColumns={"1fr 10fr"}>
           <GridItem area={"avatar"}>
             <Avatar
@@ -76,6 +79,14 @@ export const Post = ({ post }: Props) => {
           </GridItem>
         </Grid>
       </CardBody>
+      <CardFooter>
+        <HStack width={"100%"} justifyContent={"space-between"} pl={10} pr={3}>
+          <PostInteractionButton type="reply" count={post.replies_count} />
+          <PostInteractionButton type="like" count={post.replies_count} />
+          <PostInteractionButton type="repost" count={post.replies_count} />
+          <PostInteractionButton type="share" count={post.replies_count} />
+        </HStack>
+      </CardFooter>
     </Card>
   );
 };
