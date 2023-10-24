@@ -2,6 +2,8 @@ import {
   Avatar,
   Button,
   Divider,
+  FormControl,
+  FormLabel,
   HStack,
   Menu,
   MenuButton,
@@ -10,9 +12,12 @@ import {
   Textarea,
   VStack,
 } from "@chakra-ui/react";
+import { FormEvent, useState } from "react";
 
 import { BsChevronDown } from "react-icons/bs";
 import TextareaAutoResize from "react-textarea-autosize";
+import { userPostsServiceFactory } from "../services/httpServiceFactories";
+import useAuth from "../hooks/useAuth";
 
 const PrivacyMenu = () => {
   return (
@@ -30,29 +35,63 @@ const PrivacyMenu = () => {
       </MenuButton>
       <MenuList>
         <MenuItem>Everyone</MenuItem>
-        <MenuItem>Circle</MenuItem>
+        {/* <MenuItem>Circle</MenuItem> */}
       </MenuList>
     </Menu>
   );
 };
 
 export const NewPost = () => {
+  const [postLength, setPostLength] = useState(0);
+  const [postText, setPostText] = useState("");
+  const { auth } = useAuth();
+  const userService = userPostsServiceFactory(auth.username);
+
+  const handleSubmit = (ev: FormEvent<HTMLFormElement>) => {
+    ev.preventDefault();
+    const { request } = userService.create({
+      text: postText,
+    });
+    request
+      .then((resp) => console.log("post resp", resp))
+      .catch((error) => console.log("post error", error));
+  };
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <VStack alignItems={"flex-end"}>
         <HStack>
           <Avatar name="test" />
           <VStack alignItems={"start"}>
             <PrivacyMenu />
-            <Textarea
-              placeholder="What is happening?!"
-              resize={"none"}
-              border={"none"}
-              rows={1}
-              size={"lg"}
-              as={TextareaAutoResize}
-              width={"600px"}
-            />
+            <FormControl>
+              <Textarea
+                placeholder="What is happening?!"
+                resize={"none"}
+                border={"none"}
+                size={"lg"}
+                rows={1}
+                as={TextareaAutoResize}
+                width={"600px"}
+                value={postText}
+                onChange={(ev) => {
+                  setPostText(ev.target.value);
+                  setPostLength(ev.target.value.length);
+                }}
+              />
+              <HStack justifyContent={"flex-end"}>
+                <FormLabel
+                  color={
+                    postLength >= 280
+                      ? "red"
+                      : postLength >= 260
+                      ? "yellow"
+                      : ""
+                  }
+                >
+                  {postLength}/280
+                </FormLabel>
+              </HStack>
+            </FormControl>
           </VStack>
         </HStack>
         <Divider />

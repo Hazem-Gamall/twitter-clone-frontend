@@ -20,6 +20,14 @@ export class HttpService {
     return { request, cancel: () => controller.abort() };
   }
 
+  create<T>(data: T) {
+    const controller = new AbortController();
+    const request = this.apiClient.post<T[]>(this.endpoint, data, {
+      signal: controller.signal,
+    });
+    return { request, cancel: () => controller.abort() };
+  }
+
   retrieve<T>(id: string) {
     const controller = new AbortController();
     const request = this.apiClient.get<T>(`${this.endpoint}/${id}/`, {
