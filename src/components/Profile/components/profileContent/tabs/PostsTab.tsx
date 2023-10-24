@@ -17,7 +17,7 @@ export const PostsTab = () => {
   return (
     <TabPanel p={0}>
       {error && <div>{error}</div>}
-      <VStack align={"stretch"}>
+      <VStack align={"stretch"} spacing={0}>
         {!isLoading &&
           posts.map((post) => (
             <Fragment key={post.id}>

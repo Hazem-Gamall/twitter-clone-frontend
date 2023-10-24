@@ -27,7 +27,7 @@ export const Post = ({ post }: Props) => {
       variant={"unstyled"}
       bg="black"
       _hover={{ bg: "gray.900", cursor: "pointer" }}
-      p={2}
+      p={3}
       borderRadius={0}
       onClick={() =>
         navigate(`/${post.post_user.username}/status/${post.id}`, {
@@ -35,11 +35,8 @@ export const Post = ({ post }: Props) => {
         })
       }
     >
-      <CardHeader py={0} pt={3}></CardHeader>
+      <CardHeader p={0}></CardHeader>
 
-      {/* as={Link}
-          to={`/${post.post_user.username}/status/${post.id}`}
-         */}
       <CardBody py={0} pb={5}>
         <Grid templateAreas={`"avatar content"`} templateColumns={"1fr 10fr"}>
           <GridItem area={"avatar"}>
