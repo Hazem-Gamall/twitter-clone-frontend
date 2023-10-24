@@ -27,18 +27,20 @@ export const UserDetail = ({ userProfile, setUserProfile }: Props) => {
   return (
     <VStack align={"stretch"}>
       <Image
-        overflow={"clip"}
-        src="https://pbs.twimg.com/profile_banners/1434937735089958914/1673200466/1500x500"
+        objectFit={"cover"}
+        maxHeight={"220px"}
+        height={"220px"}
+        src={userProfile.cover_picture}
       />
       <VStack align={"stretch"} mx={3}>
         <HStack justifyContent={"flex-end"}>
           <Avatar
             name={userProfile.user.name}
-            src="https://pbs.twimg.com/profile_images/1528400499527008256/hsUTV88y_400x400.jpg"
+            src={userProfile.avatar}
             position={"absolute"}
             border={"4px"}
             color={"black"}
-            left={300}
+            left={280}
             top={230}
             boxSize={130}
           />
