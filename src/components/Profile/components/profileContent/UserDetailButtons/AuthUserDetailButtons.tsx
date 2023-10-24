@@ -23,19 +23,22 @@ import { AiOutlineClose } from "react-icons/ai";
 import { IUserProfile } from "../../../../../types/User";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { userServiceFactory } from "../../../../../services/httpServiceFactories";
+import { userWithImageServiceFactory } from "../../../../../services/httpServiceFactories";
 
 interface Props {
   userProfile: IUserProfile;
+  setUserProfile: (userProfile: IUserProfile) => void;
 }
 
 const schema = z.object({
   cover_picture: z.any(),
   avatar: z.any(),
-  name: z
-    .string()
-    .max(35, "Name can't exceed 35 characters.")
-    .min(1, "You must provide a name."),
+  user: z.object({
+    name: z
+      .string()
+      .max(35, "Name can't exceed 35 characters.")
+      .min(1, "You must provide a name."),
+  }),
   bio: z.string().max(160, "Bio can't exceed 160 characters."),
   date_of_birth: z
     .string()
@@ -44,9 +47,12 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-export const AuthUserDetailButtons = ({ userProfile }: Props) => {
+export const AuthUserDetailButtons = ({
+  userProfile,
+  setUserProfile,
+}: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const userService = userServiceFactory();
+  const userService = userWithImageServiceFactory();
   const {
     handleSubmit,
     register,
@@ -54,7 +60,7 @@ export const AuthUserDetailButtons = ({ userProfile }: Props) => {
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
-      name: userProfile.user.name,
+      user: { name: userProfile.user.name },
       bio: userProfile.bio,
       date_of_birth: userProfile.date_of_birth,
     },
@@ -62,8 +68,13 @@ export const AuthUserDetailButtons = ({ userProfile }: Props) => {
 
   const onSubmit = (formData: FormData) => {
     console.log("formData", { formData });
-    formData.avatar = formData.avatar[0] || "";
-    formData.cover_picture = formData.cover_picture[0] || "";
+    userService
+      .patch(userProfile.user.username, formData)
+      .request.then((resp) => {
+        console.log("patch resp", resp);
+        setUserProfile({ ...userProfile, ...resp.data });
+      })
+      .catch((err) => console.log("patch error", err));
   };
 
   return (
@@ -105,10 +116,12 @@ export const AuthUserDetailButtons = ({ userProfile }: Props) => {
                   <Avatar src={userProfile.avatar}></Avatar>
                   <Input {...register("avatar")} type="file" accept="image/*" />
                 </HStack>
-                <FormControl isInvalid={!!errors.name}>
+                <FormControl isInvalid={!!errors.user?.name}>
                   <FormLabel>Name</FormLabel>
-                  <Input {...register("name")} />
-                  <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+                  <Input {...register("user.name")} />
+                  <FormErrorMessage>
+                    {errors.user?.name?.message}
+                  </FormErrorMessage>
                 </FormControl>
 
                 <FormControl isInvalid={!!errors.bio}>

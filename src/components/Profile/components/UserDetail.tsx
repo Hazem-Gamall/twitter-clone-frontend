@@ -6,6 +6,7 @@ import {
   Link as ChakraLink,
   Text,
   VStack,
+  Avatar,
 } from "@chakra-ui/react";
 
 import { BsCalendar3 } from "react-icons/bs";
@@ -18,9 +19,10 @@ import { OtherUserDetailButtons } from "./profileContent/UserDetailButtons/Other
 
 interface Props {
   userProfile: IUserProfile;
+  setUserProfile: (userProfile: IUserProfile) => void;
 }
 
-export const UserDetail = ({ userProfile }: Props) => {
+export const UserDetail = ({ userProfile, setUserProfile }: Props) => {
   const { auth } = useAuth();
   return (
     <VStack align={"stretch"}>
@@ -30,8 +32,21 @@ export const UserDetail = ({ userProfile }: Props) => {
       />
       <VStack align={"stretch"} mx={3}>
         <HStack justifyContent={"flex-end"}>
+          <Avatar
+            name={userProfile.user.name}
+            src="https://pbs.twimg.com/profile_images/1528400499527008256/hsUTV88y_400x400.jpg"
+            position={"absolute"}
+            border={"4px"}
+            color={"black"}
+            left={300}
+            top={230}
+            boxSize={130}
+          />
           {userProfile.user.username === auth.username ? (
-            <AuthUserDetailButtons userProfile={userProfile} />
+            <AuthUserDetailButtons
+              userProfile={userProfile}
+              setUserProfile={setUserProfile}
+            />
           ) : (
             <OtherUserDetailButtons />
           )}
@@ -42,7 +57,7 @@ export const UserDetail = ({ userProfile }: Props) => {
             <Heading fontSize={"2xl"}>{userProfile.user.name}</Heading>
             <Text color={"gray.600"}>@{userProfile.user.username}</Text>
           </VStack>
-          <Text>Bio</Text>
+          <Text>{userProfile.bio}</Text>
           <Text color={"gray.600"}>
             <Icon as={BsCalendar3} /> Joined{" "}
             {formatDate(new Date(userProfile.user.date_joined))}

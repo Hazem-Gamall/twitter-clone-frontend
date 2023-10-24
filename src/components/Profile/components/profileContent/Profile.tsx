@@ -11,6 +11,7 @@ export const Profile = () => {
   const { username } = useParams();
   const {
     data: userProfile,
+    setData: setUserProfile,
     error,
     isLoading,
   } = useRetrieve<IUserProfile>(userServiceFactory(), username as string, [
@@ -21,7 +22,11 @@ export const Profile = () => {
     <VStack align={"stretch"}>
       <TopBar username={username} />
       {error && <div>{error}</div>}
-      {isLoading ? <Spinner /> : <UserDetail userProfile={userProfile} />}
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <UserDetail userProfile={userProfile} setUserProfile={setUserProfile} />
+      )}
       {isLoading ? <Spinner /> : <ProfileContent userProfile={userProfile} />}
     </VStack>
   );
