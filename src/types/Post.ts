@@ -21,4 +21,5 @@ export default interface IPost {
   liked_by_user: boolean;
   repost_count: number;
   reposted_by_user: boolean;
+  reply_to: number;
 }

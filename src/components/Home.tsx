@@ -3,7 +3,7 @@ import { HomeContent } from "./HomeContent";
 
 export const Home = () => {
   return (
-    <VStack width={"100%"} alignItems={"start"}>
+    <VStack align={"stretch"}>
       <Text textAlign={"left"} fontWeight={"bold"} fontSize={"xl"} ml={2}>
         Home
       </Text>

@@ -30,3 +30,7 @@ export const userPostLikeServiceFactory = (username: string) => {
 export const userPostRepostServiceFactory = (username: string) => {
   return httpServiceFactory(HttpService, `/users/${username}/repost`);
 };
+
+export const userPostReplyServiceFactory = (post_id: number) => {
+  return httpServiceFactory(HttpService, `/posts/${post_id}/replies`);
+};

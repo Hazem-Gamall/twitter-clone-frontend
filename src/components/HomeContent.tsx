@@ -3,7 +3,7 @@ import { NewPost } from "./Post/NewPost";
 
 export const HomeContent = () => {
   return (
-    <VStack>
+    <VStack align={"stretch"}>
       <NewPost />
       {/* <Post text="test" /> */}
     </VStack>

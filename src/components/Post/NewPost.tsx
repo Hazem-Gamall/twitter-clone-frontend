@@ -18,6 +18,8 @@ import { BsChevronDown } from "react-icons/bs";
 import TextareaAutoResize from "react-textarea-autosize";
 import { userPostsServiceFactory } from "../../services/httpServiceFactories";
 import useAuth from "../../hooks/useAuth";
+import IPost from "../../types/Post";
+import { useNavigate } from "react-router-dom";
 
 const PrivacyMenu = () => {
   return (
@@ -41,27 +43,35 @@ const PrivacyMenu = () => {
   );
 };
 
-export const NewPost = () => {
+interface Props {
+  reply_post?: IPost;
+}
+
+export const NewPost = ({ reply_post }: Props) => {
   const [postLength, setPostLength] = useState(0);
   const [postText, setPostText] = useState("");
   const { auth } = useAuth();
   const userService = userPostsServiceFactory(auth.username);
+  const navigate = useNavigate();
 
   const handleSubmit = (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
     const { request } = userService.create({
       text: postText,
+      ...(reply_post && { reply_to: reply_post.id }),
     });
     request
-      .then((resp) => console.log("post resp", resp))
+      .then(() => {
+        navigate(0);
+      })
       .catch((error) => console.log("post error", error));
   };
   return (
     <form onSubmit={handleSubmit}>
       <VStack alignItems={"flex-end"}>
-        <HStack>
+        <HStack width={"100%"} align={"stretch"}>
           <Avatar name="test" />
-          <VStack alignItems={"start"}>
+          <VStack alignItems={"start"} width={"100%"}>
             <PrivacyMenu />
             <FormControl>
               <Textarea
@@ -71,7 +81,6 @@ export const NewPost = () => {
                 size={"lg"}
                 rows={1}
                 as={TextareaAutoResize}
-                width={"600px"}
                 value={postText}
                 onChange={(ev) => {
                   setPostText(ev.target.value);
@@ -95,9 +104,15 @@ export const NewPost = () => {
           </VStack>
         </HStack>
         <Divider />
-        <Button type="submit" borderRadius={30} colorScheme="blue">
-          Post
-        </Button>
+        {reply_post ? (
+          <Button type="submit" variant="outline" borderRadius={30}>
+            Reply
+          </Button>
+        ) : (
+          <Button type="submit" borderRadius={30} colorScheme="blue">
+            Post
+          </Button>
+        )}
       </VStack>
     </form>
   );

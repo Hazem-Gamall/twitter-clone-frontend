@@ -14,7 +14,7 @@ import {
   Icon,
 } from "@chakra-ui/react";
 import IPost from "../../types/Post";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { PostInteractionButtonGroup } from "./PostInteractionButtonGroup";
 import { BiRepost } from "react-icons/bi";
 import useAuth from "../../hooks/useAuth";
@@ -22,12 +22,12 @@ import useAuth from "../../hooks/useAuth";
 interface Props {
   post: IPost;
   setPost: (post: IPost) => void;
+  reply?: boolean;
 }
 
-export const Post = ({ post, setPost }: Props) => {
+export const Post = ({ post, setPost, reply }: Props) => {
   const postToRender = post.repost ? post.embed : post;
-  const navigate = useNavigate();
-  const location = useLocation();
+
   const { auth } = useAuth();
 
   return (
@@ -54,23 +54,13 @@ export const Post = ({ post, setPost }: Props) => {
           </HStack>
         </CardHeader>
       )}
-      <CardBody
-        py={0}
-        onClick={() =>
-          navigate(
-            `/${postToRender.post_user.username}/status/${postToRender.id}`,
-            {
-              state: { from: location.pathname },
-            }
-          )
-        }
-      >
+      <CardBody py={0}>
         <Grid templateAreas={`"avatar content"`} templateColumns={"1fr 10fr"}>
           <GridItem area={"avatar"}>
             <Avatar
               as={Link}
               to={`/${postToRender.post_user.username}`}
-              src={postToRender.post_user.avatar}
+              src={`http://localhost:8000${postToRender.post_user.avatar}`}
             />
           </GridItem>
           <GridItem area={"content"}>
@@ -108,7 +98,9 @@ export const Post = ({ post, setPost }: Props) => {
         </Grid>
       </CardBody>
       <CardFooter>
-        <PostInteractionButtonGroup post={postToRender} setPost={setPost} />
+        {reply || (
+          <PostInteractionButtonGroup post={postToRender} setPost={setPost} />
+        )}
       </CardFooter>
     </Card>
   );
