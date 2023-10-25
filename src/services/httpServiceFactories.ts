@@ -2,7 +2,7 @@ import useApiClient from "../hooks/useApiClient";
 import { HttpService } from "./HttpService";
 import UserWithImageService from "./UserWithImageService";
 
-const httpServiceFactory = (
+export const httpServiceFactory = (
   httpServiceClass: typeof HttpService,
   endpoint: string
 ) => {
@@ -20,5 +20,13 @@ export const userWithImageServiceFactory = () => {
 };
 
 export const userPostsServiceFactory = (username: string) => {
-  return httpServiceFactory(HttpService, `/users/${username}/posts/`);
+  return httpServiceFactory(HttpService, `/users/${username}/posts`);
+};
+
+export const userPostLikeServiceFactory = (username: string) => {
+  return httpServiceFactory(HttpService, `/users/${username}/likes`);
+};
+
+export const userPostRepostServiceFactory = (username: string) => {
+  return httpServiceFactory(HttpService, `/users/${username}/repost`);
 };
