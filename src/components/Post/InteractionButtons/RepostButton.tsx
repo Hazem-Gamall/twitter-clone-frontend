@@ -1,8 +1,8 @@
 import { HStack, IconButton, Text } from "@chakra-ui/react";
-import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { userPostLikeServiceFactory } from "../../../services/httpServiceFactories";
+import { userPostRepostServiceFactory } from "../../../services/httpServiceFactories";
 import IPost from "../../../types/Post";
 import useAuth from "../../../hooks/useAuth";
+import { BiRepost } from "react-icons/bi";
 
 interface Props {
   count: number;
@@ -12,7 +12,7 @@ interface Props {
 
 export const RepostButton = ({ count, post, setPost }: Props) => {
   const { auth } = useAuth();
-  const httpService = userPostLikeServiceFactory(auth.username);
+  const httpService = userPostRepostServiceFactory(auth.username);
 
   const handleClick = () => {
     if (post.repost) {
@@ -32,9 +32,7 @@ export const RepostButton = ({ count, post, setPost }: Props) => {
         variant={"ghost"}
         borderRadius={30}
         aria-label="post interaction button"
-        icon={
-          post.liked_by_user ? <AiFillHeart color="red" /> : <AiOutlineHeart />
-        }
+        icon={post.reposted_by_user ? <BiRepost color="green" /> : <BiRepost />}
         onClick={handleClick}
       />
       <Text fontSize={"sm"}>{count}</Text>

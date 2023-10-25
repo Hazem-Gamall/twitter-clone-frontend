@@ -2,6 +2,7 @@ import { HStack } from "@chakra-ui/react";
 import { PostInteractionButton } from "./InteractionButtons/PostInteractionButton";
 import IPost from "../../types/Post";
 import { LikeButton } from "./InteractionButtons/LikeButton";
+import { RepostButton } from "./InteractionButtons/RepostButton";
 
 interface Props {
   post: IPost;
@@ -18,12 +19,7 @@ export const PostInteractionButtonGroup = ({ post, setPost }: Props) => {
         count={post.replies_count}
       />
       <LikeButton setPost={setPost} post={post} count={post.likes_count} />
-      <PostInteractionButton
-        setPost={setPost}
-        post={post}
-        type="repost"
-        count={post.replies_count}
-      />
+      <RepostButton setPost={setPost} post={post} count={post.repost_count} />
       <PostInteractionButton
         setPost={setPost}
         post={post}
