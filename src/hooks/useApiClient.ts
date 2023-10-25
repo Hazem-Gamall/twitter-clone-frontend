@@ -9,8 +9,6 @@ const useApiClient = () => {
   useEffect(() => {
     const requestInterceptor = apiClient.interceptors.request.use(
       (config) => {
-        console.log(config);
-
         if (!config.headers.Authorization)
           config.headers.Authorization = `Bearer ${auth.access}`;
         return config;
