@@ -4,18 +4,40 @@ import { FaRegComment } from "react-icons/fa6";
 import { BiRepost } from "react-icons/bi";
 import { AiOutlineHeart } from "react-icons/ai";
 import { FiShare } from "react-icons/fi";
+import { userPostLikeServiceFactory } from "../../../services/httpServiceFactories";
+import IPost from "../../../types/Post";
+import useAuth from "../../../hooks/useAuth";
 
 interface Props {
   type: "reply" | "repost" | "like" | "share";
   count: number;
+  post: IPost;
+  setPost: (post: IPost) => void;
 }
 
-export const PostInteractionButton = ({ type, count }: Props) => {
+export const PostInteractionButton = ({
+  type,
+  count,
+  post,
+  setPost,
+}: Props) => {
+  const { auth } = useAuth();
   const typeToIconMap = {
     reply: <FaRegComment />,
     repost: <BiRepost />,
     like: <AiOutlineHeart />,
     share: <FiShare />,
+  };
+  const httpService = userPostLikeServiceFactory(auth.username);
+
+  const typeToHandler = {
+    reply: () => {},
+    repost: () => {},
+    like: () => {
+      const { request } = httpService.create({ post: post.id });
+      request.then((resp) => setPost(resp.data as any));
+    },
+    share: () => {},
   };
 
   const ref = useRef<HTMLParagraphElement>(null);
@@ -44,7 +66,9 @@ export const PostInteractionButton = ({ type, count }: Props) => {
         icon={typeToIconMap[type]}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        onClick={typeToHandler[type]}
       />
+      {post.liked_by_user && <Text>Liked</Text>}
       <Text ref={ref} fontSize={"sm"}>
         {count}
       </Text>

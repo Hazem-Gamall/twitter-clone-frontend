@@ -1,5 +1,5 @@
 import { VStack } from "@chakra-ui/react";
-import { NewPost } from "./NewPost";
+import { NewPost } from "./Post/NewPost";
 
 export const HomeContent = () => {
   return (

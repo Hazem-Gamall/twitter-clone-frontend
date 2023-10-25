@@ -16,8 +16,8 @@ import { FormEvent, useState } from "react";
 
 import { BsChevronDown } from "react-icons/bs";
 import TextareaAutoResize from "react-textarea-autosize";
-import { userPostsServiceFactory } from "../services/httpServiceFactories";
-import useAuth from "../hooks/useAuth";
+import { userPostsServiceFactory } from "../../services/httpServiceFactories";
+import useAuth from "../../hooks/useAuth";
 
 const PrivacyMenu = () => {
   return (

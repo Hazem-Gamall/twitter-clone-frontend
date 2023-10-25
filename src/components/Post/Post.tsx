@@ -11,15 +11,16 @@ import {
   GridItem,
   CardFooter,
 } from "@chakra-ui/react";
-import IPost from "../types/Post";
+import IPost from "../../types/Post";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { PostInteractionButton } from "./PostInteractionButton";
+import { PostInteractionButtonGroup } from "./PostInteractionButtonGroup";
 
 interface Props {
   post: IPost;
+  setPost: (post: IPost) => void;
 }
 
-export const Post = ({ post }: Props) => {
+export const Post = ({ post, setPost }: Props) => {
   const navigate = useNavigate();
   const location = useLocation();
   return (
@@ -80,12 +81,7 @@ export const Post = ({ post }: Props) => {
         </Grid>
       </CardBody>
       <CardFooter>
-        <HStack width={"100%"} justifyContent={"space-between"} pl={10} pr={3}>
-          <PostInteractionButton type="reply" count={post.replies_count} />
-          <PostInteractionButton type="like" count={post.replies_count} />
-          <PostInteractionButton type="repost" count={post.replies_count} />
-          <PostInteractionButton type="share" count={post.replies_count} />
-        </HStack>
+        <PostInteractionButtonGroup post={post} setPost={setPost} />
       </CardFooter>
     </Card>
   );
