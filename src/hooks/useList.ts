@@ -13,7 +13,7 @@ const useData = <T>(httpService: HttpService, deps?: [any]) => {
       request
         .then((resp) => {
           if (resp) {
-            setData(resp?.data);
+            setData(resp.data);
             setIsLoading(false);
           }
         })

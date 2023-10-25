@@ -2,6 +2,7 @@ import { Tab, TabList, TabPanels, Tabs } from "@chakra-ui/react";
 import { Link, Route, Routes } from "react-router-dom";
 import { PostsTab } from "./profileContent/tabs/PostsTab";
 import { IUserProfile } from "../../../types/User";
+import { PostsProvider } from "../../../context/PostsProvider";
 
 interface Props {
   userProfile: IUserProfile;
@@ -29,12 +30,14 @@ export const ProfileContent = ({ userProfile }: Props) => {
         </Tab>
       </TabList>
       <TabPanels>
-        <Routes>
-          <Route path="/">
-            <Route index element={<PostsTab />} />
-            <Route path="with_replies" />
-          </Route>
-        </Routes>
+        <PostsProvider>
+          <Routes>
+            <Route path="/">
+              <Route index element={<PostsTab />} />
+              <Route path="with_replies" />
+            </Route>
+          </Routes>
+        </PostsProvider>
       </TabPanels>
     </Tabs>
   );

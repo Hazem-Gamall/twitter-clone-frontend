@@ -6,16 +6,15 @@ import { ReplyButton } from "./InteractionButtons/ReplyButton";
 
 interface Props {
   post: IPost;
-  setPost: (post: IPost) => void;
 }
 
-export const PostInteractionButtonGroup = ({ post, setPost }: Props) => {
+export const PostInteractionButtonGroup = ({ post }: Props) => {
   return (
     <HStack width={"100%"} justifyContent={"space-between"} pl={10} pr={3}>
-      <ReplyButton setPost={setPost} post={post} count={post.replies_count} />
-      <LikeButton setPost={setPost} post={post} count={post.likes_count} />
-      <RepostButton setPost={setPost} post={post} count={post.repost_count} />
-      <RepostButton setPost={setPost} post={post} count={post.repost_count} />
+      <ReplyButton post={post} count={post.replies_count} />
+      <LikeButton post={post} count={post.likes_count} />
+      <RepostButton post={post} count={post.repost_count} />
+      <RepostButton post={post} count={post.repost_count} />
     </HStack>
   );
 };

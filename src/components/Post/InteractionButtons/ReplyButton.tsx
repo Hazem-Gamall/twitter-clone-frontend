@@ -18,10 +18,9 @@ import { NewPost } from "../NewPost";
 interface Props {
   count: number;
   post: IPost;
-  setPost: (post: IPost) => void;
 }
 
-export const ReplyButton = ({ count, post, setPost }: Props) => {
+export const ReplyButton = ({ count, post }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -42,7 +41,7 @@ export const ReplyButton = ({ count, post, setPost }: Props) => {
             <ModalCloseButton />
           </ModalHeader>
           <ModalBody>
-            <Post reply={true} post={post} setPost={setPost} />
+            <Post reply={true} post={post} />
             <Text color={"gray.500"} fontWeight={"light"}>
               Replying to @{post.post_user.username}
             </Text>

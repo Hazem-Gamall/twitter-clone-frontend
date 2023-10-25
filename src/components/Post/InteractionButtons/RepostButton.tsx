@@ -3,27 +3,61 @@ import { userPostRepostServiceFactory } from "../../../services/httpServiceFacto
 import IPost from "../../../types/Post";
 import useAuth from "../../../hooks/useAuth";
 import { BiRepost } from "react-icons/bi";
+import usePosts from "../../../hooks/usePosts";
 
 interface Props {
   count: number;
   post: IPost;
-  setPost: (post: IPost) => void;
 }
 
-export const RepostButton = ({ count, post, setPost }: Props) => {
+interface PostRepost {
+  post: number;
+  repost: boolean;
+}
+
+export const RepostButton = ({ count, post }: Props) => {
   const { auth } = useAuth();
   const httpService = userPostRepostServiceFactory(auth.username);
+  const { posts, setPosts } = usePosts();
+
+  const updatePost = (newPost: IPost) => {
+    if (setPosts && posts)
+      if (post.reposted_by_user) {
+        setPosts(
+          posts
+            .filter((p) => p.embed?.id !== post.id)
+            .map((p) =>
+              p.id !== post.id
+                ? p
+                : {
+                    ...post,
+                    reposted_by_user: false,
+                    repost_count: post.repost_count - 1,
+                  }
+            )
+        );
+      } else {
+        setPosts([
+          newPost,
+          ...posts.map((p) =>
+            p.id !== post.id
+              ? p
+              : {
+                  ...post,
+                  reposted_by_user: true,
+                  repost_count: post.repost_count + 1,
+                }
+          ),
+        ]);
+      }
+  };
 
   const handleClick = () => {
-    if (post.repost) {
-      const { request } = httpService.create({ post: post.id, repost: false });
-      request.then((resp) => setPost(resp.data as any));
-    } else {
-      const { request } = httpService.create({ post: post.id, repost: true });
-      request.then((resp) => {
-        setPost(resp.data as any);
-      });
-    }
+    const { request } = httpService.create<PostRepost, IPost>({
+      post: post.id,
+      repost: false,
+    });
+    request.then((resp) => updatePost(resp.data));
   };
 
   return (

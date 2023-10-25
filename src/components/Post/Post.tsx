@@ -21,11 +21,10 @@ import useAuth from "../../hooks/useAuth";
 
 interface Props {
   post: IPost;
-  setPost: (post: IPost) => void;
   reply?: boolean;
 }
 
-export const Post = ({ post, setPost, reply }: Props) => {
+export const Post = ({ post, reply }: Props) => {
   const postToRender = post.repost ? post.embed : post;
 
   const { auth } = useAuth();
@@ -98,9 +97,7 @@ export const Post = ({ post, setPost, reply }: Props) => {
         </Grid>
       </CardBody>
       <CardFooter>
-        {reply || (
-          <PostInteractionButtonGroup post={postToRender} setPost={setPost} />
-        )}
+        {reply || <PostInteractionButtonGroup post={postToRender} />}
       </CardFooter>
     </Card>
   );

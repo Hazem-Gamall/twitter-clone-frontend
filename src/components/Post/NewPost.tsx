@@ -19,7 +19,7 @@ import TextareaAutoResize from "react-textarea-autosize";
 import { userPostsServiceFactory } from "../../services/httpServiceFactories";
 import useAuth from "../../hooks/useAuth";
 import IPost from "../../types/Post";
-import { useNavigate } from "react-router-dom";
+import usePosts from "../../hooks/usePosts";
 
 const PrivacyMenu = () => {
   return (
@@ -47,22 +47,37 @@ interface Props {
   reply_post?: IPost;
 }
 
+interface PostReply {
+  text: string;
+  reply_to?: number;
+}
+
 export const NewPost = ({ reply_post }: Props) => {
   const [postLength, setPostLength] = useState(0);
   const [postText, setPostText] = useState("");
   const { auth } = useAuth();
   const userService = userPostsServiceFactory(auth.username);
-  const navigate = useNavigate();
+  const { posts, setPosts } = usePosts();
 
   const handleSubmit = (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
-    const { request } = userService.create({
+    const { request } = userService.create<PostReply, IPost>({
       text: postText,
       ...(reply_post && { reply_to: reply_post.id }),
     });
     request
-      .then(() => {
-        navigate(0);
+      .then((resp) => {
+        if (posts && setPosts)
+          setPosts(
+            [resp.data, ...posts].map((p) =>
+              p.id !== reply_post?.id
+                ? p
+                : {
+                    ...reply_post,
+                    replies_count: reply_post?.replies_count + 1,
+                  }
+            )
+          );
       })
       .catch((error) => console.log("post error", error));
   };

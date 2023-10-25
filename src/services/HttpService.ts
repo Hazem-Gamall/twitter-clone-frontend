@@ -20,9 +20,9 @@ export class HttpService {
     return { request, cancel: () => controller.abort() };
   }
 
-  create<T>(data: T) {
+  create<T, S>(data: T) {
     const controller = new AbortController();
-    const request = this.apiClient.post<T[]>(`${this.endpoint}/`, data, {
+    const request = this.apiClient.post<S>(`${this.endpoint}/`, data, {
       signal: controller.signal,
     });
     return { request, cancel: () => controller.abort() };
