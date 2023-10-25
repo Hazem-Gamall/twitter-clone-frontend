@@ -14,7 +14,7 @@ export class HttpService {
 
   list<T>() {
     const controller = new AbortController();
-    const request = this.apiClient.get<T[]>(this.endpoint, {
+    const request = this.apiClient.get<T[]>(`${this.endpoint}/`, {
       signal: controller.signal,
     });
     return { request, cancel: () => controller.abort() };
@@ -22,7 +22,7 @@ export class HttpService {
 
   create<T>(data: T) {
     const controller = new AbortController();
-    const request = this.apiClient.post<T[]>(this.endpoint, data, {
+    const request = this.apiClient.post<T[]>(`${this.endpoint}/`, data, {
       signal: controller.signal,
     });
     return { request, cancel: () => controller.abort() };
