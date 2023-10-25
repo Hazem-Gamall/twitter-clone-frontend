@@ -17,4 +17,6 @@ export default interface IPost {
   };
   embed: boolean;
   replies_count: number;
+  likes_count: number;
+  liked_by_user: boolean;
 }
