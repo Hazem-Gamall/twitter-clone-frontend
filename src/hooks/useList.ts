@@ -26,7 +26,7 @@ const useData = <T>(httpService: HttpService, deps?: [any]) => {
     },
     deps ? [...deps] : []
   );
-  return { data, isLoading, error };
+  return { data, isLoading, setData, error };
 };
 
 export default useData;
