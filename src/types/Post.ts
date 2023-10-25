@@ -15,7 +15,7 @@ export default interface IPost {
     avatar: string;
     username: string;
   };
-  embed: boolean;
+  embed: IPost;
   replies_count: number;
   likes_count: number;
   liked_by_user: boolean;
