@@ -15,7 +15,12 @@ export const Main = () => {
         py={3}
         px={5}
       >
-        <GridItem area={"sidebar"} borderRightWidth={1} pr={3}>
+        <GridItem
+          area={"sidebar"}
+          borderRightWidth={1}
+          borderRightColor={"gray.800"}
+          pr={3}
+        >
           <Sidebar />
         </GridItem>
 
@@ -34,7 +39,11 @@ export const Main = () => {
           </Routes>
         </GridItem>
 
-        <GridItem area={"trending"}>
+        <GridItem
+          borderLeftWidth={1}
+          borderLeftColor={"gray.800"}
+          area={"trending"}
+        >
           <Trending />
         </GridItem>
       </Grid>
