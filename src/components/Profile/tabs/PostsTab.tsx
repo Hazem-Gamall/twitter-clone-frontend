@@ -1,8 +1,9 @@
 import { Divider, VStack } from "@chakra-ui/react";
-import IPost from "../../../../../types/Post";
-import { Post } from "../../../../Post/Post";
+
 import { Fragment } from "react";
-import { ReplyPost } from "../../../../Post/ReplyPost";
+import IPost from "../../../types/Post";
+import { ReplyPost } from "../../Post/ReplyPost";
+import { Post } from "../../Post/Post";
 
 interface Props {
   posts: IPost[];

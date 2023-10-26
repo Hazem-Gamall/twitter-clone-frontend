@@ -20,10 +20,11 @@ import {
 import TextareaAutoResize from "react-textarea-autosize";
 import z from "zod";
 import { AiOutlineClose } from "react-icons/ai";
-import { IUserProfile } from "../../../../../types/User";
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { userWithImageServiceFactory } from "../../../../../services/httpServiceFactories";
+import { userWithImageServiceFactory } from "../../../services/httpServiceFactories";
+import { IUserProfile } from "../../../types/User";
 
 interface Props {
   userProfile: IUserProfile;

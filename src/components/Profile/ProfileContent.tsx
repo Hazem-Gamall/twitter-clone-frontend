@@ -8,13 +8,13 @@ import {
   Tabs,
 } from "@chakra-ui/react";
 import { Link, useLocation, useParams } from "react-router-dom";
-import { PostsTab } from "./profileContent/tabs/PostsTab";
-import { IUserProfile } from "../../../types/User";
-import usePosts from "../../../hooks/usePosts";
-import useData from "../../../hooks/useList";
-import { userPostsServiceFactory } from "../../../services/httpServiceFactories";
-import IPost from "../../../types/Post";
+import { IUserProfile } from "../../types/User";
+import usePosts from "../../hooks/usePosts";
+import useData from "../../hooks/useList";
+import { userPostsServiceFactory } from "../../services/httpServiceFactories";
+import IPost from "../../types/Post";
 import { useEffect } from "react";
+import { PostsTab } from "./tabs/PostsTab";
 
 interface Props {
   userProfile: IUserProfile;

@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom";
 import { Spinner, VStack } from "@chakra-ui/react";
-import { TopBar } from "../TopBar";
-import { UserDetail } from "../UserDetail";
-import { IUserProfile } from "../../../../types/User";
-import { ProfileContent } from "../ProfileContent";
-import { userServiceFactory } from "../../../../services/httpServiceFactories";
-import useRetrieve from "../../../../hooks/useRetrieve";
-import { PostsProvider } from "../../../../context/PostsProvider";
+import { TopBar } from "./TopBar";
+import { UserDetail } from "./UserDetail";
+import useRetrieve from "../../hooks/useRetrieve";
+import { IUserProfile } from "../../types/User";
+import { userServiceFactory } from "../../services/httpServiceFactories";
+import { PostsProvider } from "../../context/PostsProvider";
+import { ProfileContent } from "./ProfileContent";
 
 export const Profile = () => {
   const { username } = useParams();

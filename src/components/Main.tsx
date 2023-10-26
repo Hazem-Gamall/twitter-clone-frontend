@@ -3,8 +3,8 @@ import { Sidebar } from "./Sidebar";
 import { Home } from "./Home";
 import { Trending } from "./Trending";
 import { Route, Routes } from "react-router-dom";
-import { Profile } from "./Profile/components/profileContent/Profile";
 import { RequireAuth } from "./RequireAuth";
+import { Profile } from "./Profile/Profile";
 
 export const Main = () => {
   return (

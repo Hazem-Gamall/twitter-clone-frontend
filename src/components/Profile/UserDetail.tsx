@@ -10,12 +10,13 @@ import {
 } from "@chakra-ui/react";
 
 import { BsCalendar3 } from "react-icons/bs";
-import formatDate from "../../../utils/formatDate";
+
 import { Link } from "react-router-dom";
-import { IUserProfile } from "../../../types/User";
-import useAuth from "../../../hooks/useAuth";
-import { AuthUserDetailButtons } from "./profileContent/UserDetailButtons/AuthUserDetailButtons";
-import { OtherUserDetailButtons } from "./profileContent/UserDetailButtons/OtherUserDetailButtons";
+import { IUserProfile } from "../../types/User";
+import useAuth from "../../hooks/useAuth";
+import { AuthUserDetailButtons } from "./UserDetailButtons/AuthUserDetailButtons";
+import { OtherUserDetailButtons } from "./UserDetailButtons/OtherUserDetailButtons";
+import formatDate from "../../utils/formatDate";
 
 interface Props {
   userProfile: IUserProfile;
