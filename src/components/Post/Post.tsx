@@ -38,6 +38,10 @@ export const Post = ({ post, reply }: Props) => {
       pl={4}
       pt={4}
       borderRadius={0}
+      borderLeftWidth={1}
+      borderLeftColor={"gray.800"}
+      borderRightWidth={1}
+      borderRightColor={"gray.800"}
     >
       {post.repost && (
         <CardHeader color={"gray"} fontWeight={"bold"} ml={10}>
@@ -91,7 +95,13 @@ export const Post = ({ post, reply }: Props) => {
             </HStack>
             <Text>{postToRender.text}</Text>
 
-            <Image></Image>
+            {postToRender.media.map((media_object) => (
+              <Image
+                boxSize={400}
+                objectFit={"cover"}
+                src={`http://localhost:8000${media_object.file}`}
+              ></Image>
+            ))}
             {reply || <PostInteractionButtonGroup post={postToRender} />}
           </GridItem>
         </Grid>

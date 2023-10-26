@@ -1,5 +1,6 @@
 import useApiClient from "../hooks/useApiClient";
 import { HttpService } from "./HttpService";
+import UserPostWithImageService from "./UserPostWithImageService";
 import UserWithImageService from "./UserWithImageService";
 
 export const httpServiceFactory = (
@@ -33,4 +34,9 @@ export const userPostRepostServiceFactory = (username: string) => {
 
 export const userPostReplyServiceFactory = (post_id: number) => {
   return httpServiceFactory(HttpService, `/posts/${post_id}/replies`);
+};
+
+export const userPostWithImageService = (username: string) => {
+  const apiClient = useApiClient();
+  return new UserPostWithImageService(`/users/${username}/posts`, apiClient);
 };

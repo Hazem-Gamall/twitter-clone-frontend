@@ -19,10 +19,10 @@ import { FormEvent, useRef, useState } from "react";
 
 import { BsChevronDown, BsFillImageFill } from "react-icons/bs";
 import TextareaAutoResize from "react-textarea-autosize";
-import { userPostsServiceFactory } from "../../services/httpServiceFactories";
 import useAuth from "../../hooks/useAuth";
 import IPost from "../../types/Post";
 import usePosts from "../../hooks/usePosts";
+import { userPostWithImageService } from "../../services/httpServiceFactories";
 
 const PrivacyMenu = () => {
   return (
@@ -53,22 +53,29 @@ interface Props {
 interface PostReply {
   text: string;
   reply_to?: number;
+  media?: FileList;
 }
 
 export const NewPost = ({ reply_post }: Props) => {
   const [postLength, setPostLength] = useState(0);
   const [postText, setPostText] = useState("");
   const { auth } = useAuth();
-  const userService = userPostsServiceFactory(auth.username);
+  const userService = userPostWithImageService(auth.username);
   const { posts, setPosts } = usePosts();
   const imageInputRef = useRef<HTMLInputElement>(null);
   const previewImageRef = useRef<HTMLImageElement>(null);
   const imageStackRef = useRef<HTMLDivElement>(null);
+
   const handleSubmit = (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
+    console.log(imageInputRef.current?.files);
+
     const { request } = userService.create<PostReply, IPost>({
       text: postText,
       ...(reply_post && { reply_to: reply_post.id }),
+      ...(imageInputRef.current?.files?.length && {
+        media: imageInputRef.current.files,
+      }),
     });
     request
       .then((resp) => {
