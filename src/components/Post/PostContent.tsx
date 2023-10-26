@@ -38,6 +38,7 @@ export const PostContent = ({ post }: { post: IPost }) => {
 
       {post.media.map((media_object) => (
         <Image
+          key={media_object.id}
           boxSize={400}
           objectFit={"cover"}
           src={`http://localhost:8000${media_object.file}`}

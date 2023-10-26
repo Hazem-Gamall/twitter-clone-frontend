@@ -9,7 +9,7 @@ export const ReplyPost = ({ post }: Props) => {
   return (
     <>
       <Post variant="main" post={post.reply_to} />
-      <Post variant="reply" post={post} />
+      <Post pt={0} variant="reply" post={post} />
     </>
   );
 };

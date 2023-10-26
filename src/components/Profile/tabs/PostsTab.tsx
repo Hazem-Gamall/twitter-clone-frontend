@@ -12,22 +12,17 @@ interface Props {
 export const PostsTab = ({ posts }: Props) => {
   return (
     <VStack align={"stretch"} spacing={0}>
-      {posts && (
-        <>
-          {console.log(posts)}
-
-          {posts.map((post) => (
-            <Fragment key={post.id}>
-              {post.reply_to ? (
-                <ReplyPost post={post} />
-              ) : (
-                <Post variant="none" post={post} />
-              )}
-              <Divider />
-            </Fragment>
-          ))}
-        </>
-      )}
+      {posts &&
+        posts.map((post) => (
+          <Fragment key={post.id}>
+            {post.reply_to ? (
+              <ReplyPost post={post} />
+            ) : (
+              <Post variant="none" post={post} />
+            )}
+            <Divider />
+          </Fragment>
+        ))}
     </VStack>
   );
 };

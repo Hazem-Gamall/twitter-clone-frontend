@@ -19,9 +19,10 @@ interface Props {
   post: IPost;
   variant: "reply" | "main" | "none";
   reply?: boolean;
+  pt?: number;
 }
 
-export const Post = ({ post, reply, variant = "none" }: Props) => {
+export const Post = ({ post, reply, variant = "none", pt = 3 }: Props) => {
   const postToRender = post.repost ? post.embed : post;
 
   const { auth } = useAuth();
@@ -32,7 +33,7 @@ export const Post = ({ post, reply, variant = "none" }: Props) => {
       variant={"unstyled"}
       bg="black"
       _hover={{ bg: "gray.900", cursor: "pointer" }}
-      pt={2}
+      pt={pt}
       pl={4}
       borderRadius={0}
       borderLeftWidth={1}

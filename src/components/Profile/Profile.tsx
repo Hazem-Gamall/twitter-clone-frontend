@@ -21,19 +21,27 @@ export const Profile = () => {
 
   return (
     <PostsProvider>
-      <VStack align={"stretch"}>
-        <TopBar username={username} />
-        {error && <div>{error}</div>}
-        {isLoading ? (
-          <Spinner />
-        ) : (
-          <UserDetail
-            userProfile={userProfile}
-            setUserProfile={setUserProfile}
-          />
-        )}
-        {isLoading ? <Spinner /> : <ProfileContent userProfile={userProfile} />}
-      </VStack>
+      {error ? (
+        <div>{error}</div>
+      ) : (
+        <VStack align={"stretch"}>
+          <TopBar username={username} />
+          {error && <div>{error}</div>}
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <UserDetail
+              userProfile={userProfile}
+              setUserProfile={setUserProfile}
+            />
+          )}
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <ProfileContent userProfile={userProfile} />
+          )}
+        </VStack>
+      )}
     </PostsProvider>
   );
 };

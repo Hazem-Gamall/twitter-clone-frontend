@@ -24,8 +24,7 @@ export const ProfileContent = ({ userProfile }: Props) => {
   const location = useLocation();
 
   const with_replies = location.state?.route;
-  console.log("with replies", with_replies);
-  console.log("location state route", location.state?.route);
+  console.log("location state route", location.pathname);
 
   const { username } = useParams();
   const { posts, setPosts } = usePosts();
@@ -38,13 +37,7 @@ export const ProfileContent = ({ userProfile }: Props) => {
   useEffect(() => {
     if (isLoading) return;
     setPosts && setPosts(data);
-    console.log("set posts");
   }, [data]);
-
-  console.log("loading", isLoading);
-
-  console.log("posts", posts);
-  console.log("data", data);
 
   return (
     <Tabs isManual isLazy>
