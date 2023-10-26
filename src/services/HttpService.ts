@@ -12,10 +12,11 @@ export class HttpService {
     this.apiClient = apiClient;
   }
 
-  list<T>() {
+  list<T>(params = {}) {
     const controller = new AbortController();
     const request = this.apiClient.get<T[]>(`${this.endpoint}/`, {
       signal: controller.signal,
+      params: params,
     });
     return { request, cancel: () => controller.abort() };
   }

@@ -6,6 +6,7 @@ import { IUserProfile } from "../../../../types/User";
 import { ProfileContent } from "../ProfileContent";
 import { userServiceFactory } from "../../../../services/httpServiceFactories";
 import useRetrieve from "../../../../hooks/useRetrieve";
+import { PostsProvider } from "../../../../context/PostsProvider";
 
 export const Profile = () => {
   const { username } = useParams();
@@ -19,15 +20,20 @@ export const Profile = () => {
   ]);
 
   return (
-    <VStack align={"stretch"}>
-      <TopBar username={username} />
-      {error && <div>{error}</div>}
-      {isLoading ? (
-        <Spinner />
-      ) : (
-        <UserDetail userProfile={userProfile} setUserProfile={setUserProfile} />
-      )}
-      {isLoading ? <Spinner /> : <ProfileContent userProfile={userProfile} />}
-    </VStack>
+    <PostsProvider>
+      <VStack align={"stretch"}>
+        <TopBar username={username} />
+        {error && <div>{error}</div>}
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <UserDetail
+            userProfile={userProfile}
+            setUserProfile={setUserProfile}
+          />
+        )}
+        {isLoading ? <Spinner /> : <ProfileContent userProfile={userProfile} />}
+      </VStack>
+    </PostsProvider>
   );
 };
