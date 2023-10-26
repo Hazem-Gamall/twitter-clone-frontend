@@ -1,11 +1,7 @@
 import {
-  Avatar,
-  Button,
   Card,
   CardBody,
   HStack,
-  Image,
-  Link as ChakraLink,
   Text,
   Grid,
   GridItem,
@@ -13,17 +9,19 @@ import {
   Icon,
 } from "@chakra-ui/react";
 import IPost from "../../types/Post";
-import { Link } from "react-router-dom";
 import { PostInteractionButtonGroup } from "./PostInteractionButtonGroup";
 import { BiRepost } from "react-icons/bi";
 import useAuth from "../../hooks/useAuth";
+import { PostAvatar } from "./PostAvatar";
+import { PostContent } from "./PostContent";
 
 interface Props {
   post: IPost;
+  variant: "reply" | "main" | "none";
   reply?: boolean;
 }
 
-export const Post = ({ post, reply }: Props) => {
+export const Post = ({ post, reply, variant = "none" }: Props) => {
   const postToRender = post.repost ? post.embed : post;
 
   const { auth } = useAuth();
@@ -34,9 +32,8 @@ export const Post = ({ post, reply }: Props) => {
       variant={"unstyled"}
       bg="black"
       _hover={{ bg: "gray.900", cursor: "pointer" }}
-      p={2}
+      pt={2}
       pl={4}
-      pt={4}
       borderRadius={0}
       borderLeftWidth={1}
       borderLeftColor={"gray.800"}
@@ -59,49 +56,10 @@ export const Post = ({ post, reply }: Props) => {
       <CardBody py={0}>
         <Grid templateAreas={`"avatar content"`} templateColumns={"1fr 10fr"}>
           <GridItem area={"avatar"}>
-            <Avatar
-              as={Link}
-              to={`/${postToRender.post_user.username}`}
-              src={`http://localhost:8000${postToRender.post_user.avatar}`}
-            />
+            <PostAvatar variant={variant} post={post} />
           </GridItem>
           <GridItem area={"content"}>
-            <HStack justifyContent={"space-between"}>
-              <HStack>
-                <ChakraLink
-                  as={Link}
-                  to={`/${postToRender.post_user.username}`}
-                >
-                  <Text fontWeight={"bold"}>{postToRender.post_user.name}</Text>
-                </ChakraLink>
-                <ChakraLink
-                  as={Link}
-                  to={`/${postToRender.post_user.username}`}
-                  fontWeight={"light"}
-                  color={"gray.500"}
-                >
-                  @{postToRender.post_user.username} &#183;{" "}
-                  {postToRender.creation}
-                </ChakraLink>
-              </HStack>
-              <Button
-                zIndex={1}
-                variant={"ghost"}
-                borderRadius={30}
-                onClick={() => console.log("button click")}
-              >
-                ...
-              </Button>
-            </HStack>
-            <Text>{postToRender.text}</Text>
-
-            {postToRender.media.map((media_object) => (
-              <Image
-                boxSize={400}
-                objectFit={"cover"}
-                src={`http://localhost:8000${media_object.file}`}
-              ></Image>
-            ))}
+            <PostContent post={post} />
             {reply || <PostInteractionButtonGroup post={postToRender} />}
           </GridItem>
         </Grid>

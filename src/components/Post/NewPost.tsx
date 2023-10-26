@@ -69,7 +69,7 @@ export const NewPost = ({ reply_post }: Props) => {
   const handleSubmit = (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
     console.log(imageInputRef.current?.files);
-
+    console.log("reply post", reply_post);
     const { request } = userService.create<PostReply, IPost>({
       text: postText,
       ...(reply_post && { reply_to: reply_post.id }),

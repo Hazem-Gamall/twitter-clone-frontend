@@ -7,7 +7,7 @@ class UserPostWithImageService extends HttpService {
     data.media?.length > 0 && formData.append("media", data.media[0]);
     console.log("data text", data.text);
     formData.set("text", data.text);
-    data.reply_to && formData.set("reply_to", data.reply_to.id);
+    data.reply_to && formData.set("reply_to", data.reply_to);
     console.log("formdata", formData);
 
     return formData;
