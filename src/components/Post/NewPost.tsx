@@ -5,6 +5,9 @@ import {
   FormControl,
   FormLabel,
   HStack,
+  IconButton,
+  Image,
+  Input,
   Menu,
   MenuButton,
   MenuItem,
@@ -12,9 +15,9 @@ import {
   Textarea,
   VStack,
 } from "@chakra-ui/react";
-import { FormEvent, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 
-import { BsChevronDown } from "react-icons/bs";
+import { BsChevronDown, BsFillImageFill } from "react-icons/bs";
 import TextareaAutoResize from "react-textarea-autosize";
 import { userPostsServiceFactory } from "../../services/httpServiceFactories";
 import useAuth from "../../hooks/useAuth";
@@ -58,7 +61,9 @@ export const NewPost = ({ reply_post }: Props) => {
   const { auth } = useAuth();
   const userService = userPostsServiceFactory(auth.username);
   const { posts, setPosts } = usePosts();
-
+  const imageInputRef = useRef<HTMLInputElement>(null);
+  const previewImageRef = useRef<HTMLImageElement>(null);
+  const imageStackRef = useRef<HTMLDivElement>(null);
   const handleSubmit = (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
     const { request } = userService.create<PostReply, IPost>({
@@ -114,6 +119,63 @@ export const NewPost = ({ reply_post }: Props) => {
                 >
                   {postLength}/280
                 </FormLabel>
+              </HStack>
+            </FormControl>
+            <VStack ref={imageStackRef} alignSelf={"center"} display={"none"}>
+              <Button
+                borderRadius={30}
+                top={12}
+                alignSelf={"flex-end"}
+                variant={"ghost"}
+                onClick={() => {
+                  if (
+                    imageInputRef.current &&
+                    previewImageRef.current &&
+                    imageStackRef.current
+                  ) {
+                    imageInputRef.current.value = "";
+                    previewImageRef.current.src = "";
+                    imageStackRef.current.style.display = "none";
+                  }
+                }}
+              >
+                X
+              </Button>
+              <Image
+                alignSelf={"center"}
+                objectFit={"cover"}
+                maxW={"50vw"}
+                maxH={"50vh"}
+                ref={previewImageRef}
+              />
+            </VStack>
+            <FormControl>
+              <Input
+                ref={imageInputRef}
+                type="file"
+                accept="image/*"
+                display={"none"}
+                onChange={(ev) => {
+                  if (
+                    ev.target.files?.length &&
+                    previewImageRef.current &&
+                    imageStackRef.current
+                  ) {
+                    previewImageRef.current.src = URL.createObjectURL(
+                      ev.target.files[0]
+                    );
+                    imageStackRef.current.style.display = "flex";
+                  }
+                }}
+              />
+              <HStack>
+                <IconButton
+                  aria-label="upload picture"
+                  borderRadius={30}
+                  variant={"ghost"}
+                  icon={<BsFillImageFill />}
+                  onClick={() => imageInputRef.current?.click()}
+                />
               </HStack>
             </FormControl>
           </VStack>
