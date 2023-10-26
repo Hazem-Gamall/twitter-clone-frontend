@@ -90,10 +90,10 @@ export const ProfileContent = ({ userProfile }: Props) => {
       ) : (
         <TabPanels>
           <TabPanel height={"70vh"} p={0}>
-            {data && <PostsTab posts={data} />}
+            {posts && <PostsTab posts={posts} />}
           </TabPanel>
           <TabPanel height={"70vh"} p={0}>
-            {data && <PostsTab posts={data} />}
+            {posts && <PostsTab posts={posts} />}
           </TabPanel>
           <TabPanel height={"70vh"}></TabPanel>
         </TabPanels>

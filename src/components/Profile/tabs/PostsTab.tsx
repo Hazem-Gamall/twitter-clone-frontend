@@ -18,7 +18,11 @@ export const PostsTab = ({ posts }: Props) => {
 
           {posts.map((post) => (
             <Fragment key={post.id}>
-              {post.reply_to ? <ReplyPost post={post} /> : <Post post={post} />}
+              {post.reply_to ? (
+                <ReplyPost post={post} />
+              ) : (
+                <Post variant="none" post={post} />
+              )}
               <Divider />
             </Fragment>
           ))}

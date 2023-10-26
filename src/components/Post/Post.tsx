@@ -56,10 +56,10 @@ export const Post = ({ post, reply, variant = "none" }: Props) => {
       <CardBody py={0}>
         <Grid templateAreas={`"avatar content"`} templateColumns={"1fr 10fr"}>
           <GridItem area={"avatar"}>
-            <PostAvatar variant={variant} post={post} />
+            <PostAvatar variant={variant} post={postToRender} />
           </GridItem>
           <GridItem area={"content"}>
-            <PostContent post={post} />
+            <PostContent post={postToRender} />
             {reply || <PostInteractionButtonGroup post={postToRender} />}
           </GridItem>
         </Grid>
