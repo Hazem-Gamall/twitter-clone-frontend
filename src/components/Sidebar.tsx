@@ -12,7 +12,7 @@ import useAuth from "../hooks/useAuth";
 export const Sidebar = () => {
   const { auth, setAuth } = useAuth();
   return (
-    <VStack px={3} align={"start"}>
+    <VStack position={"fixed"} px={3} align={"start"}>
       <IconButton
         as={Link}
         to="/home"
