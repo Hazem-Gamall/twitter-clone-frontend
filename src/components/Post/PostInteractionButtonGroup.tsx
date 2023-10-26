@@ -10,7 +10,12 @@ interface Props {
 
 export const PostInteractionButtonGroup = ({ post }: Props) => {
   return (
-    <HStack width={"100%"} justifyContent={"space-between"} pl={10} pr={3}>
+    <HStack
+      position={"relative"}
+      left={-3}
+      width={"100%"}
+      justifyContent={"space-between"}
+    >
       <ReplyButton post={post} count={post.replies_count} />
       <LikeButton post={post} count={post.likes_count} />
       <RepostButton post={post} count={post.repost_count} />

@@ -16,10 +16,10 @@ export default interface IPost {
     username: string;
   };
   embed: IPost;
-  replies_count: number;
-  likes_count: number;
-  liked_by_user: boolean;
   repost_count: number;
   reposted_by_user: boolean;
-  reply_to: number;
+  likes_count: number;
+  liked_by_user: boolean;
+  replies_count: number;
+  reply_to: IPost;
 }

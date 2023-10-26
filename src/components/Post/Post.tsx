@@ -9,7 +9,6 @@ import {
   Text,
   Grid,
   GridItem,
-  CardFooter,
   CardHeader,
   Icon,
 } from "@chakra-ui/react";
@@ -93,12 +92,10 @@ export const Post = ({ post, reply }: Props) => {
             <Text>{postToRender.text}</Text>
 
             <Image></Image>
+            {reply || <PostInteractionButtonGroup post={postToRender} />}
           </GridItem>
         </Grid>
       </CardBody>
-      <CardFooter>
-        {reply || <PostInteractionButtonGroup post={postToRender} />}
-      </CardFooter>
     </Card>
   );
 };

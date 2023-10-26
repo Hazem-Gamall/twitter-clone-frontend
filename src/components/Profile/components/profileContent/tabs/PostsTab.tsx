@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { Fragment, useEffect } from "react";
 import { userPostsServiceFactory } from "../../../../../services/httpServiceFactories";
 import usePosts from "../../../../../hooks/usePosts";
+import { ReplyPost } from "../../../../Post/ReplyPost";
 
 export const PostsTab = () => {
   const { username } = useParams();
@@ -26,7 +27,7 @@ export const PostsTab = () => {
         {posts &&
           posts.map((post) => (
             <Fragment key={post.id}>
-              <Post post={post} />
+              {post.reply_to ? <ReplyPost post={post} /> : <Post post={post} />}
               <Divider />
             </Fragment>
           ))}

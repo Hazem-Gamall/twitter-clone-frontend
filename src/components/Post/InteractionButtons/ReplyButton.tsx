@@ -24,13 +24,15 @@ export const ReplyButton = ({ count, post }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <HStack spacing={0}>
+    <HStack ml={0} spacing={0}>
       <IconButton
         variant={"ghost"}
         borderRadius={30}
         aria-label="post interaction button"
         icon={<FaRegComment />}
         onClick={onOpen}
+        m={0}
+        p={0}
       />
       <Text fontSize={"sm"}>{count}</Text>
 
