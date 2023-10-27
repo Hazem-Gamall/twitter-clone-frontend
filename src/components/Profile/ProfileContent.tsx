@@ -7,7 +7,7 @@ import {
   TabPanels,
   Tabs,
 } from "@chakra-ui/react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { IUserProfile } from "../../types/User";
 import usePosts from "../../hooks/usePosts";
 import useData from "../../hooks/useList";
@@ -21,17 +21,22 @@ interface Props {
 }
 
 export const ProfileContent = ({ userProfile }: Props) => {
-  const location = useLocation();
+  const [searchParams] = useSearchParams();
 
-  const with_replies = location.state?.route;
-  console.log("location state route", location.pathname);
+  const filter_param = searchParams.get("filter");
+  console.log({ filter_param });
+
+  const filterToTabMap: { [key: string]: number } = {
+    with_replies: 1,
+  };
+  console.log(filter_param ? filterToTabMap[filter_param] : 0);
 
   const { username } = useParams();
   const { posts, setPosts } = usePosts();
   const { data, isLoading, error } = useData<IPost>(
     userPostsServiceFactory(username as string),
-    with_replies ? { with_replies: true } : {},
-    [with_replies]
+    filter_param ? { with_replies: true } : {},
+    [filter_param]
   );
 
   useEffect(() => {
@@ -40,12 +45,16 @@ export const ProfileContent = ({ userProfile }: Props) => {
   }, [data]);
 
   return (
-    <Tabs isManual isLazy>
+    <Tabs
+      isManual
+      isLazy
+      index={filter_param ? filterToTabMap[filter_param] : 0}
+    >
       <TabList px={5} justifyContent={"space-between"}>
         <Tab
           flexGrow={1}
           as={Link}
-          to={`/${userProfile.user.username}`}
+          to={{ pathname: `/${userProfile.user.username}`, search: "" }}
           state={{ tabIndex: 0 }}
         >
           Posts
@@ -53,8 +62,10 @@ export const ProfileContent = ({ userProfile }: Props) => {
         <Tab
           flexGrow={1}
           as={Link}
-          to={`/${userProfile.user.username}/with_replies`}
-          state={{ route: "with_replies" }}
+          to={{
+            pathname: `/${userProfile.user.username}`,
+            search: "?filter=with_replies",
+          }}
         >
           Replies
         </Tab>
