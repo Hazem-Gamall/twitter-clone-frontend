@@ -28,17 +28,15 @@ export const Profile = () => {
           <TopBar username={username} />
           {error && <div>{error}</div>}
           {isLoading ? (
-            <Spinner />
+            <Spinner alignSelf={"center"} />
           ) : (
-            <UserDetail
-              userProfile={userProfile}
-              setUserProfile={setUserProfile}
-            />
-          )}
-          {isLoading ? (
-            <Spinner />
-          ) : (
-            <ProfileContent userProfile={userProfile} />
+            <>
+              <UserDetail
+                userProfile={userProfile}
+                setUserProfile={setUserProfile}
+              />
+              <ProfileContent userProfile={userProfile} />
+            </>
           )}
         </VStack>
       )}
