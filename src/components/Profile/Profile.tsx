@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Route, Routes, useParams } from "react-router-dom";
 import { Spinner, VStack } from "@chakra-ui/react";
 import { TopBar } from "./TopBar";
 import { UserDetail } from "./UserDetail";
@@ -7,8 +7,9 @@ import { IUserProfile } from "../../types/User";
 import { userServiceFactory } from "../../services/httpServiceFactories";
 import { PostsProvider } from "../../context/PostsProvider";
 import { ProfileContent } from "./ProfileContent";
+import { UserFollows } from "./UserFollows";
 
-export const Profile = () => {
+const UserProfile = () => {
   const { username } = useParams();
   const {
     data: userProfile,
@@ -41,5 +42,17 @@ export const Profile = () => {
         </VStack>
       )}
     </PostsProvider>
+  );
+};
+
+export const Profile = () => {
+  return (
+    <>
+      <Routes>
+        <Route path="/" element={<UserProfile />}></Route>
+        <Route path="/followers" element={<UserFollows type="followers" />} />
+        <Route path="/following" element={<UserFollows type="following" />} />
+      </Routes>
+    </>
   );
 };
