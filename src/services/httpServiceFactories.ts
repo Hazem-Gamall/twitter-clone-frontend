@@ -40,3 +40,7 @@ export const userPostWithImageService = (username: string) => {
   const apiClient = useApiClient();
   return new UserPostWithImageService(`/users/${username}/posts`, apiClient);
 };
+
+export const userFollowingService = (username: string) => {
+  return httpServiceFactory(HttpService, `/users/${username}/following`);
+};

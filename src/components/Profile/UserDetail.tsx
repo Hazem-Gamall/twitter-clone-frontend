@@ -51,7 +51,10 @@ export const UserDetail = ({ userProfile, setUserProfile }: Props) => {
               setUserProfile={setUserProfile}
             />
           ) : (
-            <OtherUserDetailButtons />
+            <OtherUserDetailButtons
+              userProfile={userProfile}
+              setUserProfile={setUserProfile}
+            />
           )}
         </HStack>
 

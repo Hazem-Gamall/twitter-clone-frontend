@@ -1,8 +1,38 @@
 import { Button, IconButton } from "@chakra-ui/react";
 import { FiMail, FiMoreHorizontal } from "react-icons/fi";
-import { MdOutlineNotificationAdd } from "react-icons/md";
+import { userFollowingService } from "../../../services/httpServiceFactories";
+import useAuth from "../../../hooks/useAuth";
+import { IUserProfile } from "../../../types/User";
+interface Props {
+  userProfile: IUserProfile;
+  setUserProfile: (userProfile: IUserProfile) => void;
+}
 
-export const OtherUserDetailButtons = () => {
+export const OtherUserDetailButtons = ({
+  userProfile,
+  setUserProfile,
+}: Props) => {
+  const { auth } = useAuth();
+  const httpService = userFollowingService(auth.username);
+
+  const handleFollow = () => {
+    const { request } = httpService.create({
+      username: userProfile.user.username,
+    });
+    request
+      .then((resp) => console.log("followed succesfully", resp.data))
+      .then(() => setUserProfile({ ...userProfile, followed_by_user: true }))
+      .catch((error) => console.log("error following", error));
+  };
+
+  const handleUnfollow = () => {
+    const { request } = httpService.delete(userProfile.user.username);
+    request
+      .then((resp) => console.log("unfollowed succesfully", resp.data))
+      .then(() => setUserProfile({ ...userProfile, followed_by_user: false }))
+      .catch((error) => console.log("error following", error));
+  };
+
   return (
     <>
       <IconButton
@@ -21,16 +51,15 @@ export const OtherUserDetailButtons = () => {
         variant={"outline"}
       />
 
-      <IconButton
-        aria-label="more"
-        icon={<MdOutlineNotificationAdd />}
-        borderRadius={30}
-        fontSize={"xl"}
-        variant={"outline"}
-      />
-      <Button variant={"outline"} borderRadius={30}>
-        Following
-      </Button>
+      {userProfile.followed_by_user ? (
+        <Button variant={"outline"} borderRadius={30} onClick={handleUnfollow}>
+          Following
+        </Button>
+      ) : (
+        <Button colorScheme="twitter" borderRadius={30} onClick={handleFollow}>
+          Follow
+        </Button>
+      )}
     </>
   );
 };
