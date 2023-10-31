@@ -44,3 +44,11 @@ export const userPostWithImageService = (username: string) => {
 export const userFollowingService = (username: string) => {
   return httpServiceFactory(HttpService, `/users/${username}/following`);
 };
+
+export const postsServiceFatory = () => {
+  return httpServiceFactory(HttpService, `/posts`);
+};
+
+export const postRepliesServiceFatory = (post_id: number) => {
+  return httpServiceFactory(HttpService, `/posts/${post_id}/replies`);
+};

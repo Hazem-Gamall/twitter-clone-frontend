@@ -7,6 +7,7 @@ import { IUserProfile } from "../../types/User";
 import { userServiceFactory } from "../../services/httpServiceFactories";
 import { ProfileContent } from "./ProfileContent";
 import { UserFollows } from "./UserFollows";
+import { PostDetail } from "../Post/PostDetail";
 
 const UserProfile = () => {
   const { username } = useParams();
@@ -67,6 +68,7 @@ export const Profile = () => {
         <Route path="/*" element={<UserProfile />} />
         <Route path="/followers" element={<UserFollows type="followers" />} />
         <Route path="/following" element={<UserFollows type="following" />} />
+        <Route path="status/:post_id" element={<PostDetail />} />
       </Routes>
     </>
   );

@@ -19,7 +19,7 @@ import { IUserProfile } from "../../types/User";
 import { Link, useParams } from "react-router-dom";
 import { httpServiceFactory } from "../../services/httpServiceFactories";
 import { HttpService } from "../../services/HttpService";
-import useData from "../../hooks/useList";
+import useList from "../../hooks/useList";
 import { TopBar } from "./TopBar";
 
 const Follow = ({ userProfile }: { userProfile: IUserProfile | undefined }) => {
@@ -74,7 +74,7 @@ const FollowList = ({
     HttpService,
     `/users/${username}/${type}`
   );
-  const { data, error, isLoading } = useData<FollowUser>(httpService, {}, [
+  const { data, error, isLoading } = useList<FollowUser>(httpService, {}, [
     username,
   ]);
 

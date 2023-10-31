@@ -2,7 +2,12 @@ import { HStack, Heading, IconButton, Text, VStack } from "@chakra-ui/react";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 
-export const TopBar = ({ username }: { username: string | undefined }) => {
+interface Props {
+  username: string | undefined;
+  postsCount?: number;
+}
+
+export const TopBar = ({ username, postsCount }: Props) => {
   const navigate = useNavigate();
   return (
     <>
@@ -19,9 +24,11 @@ export const TopBar = ({ username }: { username: string | undefined }) => {
           <Heading as="h5" fontSize={"lg"}>
             {username}
           </Heading>
-          <Text fontSize={"sm"} color={"gray.500"}>
-            324 posts
-          </Text>
+          {postsCount && (
+            <Text fontSize={"sm"} color={"gray.500"}>
+              postsCount
+            </Text>
+          )}
         </VStack>
       </HStack>
     </>

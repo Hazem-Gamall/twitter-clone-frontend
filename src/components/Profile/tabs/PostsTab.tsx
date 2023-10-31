@@ -5,7 +5,7 @@ import IPost from "../../../types/Post";
 import { ReplyPost } from "../../Post/ReplyPost";
 import { Post } from "../../Post/Post";
 import usePosts from "../../../hooks/usePosts";
-import useData from "../../../hooks/useList";
+import useList from "../../../hooks/useList";
 import { userPostsServiceFactory } from "../../../services/httpServiceFactories";
 import { useParams } from "react-router-dom";
 interface Props {
@@ -20,7 +20,7 @@ export const PostsTab = memo(({ type = "main" }: Props) => {
   const LIMIT = 5;
   const [offset, setOffset] = useState(0);
 
-  const { data, isLoading, error } = useData<IPost>(
+  const { data, isLoading, error } = useList<IPost>(
     httpService,
     {
       ...(type === "with_replies" && { with_replies: true }),

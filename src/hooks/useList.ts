@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { CanceledError } from "axios";
 import { HttpService } from "../services/HttpService";
 
-const useData = <T>(httpService: HttpService, params = {}, deps?: [any]) => {
+const useList = <T>(httpService: HttpService, params = {}, deps?: [any]) => {
   const [data, setData] = useState<T[]>(Object);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
@@ -29,4 +29,4 @@ const useData = <T>(httpService: HttpService, params = {}, deps?: [any]) => {
   return { data, isLoading, setData, error };
 };
 
-export default useData;
+export default useList;

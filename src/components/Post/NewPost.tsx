@@ -48,6 +48,7 @@ const PrivacyMenu = () => {
 
 interface Props {
   reply_post?: IPost;
+  handlePostSubmit?: (post: IPost) => void;
 }
 
 interface PostReply {
@@ -56,7 +57,7 @@ interface PostReply {
   media?: FileList;
 }
 
-export const NewPost = ({ reply_post }: Props) => {
+export const NewPost = ({ reply_post, handlePostSubmit }: Props) => {
   const [postLength, setPostLength] = useState(0);
   const [postText, setPostText] = useState("");
   const { auth } = useAuth();
@@ -65,6 +66,19 @@ export const NewPost = ({ reply_post }: Props) => {
   const imageInputRef = useRef<HTMLInputElement>(null);
   const previewImageRef = useRef<HTMLImageElement>(null);
   const imageStackRef = useRef<HTMLDivElement>(null);
+
+  const clearPost = () => {
+    setPostText("");
+    if (
+      imageInputRef.current &&
+      previewImageRef.current &&
+      imageStackRef.current
+    ) {
+      imageInputRef.current.value = "";
+      previewImageRef.current.src = "";
+      imageStackRef.current.style.display = "none";
+    }
+  };
 
   const handleSubmit = (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
@@ -79,7 +93,9 @@ export const NewPost = ({ reply_post }: Props) => {
     });
     request
       .then((resp) => {
-        if (posts && setPosts)
+        handlePostSubmit && handlePostSubmit(resp.data);
+        clearPost();
+        if (posts && setPosts) {
           setPosts(
             [resp.data, ...posts].map((p) =>
               p.id !== reply_post?.id
@@ -90,6 +106,7 @@ export const NewPost = ({ reply_post }: Props) => {
                   }
             )
           );
+        }
       })
       .catch((error) => console.log("post error", error));
   };
