@@ -14,6 +14,7 @@ import { BiRepost } from "react-icons/bi";
 import useAuth from "../../hooks/useAuth";
 import { PostAvatar } from "./PostAvatar";
 import { PostContent } from "./PostContent";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   post: IPost;
@@ -24,6 +25,7 @@ interface Props {
 
 export const Post = ({ post, reply, variant = "none", pt = 3 }: Props) => {
   const postToRender = post.repost ? post.embed : post;
+  const navigate = useNavigate();
 
   const { auth } = useAuth();
 
@@ -54,13 +56,23 @@ export const Post = ({ post, reply, variant = "none", pt = 3 }: Props) => {
           </HStack>
         </CardHeader>
       )}
-      <CardBody py={0}>
-        <Grid templateAreas={`"avatar content"`} templateColumns={"1fr 10fr"}>
+      <CardBody zIndex={0} py={0}>
+        <Grid
+          templateAreas={`"avatar content" "none btns"`}
+          templateColumns={"1fr 10fr"}
+        >
           <GridItem area={"avatar"}>
             <PostAvatar variant={variant} post={postToRender} />
           </GridItem>
-          <GridItem area={"content"}>
+          <GridItem
+            area={"content"}
+            onClick={() =>
+              navigate(`/${post.post_user.username}/status/${post.id}`)
+            }
+          >
             <PostContent post={postToRender} />
+          </GridItem>
+          <GridItem area={"btns"}>
             {reply || <PostInteractionButtonGroup post={postToRender} />}
           </GridItem>
         </Grid>

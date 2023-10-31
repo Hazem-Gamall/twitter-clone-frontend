@@ -41,7 +41,7 @@ export const PostContent = ({ post }: { post: IPost }) => {
           key={media_object.id}
           boxSize={400}
           objectFit={"cover"}
-          src={`http://localhost:8000${media_object.file}`}
+          src={`${media_object.file}`}
         ></Image>
       ))}
     </>

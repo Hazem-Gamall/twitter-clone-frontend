@@ -11,7 +11,7 @@ const NormalPostAvatar = ({ post }: AvatarProps) => {
     <Avatar
       as={Link}
       to={`/${post.post_user.username}`}
-      src={`http://localhost:8000${post.post_user.avatar}`}
+      src={`${post.post_user.avatar}`}
     />
   );
 };
