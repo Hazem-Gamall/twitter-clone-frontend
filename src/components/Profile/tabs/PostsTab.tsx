@@ -1,6 +1,13 @@
 import { Divider, Spinner, VStack } from "@chakra-ui/react";
 
-import { Fragment, memo, useEffect, useState } from "react";
+import {
+  Fragment,
+  memo,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import IPost from "../../../types/Post";
 import { ReplyPost } from "../../Post/ReplyPost";
 import { Post } from "../../Post/Post";
@@ -13,12 +20,14 @@ interface Props {
 }
 
 export const PostsTab = memo(({ type = "main" }: Props) => {
-  const { username } = useParams();
+  let { username } = useParams();
+  username = username as string;
 
-  const httpService = userPostsServiceFactory(username as string);
+  const httpService = userPostsServiceFactory(username);
   const { posts, setPosts } = usePosts();
   const LIMIT = 5;
   const [offset, setOffset] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
 
   const { data, isLoading, error } = useList<IPost>(
     httpService,
@@ -27,34 +36,57 @@ export const PostsTab = memo(({ type = "main" }: Props) => {
       limit: LIMIT,
       offset,
     },
-    [username]
+    [offset]
+  );
+
+  const observer = useRef<IntersectionObserver | null>(null);
+
+  const lastPostRef = useCallback(
+    (node: any) => {
+      if (isLoading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setOffset(offset + LIMIT);
+          console.log("visible");
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [isLoading, hasMore]
   );
 
   useEffect(() => {
     if (isLoading) return;
     console.log("setting posts to data");
+    console.log("data length", data.length);
 
+    setHasMore(data.length !== 0);
     if (setPosts && posts) setPosts(posts?.concat(data));
-    setOffset(offset + LIMIT);
   }, [data]);
 
   return (
     <VStack align={"stretch"} spacing={0}>
       {error && <div>error:{error}</div>}
-      {isLoading ? (
-        <Spinner alignSelf={"center"} m={5} />
-      ) : (
-        posts?.map((post) => (
+      {posts &&
+        posts?.map((post, index) => (
           <Fragment key={post.id}>
             {post.reply_to ? (
-              <ReplyPost post={post} />
+              <ReplyPost
+                ref={index === posts.length - 1 ? lastPostRef : null}
+                post={post}
+              />
             ) : (
-              <Post variant="none" post={post} />
+              <Post
+                ref={index === posts.length - 1 ? lastPostRef : null}
+                variant="none"
+                post={post}
+              />
             )}
             <Divider />
           </Fragment>
-        ))
-      )}
+        ))}
+      {isLoading && <Spinner alignSelf={"center"} />}
     </VStack>
   );
 });
