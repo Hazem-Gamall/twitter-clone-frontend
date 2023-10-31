@@ -5,7 +5,6 @@ import { UserDetail } from "./UserDetail";
 import useRetrieve from "../../hooks/useRetrieve";
 import { IUserProfile } from "../../types/User";
 import { userServiceFactory } from "../../services/httpServiceFactories";
-import { PostsProvider } from "../../context/PostsProvider";
 import { ProfileContent } from "./ProfileContent";
 import { UserFollows } from "./UserFollows";
 
@@ -21,7 +20,7 @@ const UserProfile = () => {
   ]);
 
   return (
-    <PostsProvider>
+    <>
       {error ? (
         <div>{error}</div>
       ) : (
@@ -36,12 +35,28 @@ const UserProfile = () => {
                 userProfile={userProfile}
                 setUserProfile={setUserProfile}
               />
-              <ProfileContent userProfile={userProfile} />
+              <Routes>
+                <Route
+                  path="/"
+                  element={
+                    <ProfileContent userProfile={userProfile} type="main" />
+                  }
+                />
+                <Route
+                  path="/with_replies"
+                  element={
+                    <ProfileContent
+                      userProfile={userProfile}
+                      type="with_replies"
+                    />
+                  }
+                />
+              </Routes>
             </>
           )}
         </VStack>
       )}
-    </PostsProvider>
+    </>
   );
 };
 
@@ -49,7 +64,7 @@ export const Profile = () => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<UserProfile />}></Route>
+        <Route path="/*" element={<UserProfile />} />
         <Route path="/followers" element={<UserFollows type="followers" />} />
         <Route path="/following" element={<UserFollows type="following" />} />
       </Routes>
