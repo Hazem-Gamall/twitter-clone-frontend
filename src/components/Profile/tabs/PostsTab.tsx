@@ -1,20 +1,13 @@
 import { Divider, Spinner, VStack } from "@chakra-ui/react";
 
-import {
-  Fragment,
-  memo,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { Fragment, memo, useEffect } from "react";
 import IPost from "../../../types/Post";
 import { ReplyPost } from "../../Post/ReplyPost";
 import { Post } from "../../Post/Post";
 import usePosts from "../../../hooks/usePosts";
-import useList from "../../../hooks/useList";
 import { userPostsServiceFactory } from "../../../services/httpServiceFactories";
 import { useParams } from "react-router-dom";
+import useInfiniteScroll from "../../../hooks/useInfiniteScroll";
 interface Props {
   type: "main" | "with_replies";
 }
@@ -25,43 +18,16 @@ export const PostsTab = memo(({ type = "main" }: Props) => {
 
   const httpService = userPostsServiceFactory(username);
   const { posts, setPosts } = usePosts();
-  const LIMIT = 5;
-  const [offset, setOffset] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
 
-  const { data, isLoading, error } = useList<IPost>(
+  const { data, isLoading, error, lastElementRef } = useInfiniteScroll<IPost>(
     httpService,
     {
       ...(type === "with_replies" && { with_replies: true }),
-      limit: LIMIT,
-      offset,
-    },
-    [offset]
-  );
-
-  const observer = useRef<IntersectionObserver | null>(null);
-
-  const lastPostRef = useCallback(
-    (node: any) => {
-      if (isLoading) return;
-      if (observer.current) observer.current.disconnect();
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && hasMore) {
-          setOffset(offset + LIMIT);
-          console.log("visible");
-        }
-      });
-      if (node) observer.current.observe(node);
-    },
-    [isLoading, hasMore]
+    }
   );
 
   useEffect(() => {
     if (isLoading) return;
-    console.log("setting posts to data");
-    console.log("data length", data.length);
-
-    setHasMore(data.length !== 0);
     if (setPosts && posts) setPosts(posts?.concat(data));
   }, [data]);
 
@@ -73,12 +39,12 @@ export const PostsTab = memo(({ type = "main" }: Props) => {
           <Fragment key={post.id}>
             {post.reply_to ? (
               <ReplyPost
-                ref={index === posts.length - 1 ? lastPostRef : null}
+                ref={index === posts.length - 1 ? lastElementRef : null}
                 post={post}
               />
             ) : (
               <Post
-                ref={index === posts.length - 1 ? lastPostRef : null}
+                ref={index === posts.length - 1 ? lastElementRef : null}
                 variant="none"
                 post={post}
               />
