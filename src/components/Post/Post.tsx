@@ -15,7 +15,6 @@ import { BiRepost } from "react-icons/bi";
 import useAuth from "../../hooks/useAuth";
 import { PostAvatar } from "./PostAvatar";
 import { PostContent } from "./PostContent";
-import { useNavigate } from "react-router-dom";
 
 interface Props {
   post: IPost;
@@ -27,7 +26,6 @@ interface Props {
 export const Post = forwardRef(
   ({ post, reply, variant = "none", pt = 3 }: Props, ref) => {
     const postToRender = post.repost ? post.embed : post;
-    const navigate = useNavigate();
 
     const { auth } = useAuth();
 
@@ -67,12 +65,7 @@ export const Post = forwardRef(
             <GridItem area={"avatar"}>
               <PostAvatar variant={variant} post={postToRender} />
             </GridItem>
-            <GridItem
-              area={"content"}
-              onClick={() =>
-                navigate(`/${post.post_user.username}/status/${post.id}`)
-              }
-            >
+            <GridItem area={"content"}>
               <PostContent post={postToRender} />
             </GridItem>
             <GridItem area={"btns"}>

@@ -28,7 +28,7 @@ export const PostsTab = memo(({ type = "main" }: Props) => {
 
   useEffect(() => {
     if (isLoading) return;
-    if (setPosts && posts) setPosts(posts?.concat(data));
+    if (setPosts && posts) setPosts(data);
   }, [data]);
 
   return (
