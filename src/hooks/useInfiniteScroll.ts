@@ -12,13 +12,25 @@ const useInfiniteScroll = <T>(
   const [paginationOffset, setPaginationOffset] = useState(offset);
   const observer = useRef<IntersectionObserver | null>(null);
   const [hasMore, setHasMore] = useState(true);
+  const [data, setData] = useState<T[]>([]);
 
-  const { data, isLoading, error } = useList<T>(
+  const {
+    data: listData,
+    isLoading,
+    error,
+  } = useList<T>(
     httpService,
     { ...params, offset: paginationOffset, limit },
     deps ? [...deps, paginationOffset] : [paginationOffset]
   );
 
+  useEffect(() => {
+    console.log("hasmore", hasMore);
+    console.log("data.leng", listData.length);
+
+    setHasMore(listData.length !== 0);
+    setData(data.concat(listData));
+  }, [listData]);
   const lastElementRef = useCallback(
     (node: any) => {
       if (isLoading) return;
@@ -33,8 +45,6 @@ const useInfiniteScroll = <T>(
     },
     [isLoading, hasMore]
   );
-
-  useEffect(() => setHasMore(data.length !== 0), [data]);
 
   return { data, isLoading, error, lastElementRef };
 };

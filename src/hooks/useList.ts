@@ -3,7 +3,7 @@ import { CanceledError } from "axios";
 import { HttpService } from "../services/HttpService";
 
 const useList = <T>(httpService: HttpService, params = {}, deps?: any[]) => {
-  const [data, setData] = useState<T[]>(Object);
+  const [data, setData] = useState<T[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   useEffect(

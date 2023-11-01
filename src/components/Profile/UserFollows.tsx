@@ -14,47 +14,51 @@ import {
   Tabs,
   Text,
   VStack,
+  forwardRef,
 } from "@chakra-ui/react";
 import { IUserProfile } from "../../types/User";
 import { Link, useParams } from "react-router-dom";
 import { httpServiceFactory } from "../../services/httpServiceFactories";
 import { HttpService } from "../../services/HttpService";
-import useList from "../../hooks/useList";
 import { TopBar } from "./TopBar";
+import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 
-const Follow = ({ userProfile }: { userProfile: IUserProfile | undefined }) => {
-  if (!userProfile) return;
-  return (
-    <Card
-      bg={"black"}
-      p={0}
-      width={"100%"}
-      _hover={{ bg: "gray.900", cursor: "pointer" }}
-      borderRadius={0}
-    >
-      <CardBody as={Link} to={`/${userProfile.user.username}`}>
-        <Grid templateAreas={`"avatar content"`} templateColumns={"1fr 10fr"}>
-          <GridItem area={"avatar"} pr={1}>
-            <Avatar src={userProfile.avatar} />
-          </GridItem>
-          <GridItem area={"content"} pl={1}>
-            <VStack alignItems={"flex-start"}>
-              <HStack justifyContent={"space-between"}>
-                <VStack alignItems={"flex-start"}>
-                  <Heading fontWeight={"bold"} fontSize={"md"}>
-                    {userProfile.user.name}
-                  </Heading>
-                  <Text color={"gray.600"}>@{userProfile.user.username}</Text>
-                </VStack>
-              </HStack>
-              <Text>{userProfile.bio}</Text>
-            </VStack>
-          </GridItem>
-        </Grid>
-      </CardBody>
-    </Card>
-  );
-};
+const Follow = forwardRef(
+  ({ userProfile }: { userProfile: IUserProfile | undefined }, ref) => {
+    if (!userProfile) return;
+    return (
+      <Card
+        bg={"black"}
+        p={0}
+        ref={ref}
+        width={"100%"}
+        _hover={{ bg: "gray.900", cursor: "pointer" }}
+        borderRadius={0}
+      >
+        <CardBody as={Link} to={`/${userProfile.user.username}`}>
+          <Grid templateAreas={`"avatar content"`} templateColumns={"1fr 10fr"}>
+            <GridItem area={"avatar"} pr={1}>
+              <Avatar src={userProfile.avatar} />
+            </GridItem>
+            <GridItem area={"content"} pl={1}>
+              <VStack alignItems={"flex-start"}>
+                <HStack justifyContent={"space-between"}>
+                  <VStack alignItems={"flex-start"}>
+                    <Heading fontWeight={"bold"} fontSize={"md"}>
+                      {userProfile.user.name}
+                    </Heading>
+                    <Text color={"gray.600"}>@{userProfile.user.username}</Text>
+                  </VStack>
+                </HStack>
+                <Text>{userProfile.bio}</Text>
+              </VStack>
+            </GridItem>
+          </Grid>
+        </CardBody>
+      </Card>
+    );
+  }
+);
 
 interface FollowUser {
   id: number;
@@ -74,9 +78,8 @@ const FollowList = ({
     HttpService,
     `/users/${username}/${type}`
   );
-  const { data, error, isLoading } = useList<FollowUser>(httpService, {}, [
-    username,
-  ]);
+  const { data, error, isLoading, lastElementRef } =
+    useInfiniteScroll<FollowUser>(httpService, {}, [username]);
 
   return (
     <VStack align={"stretch"}>
@@ -85,9 +88,10 @@ const FollowList = ({
       {isLoading ? (
         <Spinner />
       ) : (
-        data.map((follower) => (
+        data.map((follower, index) => (
           <Follow
             key={follower.id}
+            ref={index === data.length - 1 ? lastElementRef : null}
             userProfile={
               follower[
                 type === "followers" ? "following_user_profile" : "user_profile"
