@@ -2,15 +2,34 @@ import {
   HStack,
   Link as ChakraLink,
   Text,
-  Button,
   Image,
   VStack,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  IconButton,
 } from "@chakra-ui/react";
 import IPost from "../../types/Post";
 import { Link, useNavigate } from "react-router-dom";
+import { FiMoreHorizontal } from "react-icons/fi";
+import usePosts from "../../hooks/usePosts";
+import { postsServiceFatory } from "../../services/httpServiceFactories";
 
 export const PostContent = ({ post }: { post: IPost }) => {
   const navigate = useNavigate();
+
+  const { posts, setPosts } = usePosts();
+  const httpService = postsServiceFatory();
+  const handleDelete = () => {
+    const { request } = httpService.delete(post.id);
+    request.then(() => {
+      if (posts && setPosts)
+        setPosts(
+          posts?.filter((p) => p.id !== post.id && p?.embed?.id !== post.id)
+        );
+    });
+  };
 
   return (
     <>
@@ -28,14 +47,18 @@ export const PostContent = ({ post }: { post: IPost }) => {
             @{post.post_user.username} &#183; {post.creation}
           </ChakraLink>
         </HStack>
-        <Button
-          zIndex={1}
-          variant={"ghost"}
-          borderRadius={30}
-          onClick={() => console.log("button click")}
-        >
-          ...
-        </Button>
+        <Menu>
+          <MenuButton
+            borderRadius={30}
+            p={0}
+            as={IconButton}
+            variant={"ghost"}
+            icon={<FiMoreHorizontal />}
+          />
+          <MenuList>
+            <MenuItem onClick={handleDelete}>Delete</MenuItem>
+          </MenuList>
+        </Menu>
       </HStack>
       <VStack
         alignItems={"flex-start"}

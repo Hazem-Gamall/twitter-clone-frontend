@@ -57,7 +57,7 @@ export const Post = forwardRef(
             </HStack>
           </CardHeader>
         )}
-        <CardBody zIndex={0} py={0}>
+        <CardBody py={0}>
           <Grid
             templateAreas={`"avatar content" "none btns"`}
             templateColumns={"1fr 10fr"}

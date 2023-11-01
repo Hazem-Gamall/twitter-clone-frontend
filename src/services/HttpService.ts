@@ -38,7 +38,7 @@ export class HttpService {
     return { request, cancel: () => controller.abort() };
   }
 
-  delete<T extends Entity>(id: string) {
+  delete<T extends Entity>(id: string | number) {
     const controller = new AbortController();
     const request = this.apiClient.delete<T>(`${this.endpoint}/${id}/`, {
       signal: controller.signal,
