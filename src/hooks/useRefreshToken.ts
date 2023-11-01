@@ -12,6 +12,7 @@ const useRefreshToken = () => {
       setAuth({ ...auth, ...response.data });
       return response.data.access;
     } catch (e) {
+      setAuth({});
       console.log("error refresh token", e);
     }
   };
