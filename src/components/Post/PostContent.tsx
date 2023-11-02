@@ -15,10 +15,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { FiMoreHorizontal } from "react-icons/fi";
 import usePosts from "../../hooks/usePosts";
 import { postsServiceFatory } from "../../services/httpServiceFactories";
+import useAuth from "../../hooks/useAuth";
 
 export const PostContent = ({ post }: { post: IPost }) => {
   const navigate = useNavigate();
-
+  const { auth } = useAuth();
   const { posts, setPosts } = usePosts();
   const httpService = postsServiceFatory();
   const handleDelete = () => {
@@ -56,7 +57,9 @@ export const PostContent = ({ post }: { post: IPost }) => {
             icon={<FiMoreHorizontal />}
           />
           <MenuList>
-            <MenuItem onClick={handleDelete}>Delete</MenuItem>
+            {post.post_user.username == auth.username && (
+              <MenuItem onClick={handleDelete}>Delete</MenuItem>
+            )}
           </MenuList>
         </Menu>
       </HStack>
