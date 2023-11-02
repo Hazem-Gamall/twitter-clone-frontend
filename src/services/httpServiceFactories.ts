@@ -24,6 +24,10 @@ export const userPostsServiceFactory = (username: string) => {
   return httpServiceFactory(HttpService, `/users/${username}/posts`);
 };
 
+export const userTimelineServiceFactory = (username: string) => {
+  return httpServiceFactory(HttpService, `/users/${username}/posts/timeline`);
+};
+
 export const userPostLikeServiceFactory = (username: string) => {
   return httpServiceFactory(HttpService, `/users/${username}/likes`);
 };

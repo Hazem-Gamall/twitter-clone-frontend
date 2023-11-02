@@ -1,5 +1,6 @@
 import { Button, ButtonGroup, Text, VStack } from "@chakra-ui/react";
 import { HomeContent } from "./HomeContent";
+import { PostsProvider } from "../context/PostsProvider";
 
 export const Home = () => {
   return (
@@ -20,8 +21,9 @@ export const Home = () => {
           Following
         </Button>
       </ButtonGroup>
-
-      <HomeContent />
+      <PostsProvider>
+        <HomeContent />
+      </PostsProvider>
     </VStack>
   );
 };

@@ -1,5 +1,5 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { IUserProfile } from "../../types/User";
 import { PostsTab } from "./tabs/PostsTab";
 import { PostsProvider } from "../../context/PostsProvider";
@@ -10,6 +10,8 @@ interface Props {
 }
 
 export const ProfileContent = ({ userProfile, type }: Props) => {
+  let { username } = useParams();
+  username = username as string;
   const tabIndex = type === "main" ? 0 : 1;
   console.log("hello", type);
   console.log("tab index", tabIndex);

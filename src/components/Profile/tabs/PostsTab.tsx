@@ -1,13 +1,12 @@
-import { Divider, Spinner, VStack } from "@chakra-ui/react";
+import { Spinner } from "@chakra-ui/react";
 
-import { Fragment, memo, useEffect } from "react";
+import { memo, useEffect } from "react";
 import IPost from "../../../types/Post";
-import { ReplyPost } from "../../Post/ReplyPost";
-import { Post } from "../../Post/Post";
 import usePosts from "../../../hooks/usePosts";
 import { userPostsServiceFactory } from "../../../services/httpServiceFactories";
 import { useParams } from "react-router-dom";
 import useInfiniteScroll from "../../../hooks/useInfiniteScroll";
+import { PostList } from "../../Post/PostList";
 interface Props {
   type: "main" | "with_replies";
 }
@@ -32,27 +31,13 @@ export const PostsTab = memo(({ type = "main" }: Props) => {
   }, [data]);
 
   return (
-    <VStack align={"stretch"} spacing={0}>
+    <>
       {error && <div>error:{error}</div>}
-      {posts &&
-        posts?.map((post, index) => (
-          <Fragment key={post.id}>
-            {post.reply_to ? (
-              <ReplyPost
-                ref={index === posts.length - 1 ? lastElementRef : null}
-                post={post}
-              />
-            ) : (
-              <Post
-                ref={index === posts.length - 1 ? lastElementRef : null}
-                variant="none"
-                post={post}
-              />
-            )}
-            <Divider />
-          </Fragment>
-        ))}
-      {isLoading && <Spinner alignSelf={"center"} />}
-    </VStack>
+      {posts ? (
+        <PostList posts={posts} lastElementRef={lastElementRef} />
+      ) : (
+        <Spinner alignSelf={"center"} />
+      )}
+    </>
   );
 });
