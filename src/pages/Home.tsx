@@ -1,5 +1,5 @@
 import { Button, ButtonGroup, Text, VStack } from "@chakra-ui/react";
-import { HomeContent } from "./HomeContent";
+import { HomeContent } from "../components/HomeContent";
 import { PostsProvider } from "../context/PostsProvider";
 
 export const Home = () => {

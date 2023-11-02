@@ -1,10 +1,10 @@
 import { Grid, GridItem } from "@chakra-ui/react";
 import { Sidebar } from "./Sidebar";
-import { Home } from "./Home";
+import { Home } from "../pages/Home";
 import { Trending } from "./Trending";
 import { Route, Routes } from "react-router-dom";
 import { RequireAuth } from "./RequireAuth";
-import { Profile } from "./Profile/Profile";
+import { Profile } from "../pages/Profile";
 
 export const Main = () => {
   return (

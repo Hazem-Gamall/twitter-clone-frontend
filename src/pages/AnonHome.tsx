@@ -8,7 +8,7 @@ import {
   Image,
   VStack,
 } from "@chakra-ui/react";
-import { LoginModal } from "./LoginModal";
+import { LoginModal } from "../components/LoginModal";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { useEffect } from "react";
