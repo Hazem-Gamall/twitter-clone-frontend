@@ -1,34 +1,53 @@
-import { useSearchParams } from "react-router-dom";
-import useInfiniteScroll from "../hooks/useInfiniteScroll";
-import { Spinner, VStack } from "@chakra-ui/react";
-import { IUserProfile } from "../types/User";
-import { userSearchServiceFactory } from "../services/httpServiceFactories";
+import { Link, createSearchParams, useSearchParams } from "react-router-dom";
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import { TopBar } from "../components/Profile/TopBar";
-import { UserCard } from "../components/Profile/UserCard";
+import { PostSearchResults, UserSearchResults } from "../hooks/SearchResults";
 
 export const Search = () => {
   const [searchParams] = useSearchParams();
-  const q = searchParams.get("q");
-  const httpService = userSearchServiceFactory();
-  const { data, isLoading, error, lastElementRef } =
-    useInfiniteScroll<IUserProfile>(httpService, { q }, [q]);
-
-  if (error) return <div>Error:{error}</div>;
+  const query = searchParams.get("q") || "";
+  const filter = searchParams.get("f") || "users";
+  const tabIndex = filter === "users" ? 0 : 1;
 
   return (
     <>
       <TopBar username="Search" />
-      <VStack>
-        {data &&
-          data.map((userProfile, index) => (
-            <UserCard
-              key={userProfile.user.username}
-              userProfile={userProfile}
-              ref={index === data.length - 1 ? lastElementRef : null}
-            />
-          ))}
-        {isLoading && <Spinner alignSelf={"center"} />}
-      </VStack>
+      <Tabs isFitted index={tabIndex}>
+        <TabList>
+          <Tab
+            as={Link}
+            to={{
+              pathname: "/search",
+              search: createSearchParams({
+                f: "users",
+                q: query,
+              }).toString(),
+            }}
+          >
+            Users
+          </Tab>
+          <Tab
+            as={Link}
+            to={{
+              pathname: "/search",
+              search: createSearchParams({
+                f: "posts",
+                q: query,
+              }).toString(),
+            }}
+          >
+            Posts
+          </Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel p={0}>
+            <UserSearchResults query={query} />
+          </TabPanel>
+          <TabPanel p={0}>
+            <PostSearchResults query={query} />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
     </>
   );
 };

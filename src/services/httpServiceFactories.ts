@@ -57,6 +57,9 @@ export const postRepliesServiceFatory = (post_id: number) => {
   return httpServiceFactory(HttpService, `/posts/${post_id}/replies`);
 };
 
-export const userSearchServiceFactory = () => {
+export const searchServiceFactory = (filter: string) => {
+  if (filter === "posts")
+    return httpServiceFactory(HttpService, "/posts/search");
+  if (filter !== "users") console.log("invalid filter");
   return httpServiceFactory(HttpService, "/users/search");
 };
