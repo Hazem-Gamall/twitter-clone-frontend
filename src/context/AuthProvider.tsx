@@ -1,4 +1,6 @@
 import { createContext, useState } from "react";
+import getObjectFromJWT from "../utils/getObjectFromJwt";
+import axios from "axios";
 
 export interface IAuthContext {
   access?: string;
@@ -15,9 +17,24 @@ interface Props {
 
 export const AuthProvider = ({ children }: Props) => {
   const localStorageAuth = localStorage.getItem("auth");
-  const [auth, setAuth] = useState(
+  const [auth, _setAuth] = useState(
     localStorageAuth ? JSON.parse(localStorageAuth) : {}
   );
+  const setAuth = async (auth: IAuthContext) => {
+    try {
+      const username = getObjectFromJWT(auth.access)?.username;
+      const userProfile = (
+        await axios.get(`http://localhost:8000/api/users/${username}/`, {
+          headers: { Authorization: `Bearer ${auth.access}` },
+        })
+      ).data;
+      const newAuth = { ...auth, username, userProfile };
+      localStorage.setItem("auth", JSON.stringify(newAuth));
+      _setAuth(newAuth);
+    } catch (e) {
+      console.log("error during setting auth", e);
+    }
+  };
 
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>
