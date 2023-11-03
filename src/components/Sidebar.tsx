@@ -60,7 +60,7 @@ export const Sidebar = () => {
       </Button>
 
       <Button
-        onClick={() => setAuth({})}
+        onClick={() => setAuth(null)}
         width={"100%"}
         borderRadius={30}
         colorScheme={"twitter"}

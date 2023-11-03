@@ -17,7 +17,7 @@ export const AnonHome = () => {
   const navigate = useNavigate();
   const { auth } = useAuth();
   useEffect(() => {
-    if (auth.access) navigate("/home", { replace: true });
+    if (auth?.access) navigate("/home", { replace: true });
   }, [auth]);
 
   return (

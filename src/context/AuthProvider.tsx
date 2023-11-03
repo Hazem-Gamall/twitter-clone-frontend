@@ -21,6 +21,11 @@ export const AuthProvider = ({ children }: Props) => {
     localStorageAuth ? JSON.parse(localStorageAuth) : {}
   );
   const setAuth = async (auth: IAuthContext) => {
+    if (!auth) {
+      localStorage.removeItem("auth");
+      _setAuth(auth);
+      return;
+    }
     try {
       const username = getObjectFromJWT(auth.access)?.username;
       const userProfile = (
