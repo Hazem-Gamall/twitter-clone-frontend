@@ -56,3 +56,7 @@ export const postsServiceFatory = () => {
 export const postRepliesServiceFatory = (post_id: number) => {
   return httpServiceFactory(HttpService, `/posts/${post_id}/replies`);
 };
+
+export const userSearchServiceFactory = () => {
+  return httpServiceFactory(HttpService, "/users/search");
+};

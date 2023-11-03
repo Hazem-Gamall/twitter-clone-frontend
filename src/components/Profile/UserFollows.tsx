@@ -1,20 +1,11 @@
 import {
-  Avatar,
-  Card,
-  CardBody,
-  Grid,
-  GridItem,
-  HStack,
-  Heading,
   Spinner,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
-  Text,
   VStack,
-  forwardRef,
 } from "@chakra-ui/react";
 import { IUserProfile } from "../../types/User";
 import { Link, useParams } from "react-router-dom";
@@ -22,43 +13,7 @@ import { httpServiceFactory } from "../../services/httpServiceFactories";
 import { HttpService } from "../../services/HttpService";
 import { TopBar } from "./TopBar";
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
-
-const Follow = forwardRef(
-  ({ userProfile }: { userProfile: IUserProfile | undefined }, ref) => {
-    if (!userProfile) return;
-    return (
-      <Card
-        bg={"black"}
-        p={0}
-        ref={ref}
-        width={"100%"}
-        _hover={{ bg: "gray.900", cursor: "pointer" }}
-        borderRadius={0}
-      >
-        <CardBody as={Link} to={`/${userProfile.user.username}`}>
-          <Grid templateAreas={`"avatar content"`} templateColumns={"1fr 10fr"}>
-            <GridItem area={"avatar"} pr={1}>
-              <Avatar src={userProfile.avatar} />
-            </GridItem>
-            <GridItem area={"content"} pl={1}>
-              <VStack alignItems={"flex-start"}>
-                <HStack justifyContent={"space-between"}>
-                  <VStack alignItems={"flex-start"}>
-                    <Heading fontWeight={"bold"} fontSize={"md"}>
-                      {userProfile.user.name}
-                    </Heading>
-                    <Text color={"gray.600"}>@{userProfile.user.username}</Text>
-                  </VStack>
-                </HStack>
-                <Text>{userProfile.bio}</Text>
-              </VStack>
-            </GridItem>
-          </Grid>
-        </CardBody>
-      </Card>
-    );
-  }
-);
+import { UserCard } from "./UserCard";
 
 interface FollowUser {
   id: number;
@@ -89,7 +44,7 @@ const FollowList = ({
         <Spinner />
       ) : (
         data.map((follower, index) => (
-          <Follow
+          <UserCard
             key={follower.id}
             ref={index === data.length - 1 ? lastElementRef : null}
             userProfile={

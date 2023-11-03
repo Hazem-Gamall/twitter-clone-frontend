@@ -3,53 +3,35 @@ import {
   CardBody,
   CardHeader,
   Heading,
-  Input,
-  InputGroup,
-  InputLeftElement,
   VStack,
   Text,
   HStack,
   Button,
-  LinkBox,
-  LinkOverlay,
 } from "@chakra-ui/react";
-import { BsSearch } from "react-icons/bs";
-
-const Search = () => {
-  return (
-    <InputGroup variant={"filled"} bg={"gray.800"} borderRadius={30}>
-      <InputLeftElement children={<BsSearch />} />
-      <Input borderRadius={30} placeholder="Search" />
-    </InputGroup>
-  );
-};
+import { SearchBar } from "./SearchBar";
 
 const TrendEntry = () => {
   return (
-    <LinkBox width={"100%"} pb={3}>
-      <Card
-        variant={""}
-        bg={"gray.700"}
-        _hover={{ bg: "gray.650" }}
-        borderRadius={0}
-      >
-        <CardHeader py={1}>
-          <HStack justifyContent={"space-between"}>
-            <Text color={"gray.400"} fontSize={"sm"}>
-              Category
-            </Text>
-            <Button p={0} variant={"ghost"} borderRadius={30} zIndex={1}>
-              ...
-            </Button>
-          </HStack>
-        </CardHeader>
-        <LinkOverlay href="/">
-          <CardBody py={2}>
-            <Heading fontSize={"md"}>Trend</Heading>
-          </CardBody>
-        </LinkOverlay>
-      </Card>
-    </LinkBox>
+    <Card
+      variant={""}
+      bg={"gray.700"}
+      _hover={{ bg: "gray.650" }}
+      borderRadius={0}
+    >
+      <CardHeader py={1}>
+        <HStack justifyContent={"space-between"}>
+          <Text color={"gray.400"} fontSize={"sm"}>
+            Category
+          </Text>
+          <Button p={0} variant={"ghost"} borderRadius={30}>
+            ...
+          </Button>
+        </HStack>
+      </CardHeader>
+      <CardBody py={2}>
+        <Heading fontSize={"md"}>Trend</Heading>
+      </CardBody>
+    </Card>
   );
 };
 
@@ -60,7 +42,7 @@ const Trend = () => {
         <Heading fontSize={"xl"}>What's happening</Heading>
       </CardHeader>
       <CardBody py={1} px={0}>
-        <VStack>
+        <VStack align={"stretch"} mb={2}>
           <TrendEntry />
         </VStack>
       </CardBody>
@@ -71,7 +53,7 @@ const Trend = () => {
 export const Trending = () => {
   return (
     <VStack px={5} mr={3} spacing={10} height={"100%"}>
-      <Search />
+      <SearchBar />
       <Trend />
     </VStack>
   );
