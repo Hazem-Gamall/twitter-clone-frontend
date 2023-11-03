@@ -1,7 +1,7 @@
-import { Button, Icon, Link as ChakraLink } from "@chakra-ui/react";
+import { Button, Icon } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { IconType } from "react-icons";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 interface Props {
   icon: IconType;
@@ -12,7 +12,7 @@ interface Props {
 export const SidebarButton = ({ icon, children, to }: Props) => {
   return (
     <Button
-      as={Link}
+      as={NavLink}
       to={to}
       p={4}
       borderRadius={30}
