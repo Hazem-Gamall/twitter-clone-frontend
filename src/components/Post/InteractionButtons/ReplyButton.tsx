@@ -43,7 +43,7 @@ export const ReplyButton = ({ count, post }: Props) => {
             <ModalCloseButton />
           </ModalHeader>
           <ModalBody>
-            <Post reply={true} post={post} />
+            <Post variant="none" reply={true} post={post} />
             <Text color={"gray.500"} fontWeight={"light"}>
               Replying to @{post.post_user.username}
             </Text>

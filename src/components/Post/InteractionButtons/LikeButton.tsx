@@ -17,7 +17,7 @@ interface PostLike {
 
 export const LikeButton = ({ count, post }: Props) => {
   const { auth } = useAuth();
-  const httpService = userPostLikeServiceFactory(auth.username);
+  const httpService = userPostLikeServiceFactory(auth?.username as string);
   const { posts, setPosts } = usePosts();
 
   const updatePost = (newPost: IPost) => {

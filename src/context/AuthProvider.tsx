@@ -1,11 +1,18 @@
 import { createContext, useState } from "react";
 import getObjectFromJWT from "../utils/getObjectFromJwt";
 import { unAuthinticatedApiClient } from "../services/apiClient";
+import { IUserProfile } from "../types/User";
+
+export interface IAuth {
+  access: string;
+  refresh: string;
+  username: string;
+  userProfile: IUserProfile;
+}
 
 export interface IAuthContext {
-  access?: string;
-  refresh?: string;
-  username?: string;
+  auth?: IAuth;
+  setAuth?: (auth: IAuth | undefined) => void;
   [propName: string]: any;
 }
 
@@ -17,17 +24,19 @@ interface Props {
 
 export const AuthProvider = ({ children }: Props) => {
   const localStorageAuth = localStorage.getItem("auth");
-  const [auth, _setAuth] = useState(
+  const [auth, _setAuth] = useState<IAuth | undefined>(
     localStorageAuth ? JSON.parse(localStorageAuth) : {}
   );
-  const setAuth = async (auth: IAuthContext) => {
+  const setAuth = async (auth: IAuth | undefined) => {
     if (!auth) {
       localStorage.removeItem("auth");
       _setAuth(auth);
       return;
     }
     try {
-      const username = getObjectFromJWT(auth.access)?.username;
+      let username = getObjectFromJWT(auth.access)?.username;
+      if (!username) throw new Error("username inavlid");
+      username = username as string;
       const userProfile = (
         await unAuthinticatedApiClient.get(`/users/${username}/`, {
           headers: { Authorization: `Bearer ${auth.access}` },

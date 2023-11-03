@@ -61,7 +61,7 @@ export const NewPost = ({ reply_post, handlePostSubmit }: Props) => {
   const [postLength, setPostLength] = useState(0);
   const [postText, setPostText] = useState("");
   const { auth } = useAuth();
-  const userService = userPostWithImageService(auth.username);
+  const userService = userPostWithImageService(auth?.username as string);
   const { posts, setPosts } = usePosts();
   const imageInputRef = useRef<HTMLInputElement>(null);
   const previewImageRef = useRef<HTMLImageElement>(null);
@@ -114,7 +114,10 @@ export const NewPost = ({ reply_post, handlePostSubmit }: Props) => {
     <form onSubmit={handleSubmit}>
       <VStack alignItems={"flex-end"}>
         <HStack width={"100%"} align={"stretch"}>
-          <Avatar name="test" />
+          <Avatar
+            src={auth?.userProfile.avatar}
+            name={auth?.userProfile.user.name}
+          />
           <VStack alignItems={"start"} width={"100%"}>
             <PrivacyMenu />
             <FormControl>

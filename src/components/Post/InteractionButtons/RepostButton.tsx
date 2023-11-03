@@ -17,7 +17,7 @@ interface PostRepost {
 
 export const RepostButton = ({ count, post }: Props) => {
   const { auth } = useAuth();
-  const httpService = userPostRepostServiceFactory(auth.username);
+  const httpService = userPostRepostServiceFactory(auth?.username as string);
   const { posts, setPosts } = usePosts();
 
   const updatePost = (newPost: IPost) => {

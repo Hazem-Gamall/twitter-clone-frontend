@@ -57,7 +57,7 @@ export const PostContent = ({ post }: { post: IPost }) => {
             icon={<FiMoreHorizontal />}
           />
           <MenuList>
-            {post.post_user.username == auth.username && (
+            {post.post_user.username == auth?.username && (
               <MenuItem onClick={handleDelete}>Delete</MenuItem>
             )}
           </MenuList>
