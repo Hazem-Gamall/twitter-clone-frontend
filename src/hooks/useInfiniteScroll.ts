@@ -14,6 +14,15 @@ const useInfiniteScroll = <T>(
   const [hasMore, setHasMore] = useState(true);
   const [data, setData] = useState<T[]>([]);
 
+  useEffect(
+    () => {
+      setPaginationOffset(0);
+      setHasMore(true);
+      setData([]);
+    },
+    deps ? [...deps] : []
+  );
+
   const {
     data: listData,
     isLoading,
@@ -25,9 +34,6 @@ const useInfiniteScroll = <T>(
   );
 
   useEffect(() => {
-    console.log("hasmore", hasMore);
-    console.log("data.leng", listData.length);
-
     setHasMore(listData.length !== 0);
     setData(data.concat(listData));
   }, [listData]);
@@ -38,7 +44,6 @@ const useInfiniteScroll = <T>(
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMore) {
           setPaginationOffset(paginationOffset + limit);
-          console.log(entries[0], "visible");
         }
       });
       if (node) observer.current.observe(node);
