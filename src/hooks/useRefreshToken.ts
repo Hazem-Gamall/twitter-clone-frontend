@@ -1,11 +1,11 @@
-import axios from "axios";
 import useAuth from "./useAuth";
+import { unAuthinticatedApiClient } from "../services/apiClient";
 
 const useRefreshToken = () => {
   const { auth, setAuth } = useAuth();
   return async () => {
     try {
-      const response = await axios.post(
+      const response = await unAuthinticatedApiClient.post(
         "http://localhost:8000/api/token/refresh/",
         {
           refresh: auth.refresh,

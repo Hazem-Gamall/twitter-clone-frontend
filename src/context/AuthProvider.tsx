@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 import getObjectFromJWT from "../utils/getObjectFromJwt";
-import axios from "axios";
+import { unAuthinticatedApiClient } from "../services/apiClient";
 
 export interface IAuthContext {
   access?: string;
@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }: Props) => {
     try {
       const username = getObjectFromJWT(auth.access)?.username;
       const userProfile = (
-        await axios.get(`http://localhost:8000/api/users/${username}/`, {
+        await unAuthinticatedApiClient.get(`/users/${username}/`, {
           headers: { Authorization: `Bearer ${auth.access}` },
         })
       ).data;

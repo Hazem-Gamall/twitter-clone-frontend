@@ -21,7 +21,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useContext } from "react";
 import AuthContext from "../context/AuthProvider";
 import { AxiosError } from "axios";
-import useApiClient from "../hooks/useApiClient";
+import { unAuthinticatedApiClient } from "../services/apiClient";
 
 interface ApiResponse {
   access: string;
@@ -41,10 +41,12 @@ export const LoginModal = () => {
   });
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { setAuth } = useContext(AuthContext);
-  const apiClient = useApiClient();
   const onSubmit = async (data: FieldValues) => {
     try {
-      const tokenResult = await apiClient.post<ApiResponse>("/token/", data);
+      const tokenResult = await unAuthinticatedApiClient.post<ApiResponse>(
+        "/token/",
+        data
+      );
       setAuth(tokenResult.data);
     } catch (e) {
       if (e instanceof AxiosError && e.response?.status === 401) {

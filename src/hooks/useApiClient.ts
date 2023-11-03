@@ -1,7 +1,11 @@
 import { useContext, useEffect } from "react";
 import AuthContext from "../context/AuthProvider";
-import apiClient from "../services/apiClient";
 import useRefreshToken from "./useRefreshToken";
+import axios from "axios";
+
+const apiClient = axios.create({
+  baseURL: "http://localhost:8000/api",
+});
 
 const useApiClient = () => {
   const { auth } = useContext(AuthContext);
