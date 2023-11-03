@@ -112,13 +112,13 @@ export const NewPost = ({ reply_post, handlePostSubmit }: Props) => {
   };
   return (
     <form onSubmit={handleSubmit}>
-      <VStack alignItems={"flex-end"}>
+      <VStack alignItems={"flex-end"} align={"stretch"}>
         <HStack width={"100%"} align={"stretch"}>
           <Avatar
             src={auth?.userProfile.avatar}
             name={auth?.userProfile.user.name}
           />
-          <VStack alignItems={"start"} width={"100%"}>
+          <VStack alignItems={"start"} width={"100%"} align={"stretch"}>
             <PrivacyMenu />
             <FormControl>
               <Textarea
@@ -176,47 +176,50 @@ export const NewPost = ({ reply_post, handlePostSubmit }: Props) => {
                 ref={previewImageRef}
               />
             </VStack>
-            <FormControl>
-              <Input
-                ref={imageInputRef}
-                type="file"
-                accept="image/*"
-                display={"none"}
-                onChange={(ev) => {
-                  if (
-                    ev.target.files?.length &&
-                    previewImageRef.current &&
-                    imageStackRef.current
-                  ) {
-                    previewImageRef.current.src = URL.createObjectURL(
-                      ev.target.files[0]
-                    );
-                    imageStackRef.current.style.display = "flex";
-                  }
-                }}
-              />
-              <HStack>
-                <IconButton
-                  aria-label="upload picture"
-                  borderRadius={30}
-                  variant={"ghost"}
-                  icon={<BsFillImageFill />}
-                  onClick={() => imageInputRef.current?.click()}
+            <HStack width={"100%"} justifyContent={"space-between"}>
+              <FormControl>
+                <Input
+                  ref={imageInputRef}
+                  type="file"
+                  accept="image/*"
+                  display={"none"}
+                  onChange={(ev) => {
+                    if (
+                      ev.target.files?.length &&
+                      previewImageRef.current &&
+                      imageStackRef.current
+                    ) {
+                      previewImageRef.current.src = URL.createObjectURL(
+                        ev.target.files[0]
+                      );
+                      imageStackRef.current.style.display = "flex";
+                    }
+                  }}
                 />
-              </HStack>
-            </FormControl>
+                <HStack>
+                  <IconButton
+                    aria-label="upload picture"
+                    borderRadius={30}
+                    variant={"ghost"}
+                    icon={<BsFillImageFill />}
+                    onClick={() => imageInputRef.current?.click()}
+                  />
+                </HStack>
+              </FormControl>
+              {reply_post ? (
+                <Button type="submit" variant="outline" borderRadius={30}>
+                  Reply
+                </Button>
+              ) : (
+                <Button type="submit" borderRadius={30} colorScheme="blue">
+                  Post
+                </Button>
+              )}
+            </HStack>
           </VStack>
         </HStack>
+
         <Divider />
-        {reply_post ? (
-          <Button type="submit" variant="outline" borderRadius={30}>
-            Reply
-          </Button>
-        ) : (
-          <Button type="submit" borderRadius={30} colorScheme="blue">
-            Post
-          </Button>
-        )}
       </VStack>
     </form>
   );
