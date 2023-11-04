@@ -10,7 +10,7 @@ import usePosts from "../hooks/usePosts";
 
 export const HomeContent = () => {
   const { auth } = useAuth();
-  const httpService = userTimelineServiceFactory(auth.username);
+  const httpService = userTimelineServiceFactory(auth?.username as string);
   const { posts, setPosts } = usePosts();
   const { data, error, isLoading, lastElementRef } =
     useInfiniteScroll<IPost>(httpService);
