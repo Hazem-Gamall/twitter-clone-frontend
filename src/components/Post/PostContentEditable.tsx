@@ -1,6 +1,6 @@
 import { Box, forwardRef } from "@chakra-ui/react";
-import { FormEvent, useEffect, useRef, useState } from "react";
-
+import { FormEvent, useRef } from "react";
+import "./new-post.css";
 interface Props {
   onChange: (textContent: string) => void;
 }
@@ -8,7 +8,75 @@ interface Props {
 const isTextAfterLastMatch = (trimIndex: number, text: string) =>
   trimIndex < text.length;
 
-const mentionPattern = /(?<=\W|^)(@\w{1,35})/g;
+const mentionPattern = /(?<=\s|^)@\w{1,35}(?=\s|$)/g;
+
+const getCaretPosRelativeToDiv = (
+  selection: Selection | null,
+  ref: React.MutableRefObject<HTMLDivElement | null>
+): number => {
+  if (!selection || !ref.current) return 0;
+  const caretNode = selection.focusNode;
+  const caretOffset = selection.focusOffset;
+
+  const parent = ref.current;
+  console.log("caretNode", caretNode);
+  console.log("caretOffset", caretOffset);
+  let offsetFromDiv = 0;
+  for (let i = 0; i < parent.childNodes.length; i++) {
+    let currentTextNode = parent.childNodes[i];
+    if (currentTextNode instanceof HTMLSpanElement)
+      currentTextNode = currentTextNode.lastChild as ChildNode;
+    if (!currentTextNode?.textContent) continue;
+    if (caretNode === currentTextNode) {
+      offsetFromDiv += caretOffset;
+      break;
+    }
+    offsetFromDiv += currentTextNode.textContent.length;
+
+    console.log("child node", parent.childNodes[i]);
+    console.log("found:", caretNode === currentTextNode);
+  }
+  console.log("offsetFromDiv", offsetFromDiv);
+  return offsetFromDiv;
+};
+
+const setCaretPosRelativeToDiv = (
+  position: number,
+  ref: React.MutableRefObject<HTMLDivElement | null>
+) => {
+  if (!ref.current) return;
+  const parent = ref.current;
+
+  let offsetFromDiv = 0;
+  let currentTextNode = null;
+  let offsetFromTextNode = 0;
+  let breakFromOuterLoop = false;
+  for (let i = 0; i < parent.childNodes.length; i++) {
+    currentTextNode = parent.childNodes[i].firstChild;
+    if (!currentTextNode?.textContent) continue;
+    offsetFromTextNode = 0;
+    for (let j = 0; j < currentTextNode.textContent.length; j++) {
+      offsetFromTextNode = j;
+      if (offsetFromDiv >= position) {
+        breakFromOuterLoop = true;
+        break;
+      }
+      offsetFromDiv++;
+    }
+    if (breakFromOuterLoop) break;
+  }
+  if (!breakFromOuterLoop) offsetFromTextNode++;
+  const range = document.createRange();
+  console.log("textnode before setting offset", currentTextNode?.textContent);
+  console.log(
+    "textnode length before setting offset",
+    currentTextNode?.textContent?.length
+  );
+  console.log("offset from textnode", offsetFromTextNode);
+  range.setStart(currentTextNode as ChildNode, offsetFromTextNode);
+
+  return range;
+};
 
 export const PostContentEditable = forwardRef(
   ({ onChange }: Props, ref: any) => {
@@ -22,7 +90,6 @@ export const PostContentEditable = forwardRef(
       const matchedStrings = text.matchAll(mentionPattern);
       console.log("event", ev);
       const f = () => console.log("inside span hello");
-      if (!mentionPattern.test(text)) return;
       let trimIndex = 0;
       let lastChild = null;
       for (const match of matchedStrings) {
@@ -51,22 +118,14 @@ export const PostContentEditable = forwardRef(
 
       if (divRef.current && lastChild) {
         const selection = document.getSelection();
-        const offset = selection?.anchorNode;
-        console.log("anchorNode before", offset);
-        console.log("anchoroffset before", selection?.anchorOffset);
-        console.log("selection", selection);
+        const offsetFromDiv = getCaretPosRelativeToDiv(selection, divRef);
 
-        const range = selection?.getRangeAt(0).cloneRange();
+        divRef.current.replaceChildren(...children);
 
-        // range.setStart(selection?.anchorNode, offset);
-
-        console.log("anchorNode after", selection?.anchorNode);
-        console.log("anchoroffset after", selection?.anchorOffset);
-        console.log("range", range);
+        const range = setCaretPosRelativeToDiv(offsetFromDiv, divRef);
 
         selection?.removeAllRanges();
-        selection?.addRange(range);
-        divRef.current.replaceChildren(...children);
+        if (range) selection?.addRange(range);
       }
     };
 
