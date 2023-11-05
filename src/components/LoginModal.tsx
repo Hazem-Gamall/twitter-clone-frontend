@@ -19,14 +19,9 @@ import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useContext } from "react";
-import AuthContext from "../context/AuthProvider";
+import AuthContext, { IAuthPartial } from "../context/AuthProvider";
 import { AxiosError } from "axios";
 import { unAuthinticatedApiClient } from "../services/apiClient";
-
-interface ApiResponse {
-  access: string;
-  refresh: string;
-}
 
 const schema = z.object({
   username: z.string().max(35, "Name should be under 35 characters.").min(1),
@@ -43,11 +38,11 @@ export const LoginModal = () => {
   const { setAuth } = useContext(AuthContext);
   const onSubmit = async (data: FieldValues) => {
     try {
-      const tokenResult = await unAuthinticatedApiClient.post<ApiResponse>(
+      const tokenResult = await unAuthinticatedApiClient.post<IAuthPartial>(
         "/token/",
         data
       );
-      setAuth(tokenResult.data);
+      setAuth && setAuth(tokenResult.data);
     } catch (e) {
       if (e instanceof AxiosError && e.response?.status === 401) {
         console.log("error");

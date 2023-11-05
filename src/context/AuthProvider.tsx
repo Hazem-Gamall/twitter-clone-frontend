@@ -10,9 +10,11 @@ export interface IAuth {
   userProfile: IUserProfile;
 }
 
+export interface IAuthPartial extends Partial<IAuth> {}
+
 export interface IAuthContext {
   auth?: IAuth;
-  setAuth?: (auth: IAuth | undefined) => void;
+  setAuth?: (auth: IAuthPartial | undefined) => void;
   [propName: string]: any;
 }
 
@@ -27,7 +29,7 @@ export const AuthProvider = ({ children }: Props) => {
   const [auth, _setAuth] = useState<IAuth | undefined>(
     localStorageAuth ? JSON.parse(localStorageAuth) : {}
   );
-  const setAuth = async (auth: IAuth | undefined) => {
+  const setAuth = async (auth: IAuthPartial | undefined) => {
     if (!auth) {
       localStorage.removeItem("auth");
       _setAuth(auth);
@@ -42,7 +44,7 @@ export const AuthProvider = ({ children }: Props) => {
           headers: { Authorization: `Bearer ${auth.access}` },
         })
       ).data;
-      const newAuth = { ...auth, username, userProfile };
+      const newAuth = { ...auth, username, userProfile } as IAuth;
       localStorage.setItem("auth", JSON.stringify(newAuth));
       _setAuth(newAuth);
     } catch (e) {
