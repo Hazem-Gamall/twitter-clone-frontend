@@ -8,14 +8,14 @@ const useRefreshToken = () => {
       const response = await unAuthinticatedApiClient.post(
         "http://localhost:8000/api/token/refresh/",
         {
-          refresh: auth.refresh,
+          refresh: auth && auth.refresh,
         }
       );
 
-      setAuth({ ...auth, ...response.data });
+      setAuth && setAuth({ ...auth, ...response.data });
       return response.data.access;
     } catch (e) {
-      setAuth({});
+      setAuth && setAuth(undefined);
       return;
     }
   };
