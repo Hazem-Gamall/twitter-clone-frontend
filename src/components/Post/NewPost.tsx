@@ -23,6 +23,7 @@ import useAuth from "../../hooks/useAuth";
 import IPost from "../../types/Post";
 import usePosts from "../../hooks/usePosts";
 import { userPostWithImageService } from "../../services/httpServiceFactories";
+import { PostContentEditable } from "./PostContentEditable";
 
 const PrivacyMenu = () => {
   return (
@@ -59,7 +60,7 @@ interface PostReply {
 
 export const NewPost = ({ reply_post, handlePostSubmit }: Props) => {
   const [postLength, setPostLength] = useState(0);
-  const [postText, setPostText] = useState("");
+  const postContentRef = useRef<HTMLDivElement>(null);
   const { auth } = useAuth();
   const userService = userPostWithImageService(auth?.username as string);
   const { posts, setPosts } = usePosts();
@@ -68,7 +69,7 @@ export const NewPost = ({ reply_post, handlePostSubmit }: Props) => {
   const imageStackRef = useRef<HTMLDivElement>(null);
 
   const clearPost = () => {
-    setPostText("");
+    if (postContentRef.current) postContentRef.current.textContent = "";
     if (
       imageInputRef.current &&
       previewImageRef.current &&
@@ -82,10 +83,12 @@ export const NewPost = ({ reply_post, handlePostSubmit }: Props) => {
 
   const handleSubmit = (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
+    if (!postContentRef.current?.textContent)
+      throw new Error("post text is null or undefined");
     console.log(imageInputRef.current?.files);
     console.log("reply post", reply_post);
     const { request } = userService.create<PostReply, IPost>({
-      text: postText,
+      text: postContentRef.current.textContent,
       ...(reply_post && { reply_to: reply_post.id }),
       ...(imageInputRef.current?.files?.length && {
         media: imageInputRef.current.files,
@@ -121,19 +124,10 @@ export const NewPost = ({ reply_post, handlePostSubmit }: Props) => {
           <VStack alignItems={"start"} width={"100%"} align={"stretch"}>
             <PrivacyMenu />
             <FormControl>
-              <Textarea
-                placeholder="What is happening?!"
-                resize={"none"}
-                border={"none"}
-                size={"lg"}
-                rows={1}
-                as={TextareaAutoResize}
-                value={postText}
-                onChange={(ev) => {
-                  setPostText(ev.target.value);
-                  setPostLength(ev.target.value.length);
-                }}
-              />
+              <PostContentEditable
+                onChange={(textContent) => setPostLength(textContent.length)}
+                ref={postContentRef}
+              ></PostContentEditable>
               <HStack justifyContent={"flex-end"}>
                 <FormLabel
                   color={

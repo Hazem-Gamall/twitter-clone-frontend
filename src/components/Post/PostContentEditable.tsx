@@ -17,7 +17,6 @@ export const PostContentEditable = forwardRef(
 
     const handleInput = (ev: FormEvent<HTMLDivElement>) => {
       onChange(ev.currentTarget?.textContent || "");
-      // console.log(ev.target.selectionStart);
       const text = ev.currentTarget.textContent as string;
       const children = [];
       const matchedStrings = text.matchAll(mentionPattern);
