@@ -10,12 +10,57 @@ import {
   MenuItem,
   IconButton,
 } from "@chakra-ui/react";
-import IPost from "../../types/Post";
+import IPost, { Mention } from "../../types/Post";
 import { Link, useNavigate } from "react-router-dom";
 import { FiMoreHorizontal } from "react-icons/fi";
 import usePosts from "../../hooks/usePosts";
 import { postsServiceFatory } from "../../services/httpServiceFactories";
 import useAuth from "../../hooks/useAuth";
+import mentionPattern from "../../utils/mentionPattern";
+
+const isTextAfterLastMatch = (trimIndex: number, text: string) =>
+  trimIndex < text.length;
+
+const PostText = ({
+  text,
+  mentions,
+}: {
+  text: string;
+  mentions: Mention[];
+}) => {
+  const matches = text.matchAll(mentionPattern);
+
+  let trimIndex = 0;
+  let children = [];
+  console.log("matches length", [...matches].length);
+
+  for (const mention of mentions) {
+    const mentionText = text.substring(mention.start_index, mention.end_index);
+    console.log("text", text);
+    console.log("mentionText", mentionText);
+
+    children.push(
+      <span>{text.substring(trimIndex, mention.start_index)}</span>,
+      <ChakraLink
+        onClick={(ev) => ev.stopPropagation()}
+        zIndex={2}
+        color={"rgb(29, 155, 240)"}
+        as={Link}
+        to={`/${mentionText.substring(1)}`}
+      >
+        {mentionText}
+      </ChakraLink>
+    );
+
+    trimIndex = mention.end_index;
+  }
+
+  if (isTextAfterLastMatch(trimIndex, text)) {
+    children.push(<span>{text.substring(trimIndex)}</span>);
+  }
+
+  return <Text>{...children}</Text>;
+};
 
 export const PostContent = ({ post }: { post: IPost }) => {
   const navigate = useNavigate();
@@ -69,7 +114,7 @@ export const PostContent = ({ post }: { post: IPost }) => {
           navigate(`/${post.post_user.username}/status/${post.id}`)
         }
       >
-        <Text>{post.text}</Text>
+        <PostText text={post.text} mentions={post.post_mentions} />
 
         {post.media.map((media_object) => (
           <Image

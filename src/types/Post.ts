@@ -1,3 +1,10 @@
+export interface Mention {
+  user_profile: number;
+  post: number;
+  start_index: number;
+  end_index: number;
+}
+
 export default interface IPost {
   id: number;
   media: [
@@ -22,4 +29,5 @@ export default interface IPost {
   liked_by_user: boolean;
   replies_count: number;
   reply_to: IPost;
+  post_mentions: Mention[];
 }

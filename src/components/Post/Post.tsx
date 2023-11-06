@@ -49,7 +49,7 @@ export const Post = forwardRef(
             <HStack>
               <Icon fontSize={"xl"} as={BiRepost} />
               <Text fontSize={"sm"}>
-                {post.post_user.username === auth.username
+                {post.post_user.username === auth?.username
                   ? "You"
                   : post.post_user.username}{" "}
                 reposted
