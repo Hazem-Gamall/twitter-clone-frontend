@@ -19,9 +19,9 @@ const getCaretPosRelativeToDiv = (
   const caretOffset = selection.focusOffset;
 
   const parent = ref.current;
-  console.log("caretNode", caretNode);
-  console.log("caretOffset", caretOffset);
+
   let offsetFromDiv = 0;
+
   for (let i = 0; i < parent.childNodes.length; i++) {
     let currentTextNode = parent.childNodes[i];
     if (currentTextNode instanceof HTMLSpanElement)
@@ -32,11 +32,8 @@ const getCaretPosRelativeToDiv = (
       break;
     }
     offsetFromDiv += currentTextNode.textContent.length;
-
-    console.log("child node", parent.childNodes[i]);
-    console.log("found:", caretNode === currentTextNode);
   }
-  console.log("offsetFromDiv", offsetFromDiv);
+
   return offsetFromDiv;
 };
 
@@ -67,12 +64,7 @@ const setCaretPosRelativeToDiv = (
   }
   if (!breakFromOuterLoop) offsetFromTextNode++;
   const range = document.createRange();
-  console.log("textnode before setting offset", currentTextNode?.textContent);
-  console.log(
-    "textnode length before setting offset",
-    currentTextNode?.textContent?.length
-  );
-  console.log("offset from textnode", offsetFromTextNode);
+
   range.setStart(currentTextNode as ChildNode, offsetFromTextNode);
 
   return range;
@@ -88,8 +80,7 @@ export const PostContentEditable = forwardRef(
       const text = ev.currentTarget.textContent as string;
       const children = [];
       const matchedStrings = text.matchAll(mentionPattern);
-      console.log("event", ev);
-      const f = () => console.log("inside span hello");
+
       let trimIndex = 0;
       let lastChild = null;
       for (const match of matchedStrings) {
@@ -97,11 +88,9 @@ export const PostContentEditable = forwardRef(
           const matchIndex = match.index as number;
           const preMatchSpan = document.createElement("span");
           preMatchSpan.textContent = text.substring(trimIndex, matchIndex);
-          preMatchSpan.oninput = f;
           const matchSpan = document.createElement("span");
           matchSpan.textContent = match[0];
           matchSpan.style.color = "rgb(29, 155, 240)";
-          matchSpan.oninput = f;
           trimIndex = matchIndex + match[0].length;
           children.push(preMatchSpan, matchSpan);
 
