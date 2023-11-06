@@ -27,45 +27,48 @@ export const MentionSuggestionsBox = forwardRef(
     const httpService = searchServiceFactory("users");
     const { data, isLoading } = useInfiniteScroll<IUserProfile>(
       httpService,
-      mentionSpanRef.current
-        ? { q: mentionSpanRef.current.textContent?.substring(1) }
+      mentionSpanRef.current?.textContent
+        ? { q: mentionSpanRef.current.textContent.substring(1) }
         : {},
-      [mentionSpanRef?.current?.textContent]
+      mentionSpanRef.current ? [mentionSpanRef.current.textContent] : []
     );
 
     return (
       <Box zIndex={1} ref={ref} position={"fixed"}>
         <Menu isOpen={isOpen}>
           <MenuButton></MenuButton>
-          <MenuList as={VStack} bg={"black"} align={"stretch"} spacing={0}>
-            {isLoading ? (
-              <Spinner alignSelf={"center"} />
-            ) : (
-              data.map((userProfile) => (
-                <HStack
-                  as={Button}
-                  p={7}
-                  bg={"black"}
-                  borderRadius={0}
-                  justifyContent={"flex-start"}
-                  onClick={() => {
-                    if (!mentionSpanRef.current) return;
-                    mentionSpanRef.current.textContent = `@${userProfile.user.username}`;
-                    onClose();
-                  }}
-                >
-                  <Avatar src={userProfile.avatar} />
-                  <VStack spacing={0}>
-                    <Heading alignSelf={"flex-start"} size={"sm"}>
-                      {userProfile.user.name}
-                    </Heading>
-                    <Text alignSelf={"flex-start"} color="gray.600">
-                      @{userProfile.user.username}
-                    </Text>
-                  </VStack>
-                </HStack>
-              ))
-            )}
+          <MenuList bg={"black"}>
+            <VStack align={"stretch"} spacing={0}>
+              {isLoading ? (
+                <Spinner alignSelf={"center"} />
+              ) : (
+                data.map((userProfile) => (
+                  <HStack
+                    key={userProfile.user.username}
+                    as={Button}
+                    p={7}
+                    bg={"black"}
+                    borderRadius={0}
+                    justifyContent={"flex-start"}
+                    onClick={() => {
+                      if (!mentionSpanRef.current) return;
+                      mentionSpanRef.current.textContent = `@${userProfile.user.username}`;
+                      onClose();
+                    }}
+                  >
+                    <Avatar src={userProfile.avatar} />
+                    <VStack spacing={0}>
+                      <Heading alignSelf={"flex-start"} size={"sm"}>
+                        {userProfile.user.name}
+                      </Heading>
+                      <Text alignSelf={"flex-start"} color="gray.600">
+                        @{userProfile.user.username}
+                      </Text>
+                    </VStack>
+                  </HStack>
+                ))
+              )}
+            </VStack>
           </MenuList>
         </Menu>
       </Box>

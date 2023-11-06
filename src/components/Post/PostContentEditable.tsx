@@ -158,13 +158,15 @@ export const PostContentEditable = forwardRef(
           onInput={handleInput}
           onSelect={handleSelect}
         ></Box>
-        <MentionSuggestionsBox
-          mentionSpanRef={mentionSpanRef}
-          ref={suggestionsRef}
-          onMention={() => {}}
-          isOpen={isOpen}
-          onClose={onClose}
-        />
+        {mentionSpanRef.current?.textContent && (
+          <MentionSuggestionsBox
+            mentionSpanRef={mentionSpanRef}
+            ref={suggestionsRef}
+            onMention={() => {}}
+            isOpen={isOpen}
+            onClose={onClose}
+          />
+        )}
       </>
     );
   }
