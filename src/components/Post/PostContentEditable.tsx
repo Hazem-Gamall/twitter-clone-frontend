@@ -2,14 +2,13 @@ import { Box, forwardRef, useDisclosure } from "@chakra-ui/react";
 import { FormEvent, useRef } from "react";
 import "./new-post.css";
 import { MentionSuggestionsBox } from "./MentionSuggestionsBox";
+import mentionPattern from "../../utils/mentionPattern";
 interface Props {
   onChange: (textContent: string) => void;
 }
 
 const isTextAfterLastMatch = (trimIndex: number, text: string) =>
   trimIndex < text.length;
-
-const mentionPattern = /(?<=\s|^)@\w{1,35}(?=\s|$)/g;
 
 const getCaretPosRelativeToDiv = (
   selection: Selection | null,

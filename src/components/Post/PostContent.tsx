@@ -16,6 +16,40 @@ import { FiMoreHorizontal } from "react-icons/fi";
 import usePosts from "../../hooks/usePosts";
 import { postsServiceFatory } from "../../services/httpServiceFactories";
 import useAuth from "../../hooks/useAuth";
+import mentionPattern from "../../utils/mentionPattern";
+
+const isTextAfterLastMatch = (trimIndex: number, text: string) =>
+  trimIndex < text.length;
+
+const PostText = ({ text }: { text: string }) => {
+  const matches = text.matchAll(mentionPattern);
+
+  let trimIndex = 0;
+  let children = [];
+  for (const match of matches) {
+    const matchIndex = match.index as number;
+    children.push(
+      <span>{text.substring(trimIndex, matchIndex)}</span>,
+      <ChakraLink
+        onClick={(ev) => ev.stopPropagation()}
+        zIndex={2}
+        color={"rgb(29, 155, 240)"}
+        as={Link}
+        to={`/${match[0].substring(1)}`}
+      >
+        {match[0]}
+      </ChakraLink>
+    );
+
+    trimIndex = matchIndex + match[0].length;
+  }
+
+  if (isTextAfterLastMatch(trimIndex, text)) {
+    children.push(<span>{text.substring(trimIndex)}</span>);
+  }
+
+  return <Text>{...children}</Text>;
+};
 
 export const PostContent = ({ post }: { post: IPost }) => {
   const navigate = useNavigate();
@@ -69,7 +103,7 @@ export const PostContent = ({ post }: { post: IPost }) => {
           navigate(`/${post.post_user.username}/status/${post.id}`)
         }
       >
-        <Text>{post.text}</Text>
+        <PostText text={post.text} />
 
         {post.media.map((media_object) => (
           <Image
