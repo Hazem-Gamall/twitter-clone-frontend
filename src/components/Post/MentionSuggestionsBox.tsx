@@ -1,6 +1,7 @@
 import {
   Avatar,
   Box,
+  Button,
   HStack,
   Heading,
   Menu,
@@ -36,27 +37,21 @@ export const MentionSuggestionsBox = forwardRef(
       <Box zIndex={1} ref={ref} position={"fixed"}>
         <Menu isOpen={isOpen}>
           <MenuButton></MenuButton>
-          <MenuList p={3} as={VStack} alignItems={"flex-start"}>
+          <MenuList as={VStack} bg={"black"} align={"stretch"} spacing={0}>
             {isLoading ? (
               <Spinner alignSelf={"center"} />
             ) : (
               data.map((userProfile) => (
-                // <MenuItem>
                 <HStack
-                  py={1}
+                  as={Button}
+                  p={7}
+                  bg={"black"}
+                  borderRadius={0}
                   justifyContent={"flex-start"}
                   onClick={() => {
-                    console.log("cliucked");
-
-                    if (mentionSpanRef.current) {
-                      console.log(
-                        "inside mention span if",
-                        mentionSpanRef.current.parentElement
-                      );
-
-                      mentionSpanRef.current.textContent = `@${userProfile.user.username}`;
-                      onClose();
-                    }
+                    if (!mentionSpanRef.current) return;
+                    mentionSpanRef.current.textContent = `@${userProfile.user.username}`;
+                    onClose();
                   }}
                 >
                   <Avatar src={userProfile.avatar} />
@@ -69,7 +64,6 @@ export const MentionSuggestionsBox = forwardRef(
                     </Text>
                   </VStack>
                 </HStack>
-                // </MenuItem>
               ))
             )}
           </MenuList>

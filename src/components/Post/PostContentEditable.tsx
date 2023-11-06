@@ -81,7 +81,6 @@ export const PostContentEditable = forwardRef(
     if (ref) ref.current = divRef.current;
 
     const handleInput = (ev: FormEvent<HTMLDivElement>) => {
-      console.log("handle Input here");
       onChange(ev.currentTarget?.textContent || "");
       const text = ev.currentTarget.textContent as string;
       const children = [];
@@ -128,7 +127,7 @@ export const PostContentEditable = forwardRef(
     const handleSelect = () => {
       const selectedElement =
         document.getSelection()?.anchorNode?.parentElement;
-      console.log("handle Select here", selectedElement?.parentElement);
+
       if (selectedElement?.className !== "mention") {
         onClose();
         return;
@@ -137,10 +136,7 @@ export const PostContentEditable = forwardRef(
       onOpen();
 
       mentionSpanRef.current = selectedElement;
-      console.log(
-        "handle select in mention",
-        mentionSpanRef.current.parentElement
-      );
+
       if (suggestionsRef.current) {
         suggestionsRef.current.style.top = `${
           selectedElement?.getBoundingClientRect().top
