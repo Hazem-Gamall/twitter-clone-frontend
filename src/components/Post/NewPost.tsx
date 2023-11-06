@@ -12,13 +12,11 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  Textarea,
   VStack,
 } from "@chakra-ui/react";
 import { FormEvent, useRef, useState } from "react";
 
 import { BsChevronDown, BsFillImageFill } from "react-icons/bs";
-import TextareaAutoResize from "react-textarea-autosize";
 import useAuth from "../../hooks/useAuth";
 import IPost from "../../types/Post";
 import usePosts from "../../hooks/usePosts";

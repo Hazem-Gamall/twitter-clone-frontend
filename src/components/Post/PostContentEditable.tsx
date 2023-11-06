@@ -1,6 +1,7 @@
-import { Box, forwardRef } from "@chakra-ui/react";
+import { Box, forwardRef, useDisclosure } from "@chakra-ui/react";
 import { FormEvent, useRef } from "react";
 import "./new-post.css";
+import { MentionSuggestionsBox } from "./MentionSuggestionsBox";
 interface Props {
   onChange: (textContent: string) => void;
 }
@@ -73,9 +74,14 @@ const setCaretPosRelativeToDiv = (
 export const PostContentEditable = forwardRef(
   ({ onChange }: Props, ref: any) => {
     const divRef = useRef<HTMLDivElement | null>(null);
+    const suggestionsRef = useRef<HTMLDivElement | null>(null);
+    const mentionSpanRef = useRef<HTMLSpanElement | null>(null);
+
+    const { isOpen, onClose, onOpen } = useDisclosure();
     if (ref) ref.current = divRef.current;
 
     const handleInput = (ev: FormEvent<HTMLDivElement>) => {
+      console.log("handle Input here");
       onChange(ev.currentTarget?.textContent || "");
       const text = ev.currentTarget.textContent as string;
       const children = [];
@@ -91,6 +97,7 @@ export const PostContentEditable = forwardRef(
           const matchSpan = document.createElement("span");
           matchSpan.textContent = match[0];
           matchSpan.style.color = "rgb(29, 155, 240)";
+          matchSpan.className = "mention";
           trimIndex = matchIndex + match[0].length;
           children.push(preMatchSpan, matchSpan);
 
@@ -118,16 +125,52 @@ export const PostContentEditable = forwardRef(
       }
     };
 
+    const handleSelect = () => {
+      const selectedElement =
+        document.getSelection()?.anchorNode?.parentElement;
+      console.log("handle Select here", selectedElement?.parentElement);
+      if (selectedElement?.className !== "mention") {
+        onClose();
+        return;
+      }
+
+      onOpen();
+
+      mentionSpanRef.current = selectedElement;
+      console.log(
+        "handle select in mention",
+        mentionSpanRef.current.parentElement
+      );
+      if (suggestionsRef.current) {
+        suggestionsRef.current.style.top = `${
+          selectedElement?.getBoundingClientRect().top
+        }px`;
+        suggestionsRef.current.style.left = `${
+          selectedElement?.getBoundingClientRect().left
+        }px`;
+      }
+    };
+
     return (
-      <Box
-        ref={divRef}
-        contentEditable
-        placeholder="What is happening?!"
-        wordBreak={"break-word"}
-        fontSize={"2xl"}
-        outline={"none"}
-        onInput={handleInput}
-      ></Box>
+      <>
+        <Box
+          ref={divRef}
+          contentEditable
+          placeholder="What is happening?!"
+          wordBreak={"break-word"}
+          fontSize={"2xl"}
+          outline={"none"}
+          onInput={handleInput}
+          onSelect={handleSelect}
+        ></Box>
+        <MentionSuggestionsBox
+          mentionSpanRef={mentionSpanRef}
+          ref={suggestionsRef}
+          onMention={() => {}}
+          isOpen={isOpen}
+          onClose={onClose}
+        />
+      </>
     );
   }
 );
