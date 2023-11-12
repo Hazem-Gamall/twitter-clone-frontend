@@ -13,7 +13,8 @@ export const OtherUserDetailButtons = ({
   setUserProfile,
 }: Props) => {
   const { auth } = useAuth();
-  const httpService = userFollowingService(auth.username);
+
+  const httpService = userFollowingService(auth?.username as string);
 
   const handleFollow = () => {
     const { request } = httpService.create({

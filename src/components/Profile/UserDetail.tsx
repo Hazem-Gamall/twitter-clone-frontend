@@ -45,7 +45,7 @@ export const UserDetail = ({ userProfile, setUserProfile }: Props) => {
             top={230}
             boxSize={130}
           />
-          {userProfile.user.username === auth.username ? (
+          {userProfile.user.username === auth?.username ? (
             <AuthUserDetailButtons
               userProfile={userProfile}
               setUserProfile={setUserProfile}
