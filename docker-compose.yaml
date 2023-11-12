@@ -13,7 +13,7 @@ services:
 
   frontend:
     build:
-      context: ./twitter-clone-backend
+      context: ./twitter-clone-frontend
       dockerfile: Dockerfile
     image: twitter-clone-frontend
     container_name: twitter-clone-frontend
