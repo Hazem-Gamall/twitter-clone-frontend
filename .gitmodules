@@ -1,0 +1,6 @@
+[submodule "twitter-clone-backend"]
+	path = twitter-clone-backend
+	url = https://github.com/Hazem-Gamall/twitter-clone-backend.git
+[submodule "twitter-clone-frontend"]
+	path = twitter-clone-frontend
+	url = https://github.com/Hazem-Gamall/twitter-clone-frontend.git
