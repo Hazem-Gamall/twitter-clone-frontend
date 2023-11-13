@@ -12,6 +12,7 @@ import { LoginModal } from "../components/LoginModal";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { useEffect } from "react";
+import { RegisterationForm } from "../components/RegisterationForm";
 
 export const AnonHome = () => {
   const navigate = useNavigate();
@@ -58,9 +59,8 @@ export const AnonHome = () => {
               Apple
             </Button>
             <Divider />
-            <Button colorScheme="twitter" borderRadius={30} width={"100%"}>
-              Create account
-            </Button>
+
+            <RegisterationForm />
           </VStack>
           <VStack width={"50%"}>
             <Heading as={"h5"} size={"md"}>
