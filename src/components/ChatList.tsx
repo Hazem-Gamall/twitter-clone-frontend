@@ -5,12 +5,14 @@ import {
   HStack,
   Spinner,
   Text,
+  VStack,
 } from "@chakra-ui/react";
 import IChat from "../types/Chat";
 import { userChatsServiceFactory } from "../services/httpServiceFactories";
 import useAuth from "../hooks/useAuth";
 import useInfiniteScroll from "../hooks/useInfiniteScroll";
 import { NavLink, useParams } from "react-router-dom";
+import { ChatComposeModal } from "./ChatComposeModal";
 
 export const ChatList = () => {
   const { auth } = useAuth();
@@ -36,6 +38,7 @@ export const ChatList = () => {
         key={chat.id}
         as={NavLink}
         to={`/messages/${chat.id}`}
+        width={"100%"}
         borderRadius={0}
         bg={chat.id === parseInt(chat_id as string) ? "gray.800" : "black"}
         ref={index === data.length - 1 ? lastElementRef : null}
@@ -54,5 +57,21 @@ export const ChatList = () => {
     );
   });
 
-  return <>{isLoading ? <Spinner /> : children}</>;
+  return (
+    <>
+      <ChatComposeModal />
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <VStack
+          overflowY={"scroll"}
+          alignItems={"flex-start"}
+          align={"stretch"}
+          height={"80vh"}
+        >
+          {children}
+        </VStack>
+      )}
+    </>
+  );
 };

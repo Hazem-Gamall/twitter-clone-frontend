@@ -78,6 +78,7 @@ export const Chat = () => {
     wsRef.current.send(
       JSON.stringify({ message: messageInputRef.current.value })
     );
+    messageInputRef.current.value = "";
   };
 
   console.log("data here", data);
