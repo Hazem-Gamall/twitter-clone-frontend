@@ -23,6 +23,7 @@ import useRetrieve from "../hooks/useRetrieve";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import useInfiniteScroll from "../hooks/useInfiniteScroll";
 import { IUserProfile } from "../types/User";
+import useRefreshToken from "../hooks/useRefreshToken";
 
 export const Chat = () => {
   const { auth } = useAuth();
@@ -53,13 +54,19 @@ export const Chat = () => {
         : chat.first_user_profile
     );
   }, [chat]);
+  const refreshToken = useRefreshToken();
 
   useEffect(() => {
     wsRef.current = new WebSocket(
       `ws://localhost:8000/ws/chat/${chat_id}/?token=${auth?.access}`
     );
     wsRef.current.onopen = () => console.log("ws opened");
-    wsRef.current.onclose = () => console.log("ws closed");
+    wsRef.current.onerror = (ev) => console.log("ws error", ev);
+    wsRef.current.onclose = (ev) => {
+      console.log("ws closed", ev);
+      if (ev.code === 1006) {
+      }
+    };
     wsRef.current.onmessage = (ev) => {
       console.log("on message", ev);
 
@@ -69,12 +76,18 @@ export const Chat = () => {
     };
     const currentWs = wsRef.current;
 
-    return () => currentWs.close();
+    const interval = setInterval(() => refreshToken(), 1000 * 60);
+
+    return () => {
+      clearInterval(interval);
+      currentWs.close();
+    };
   }, [chat_id]);
 
   const sendMessage = (ev: FormEvent) => {
     ev.preventDefault();
     if (!wsRef.current || !messageInputRef.current) return;
+    if (messageInputRef.current.value.length === 0) return;
     wsRef.current.send(
       JSON.stringify({ message: messageInputRef.current.value })
     );
