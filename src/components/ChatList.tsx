@@ -10,24 +10,36 @@ import IChat from "../types/Chat";
 import { userChatsServiceFactory } from "../services/httpServiceFactories";
 import useAuth from "../hooks/useAuth";
 import useInfiniteScroll from "../hooks/useInfiniteScroll";
+import { NavLink, useParams } from "react-router-dom";
 
 export const ChatList = () => {
   const { auth } = useAuth();
   console.log("username", auth?.username);
-
+  const { chat_id } = useParams();
   const httpService = userChatsServiceFactory(auth?.username as string);
 
-  const { data, error, isLoading, lastElementRef } =
-    useInfiniteScroll<IChat>(httpService);
-  console.log("data", data);
+  const { data, isLoading, lastElementRef } = useInfiniteScroll<IChat>(
+    httpService,
+    {},
+    [],
+    0,
+    15
+  );
 
   return (
     <>
       {isLoading ? (
         <Spinner />
       ) : (
-        data.map((chat) => (
-          <Card key={chat.id}>
+        data.map((chat, index) => (
+          <Card
+            key={chat.id}
+            as={NavLink}
+            to={`/messages/${chat.id}`}
+            borderRadius={0}
+            bg={chat.id === parseInt(chat_id as string) ? "gray.800" : "black"}
+            ref={index === data.length - 1 ? lastElementRef : null}
+          >
             <CardBody>
               <HStack alignItems={"flex-start"}>
                 <Avatar src={chat.first_user_profile.avatar}></Avatar>

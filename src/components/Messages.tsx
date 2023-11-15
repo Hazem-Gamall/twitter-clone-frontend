@@ -38,7 +38,10 @@ export const Messages = () => {
         </GridItem>
 
         <GridItem area={"chat-list"}>
-          <ChatList />
+          <Routes>
+            <Route path="/:chat_id" element={<ChatList />} />
+            <Route path="/" element={<ChatList />} />
+          </Routes>
         </GridItem>
 
         <GridItem

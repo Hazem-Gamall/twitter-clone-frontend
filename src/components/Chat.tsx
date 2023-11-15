@@ -18,7 +18,7 @@ import {
 } from "../services/httpServiceFactories";
 import IChat from "../types/Chat";
 import IMessage from "../types/Message";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import useRetrieve from "../hooks/useRetrieve";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import useInfiniteScroll from "../hooks/useInfiniteScroll";
@@ -30,7 +30,8 @@ export const Chat = () => {
   const chatHttpService = userChatsServiceFactory(auth?.username as string);
   const { data: chat, isLoading: isChatLoading } = useRetrieve<IChat>(
     chatHttpService,
-    chat_id as string
+    chat_id as string,
+    [chat_id]
   );
 
   const wsRef = useRef<WebSocket | null>(null);
@@ -42,7 +43,7 @@ export const Chat = () => {
     parseInt(chat_id as string)
   );
   const { data, isLoading, setData, lastElementRef } =
-    useInfiniteScroll<IMessage>(messagesHttpService, {}, [], 0, 15);
+    useInfiniteScroll<IMessage>(messagesHttpService, {}, [chat_id], 0, 15);
 
   useEffect(() => {
     if (isChatLoading) return;
@@ -69,7 +70,7 @@ export const Chat = () => {
     const currentWs = wsRef.current;
 
     return () => currentWs.close();
-  }, []);
+  }, [chat_id]);
 
   const sendMessage = (ev: FormEvent) => {
     ev.preventDefault();
@@ -83,8 +84,12 @@ export const Chat = () => {
   return (
     <Grid>
       <GridItem>
-        <HStack bg={"transparent"} position={"sticky"}>
-          <Avatar src={otherUserProfile?.avatar} />
+        <HStack bg={"transparent"} position={"sticky"} px={3}>
+          <Avatar
+            as={Link}
+            to={`/${otherUserProfile?.user.username}`}
+            src={otherUserProfile?.avatar}
+          />
           <Text>{otherUserProfile?.user.name}</Text>
         </HStack>
         <VStack
