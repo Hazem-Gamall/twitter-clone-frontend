@@ -34,7 +34,7 @@ const useInfiniteScroll = <T>(
   );
 
   useEffect(() => {
-    setHasMore(listData.length !== 0);
+    setHasMore(listData.length < limit ? false : true);
     setData(data.concat(listData));
   }, [listData]);
   const lastElementRef = useCallback(
@@ -51,7 +51,7 @@ const useInfiniteScroll = <T>(
     [isLoading, hasMore]
   );
 
-  return { data, isLoading, error, lastElementRef };
+  return { data, isLoading, setData, error, lastElementRef };
 };
 
 export default useInfiniteScroll;

@@ -1,7 +1,10 @@
 import { Link, createSearchParams, useSearchParams } from "react-router-dom";
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import { TopBar } from "../components/Profile/TopBar";
-import { PostSearchResults, UserSearchResults } from "../hooks/SearchResults";
+import {
+  PostSearchResults,
+  UserSearchResults,
+} from "../components/SearchResults";
 
 export const Search = () => {
   const [searchParams] = useSearchParams();

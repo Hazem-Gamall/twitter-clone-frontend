@@ -1,10 +1,10 @@
 import { Spinner, VStack, forwardRef } from "@chakra-ui/react";
-import { Post } from "../components/Post/Post";
-import { UserCard } from "../components/Profile/UserCard";
+import { Post } from "./Post/Post";
+import { UserCard } from "./Profile/UserCard";
 import { searchServiceFactory } from "../services/httpServiceFactories";
 import IPost from "../types/Post";
 import { IUserProfile } from "../types/User";
-import useInfiniteScroll from "./useInfiniteScroll";
+import useInfiniteScroll from "../hooks/useInfiniteScroll";
 
 const UserResult = forwardRef(
   ({ userProfile }: { userProfile: IUserProfile }, ref) => {

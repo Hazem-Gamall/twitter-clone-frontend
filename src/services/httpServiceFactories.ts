@@ -49,6 +49,20 @@ export const userFollowingService = (username: string) => {
   return httpServiceFactory(HttpService, `/users/${username}/following`);
 };
 
+export const userChatsServiceFactory = (username: string) => {
+  return httpServiceFactory(HttpService, `/users/${username}/chats`);
+};
+
+export const userChatMessagesServiceFactory = (
+  username: string,
+  chat_id: number
+) => {
+  return httpServiceFactory(
+    HttpService,
+    `/users/${username}/chats/${chat_id}/messages`
+  );
+};
+
 export const postsServiceFatory = () => {
   return httpServiceFactory(HttpService, `/posts`);
 };
