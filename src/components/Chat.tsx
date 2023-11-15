@@ -83,8 +83,12 @@ export const Chat = () => {
   return (
     <Grid>
       <GridItem>
+        <HStack bg={"transparent"} position={"sticky"}>
+          <Avatar src={otherUserProfile?.avatar} />
+          <Text>{otherUserProfile?.user.name}</Text>
+        </HStack>
         <VStack
-          height={"90vh"}
+          height={"80vh"}
           overflowY={"auto"}
           flexDirection={"column-reverse"}
           align={"stretch"}
