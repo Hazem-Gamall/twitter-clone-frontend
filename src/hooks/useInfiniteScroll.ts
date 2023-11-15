@@ -51,7 +51,7 @@ const useInfiniteScroll = <T>(
     [isLoading, hasMore]
   );
 
-  return { data, isLoading, error, lastElementRef };
+  return { data, isLoading, setData, error, lastElementRef };
 };
 
 export default useInfiniteScroll;

@@ -1,3 +1,12 @@
-.active{
-    font-weight: bold !important;
+.active {
+  font-weight: bold !important;
+}
+.scroller {
+  overflow: auto;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.scroller .scroller-content .item {
+  transform: translateZ(0); /* fixes a bug in Safari iOS where the scroller doesn't update */
 }
