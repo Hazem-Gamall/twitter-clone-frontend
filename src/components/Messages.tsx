@@ -3,22 +3,10 @@ import { Sidebar } from "./Sidebar";
 import { Chat } from "./Chat";
 import { ChatList } from "./ChatList";
 import useAuth from "../hooks/useAuth";
-import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 
 export const Messages = () => {
   const { auth } = useAuth();
-
-  useEffect(() => {
-    const ws = new WebSocket(
-      `ws://localhost:8000/ws/chat/1/?token=${auth?.access}`
-    );
-
-    ws.onmessage = (ev) => console.log(ev);
-    ws.onclose = (ev) => console.log(ev);
-
-    return () => ws.close();
-  }, []);
 
   return (
     <>
