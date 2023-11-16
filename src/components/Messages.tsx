@@ -2,7 +2,6 @@ import { Grid, GridItem } from "@chakra-ui/react";
 import { Sidebar } from "./Sidebar";
 import { Chat } from "./Chat";
 import { ChatList } from "./ChatList";
-import useAuth from "../hooks/useAuth";
 import { Route, Routes } from "react-router-dom";
 
 export const Messages = () => {
