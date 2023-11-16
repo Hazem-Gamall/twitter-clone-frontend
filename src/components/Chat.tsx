@@ -25,6 +25,8 @@ import useInfiniteScroll from "../hooks/useInfiniteScroll";
 import { IUserProfile } from "../types/User";
 import useRefreshToken from "../hooks/useRefreshToken";
 
+export const WS_URL = import.meta.env.VITE_WS_URL;
+
 export const Chat = () => {
   const { auth } = useAuth();
   const { chat_id } = useParams();
@@ -58,7 +60,7 @@ export const Chat = () => {
 
   useEffect(() => {
     wsRef.current = new WebSocket(
-      `ws://localhost:8000/ws/chat/${chat_id}/?token=${auth?.access}`
+      `${WS_URL}/chat/${chat_id}/?token=${auth?.access}`
     );
     wsRef.current.onopen = () => console.log("ws opened");
     wsRef.current.onerror = (ev) => console.log("ws error", ev);
