@@ -6,8 +6,6 @@ import useAuth from "../hooks/useAuth";
 import { Route, Routes } from "react-router-dom";
 
 export const Messages = () => {
-  const { auth } = useAuth();
-
   return (
     <>
       <Grid
