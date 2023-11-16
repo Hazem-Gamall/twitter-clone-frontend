@@ -5,12 +5,9 @@ const useRefreshToken = () => {
   const { auth, setAuth } = useAuth();
   return async () => {
     try {
-      const response = await unAuthinticatedApiClient.post(
-        "http://localhost:8000/api/token/refresh/",
-        {
-          refresh: auth && auth.refresh,
-        }
-      );
+      const response = await unAuthinticatedApiClient.post("/token/refresh/", {
+        refresh: auth && auth.refresh,
+      });
 
       setAuth && setAuth({ ...auth, ...response.data });
       return response.data.access;
