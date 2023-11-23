@@ -104,7 +104,7 @@ export const Chat = () => {
           <Avatar
             as={Link}
             to={`/${otherUserProfile?.user.username}`}
-            src={otherUserProfile?.avatar}
+            src={`/${otherUserProfile?.avatar}`}
           />
           <Text>{otherUserProfile?.user.name}</Text>
         </HStack>

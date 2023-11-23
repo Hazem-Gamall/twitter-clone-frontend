@@ -45,7 +45,7 @@ export const ChatList = () => {
       >
         <CardBody>
           <HStack alignItems={"flex-start"}>
-            <Avatar src={otherUserProfile.avatar}></Avatar>
+            <Avatar src={`/${otherUserProfile.avatar}`}></Avatar>
             <Text fontWeight={"bold"}>{otherUserProfile.user.name}</Text>
             <Text fontWeight={"light"} color={"gray.500"}>
               @{otherUserProfile.user.username} &#183;{" "}
