@@ -77,3 +77,7 @@ export const searchServiceFactory = (filter: string) => {
   if (filter !== "users") console.log("invalid filter");
   return httpServiceFactory(HttpService, "/users/search");
 };
+
+export const notificationsServiceFactory = (username: string) => {
+  return httpServiceFactory(HttpService, `/users/${username}/notifications`);
+};

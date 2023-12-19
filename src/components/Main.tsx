@@ -6,6 +6,7 @@ import { Route, Routes } from "react-router-dom";
 import { RequireAuth } from "./RequireAuth";
 import { Profile } from "../pages/Profile";
 import { Search } from "../pages/Search";
+import { Notifications } from "../pages/Notifications";
 
 export const Main = () => {
   return (
@@ -31,6 +32,7 @@ export const Main = () => {
               <Route path="/home" element={<Home />} />
               <Route path="/:username/*" element={<Profile />} />
               <Route path="search" element={<Search />} />
+              <Route path="notifications" element={<Notifications />} />
               <Route
                 path="*"
                 element={(() => (
