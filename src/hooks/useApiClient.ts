@@ -6,6 +6,7 @@ import { API_BASE_URL } from "../services/apiClient";
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
+  withCredentials: true,
 });
 
 const useApiClient = () => {
