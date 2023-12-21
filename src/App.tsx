@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import "./App.css";
-import { Main } from "./components/Main";
+import { Main } from "./pages/Main";
 import AuthContext from "./context/AuthProvider";
 import { AnonHome } from "./pages/AnonHome";
 import { Route, Routes } from "react-router-dom";

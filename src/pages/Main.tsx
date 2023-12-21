@@ -1,12 +1,12 @@
 import { Grid, GridItem } from "@chakra-ui/react";
-import { Sidebar } from "./Sidebar";
-import { Home } from "../pages/Home";
-import { Trending } from "./Trending";
+import { Sidebar } from "../components/Sidebar";
+import { Home } from "./Home";
+import { Trending } from "../components/Trending";
 import { Route, Routes } from "react-router-dom";
-import { RequireAuth } from "./RequireAuth";
-import { Profile } from "../pages/Profile";
-import { Search } from "../pages/Search";
-import { Notifications } from "../pages/Notifications";
+import { RequireAuth } from "../components/RequireAuth";
+import { Profile } from "./Profile";
+import { Search } from "./Search";
+import { Notifications } from "./Notifications";
 
 export const Main = () => {
   return (
