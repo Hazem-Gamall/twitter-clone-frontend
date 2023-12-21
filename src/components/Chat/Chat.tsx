@@ -11,19 +11,19 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import useAuth from "../hooks/useAuth";
+import useAuth from "../../hooks/useAuth";
 import {
   userChatMessagesServiceFactory,
   userChatsServiceFactory,
-} from "../services/httpServiceFactories";
-import IChat from "../types/Chat";
-import IMessage from "../types/Message";
+} from "../../services/httpServiceFactories";
+import IChat from "../../types/Chat";
+import IMessage from "../../types/Message";
 import { Link, useParams } from "react-router-dom";
-import useRetrieve from "../hooks/useRetrieve";
+import useRetrieve from "../../hooks/useRetrieve";
 import { FormEvent, useEffect, useRef, useState } from "react";
-import useInfiniteScroll from "../hooks/useInfiniteScroll";
-import { IUserProfile } from "../types/User";
-import useRefreshToken from "../hooks/useRefreshToken";
+import useInfiniteScroll from "../../hooks/useInfiniteScroll";
+import { IUserProfile } from "../../types/User";
+import useRefreshToken from "../../hooks/useRefreshToken";
 
 export const WS_URL = import.meta.env.VITE_WS_URL;
 

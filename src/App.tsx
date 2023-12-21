@@ -5,7 +5,7 @@ import AuthContext from "./context/AuthProvider";
 import { AnonHome } from "./pages/AnonHome";
 import { Route, Routes } from "react-router-dom";
 import { RequireAuth } from "./components/RequireAuth";
-import { Messages } from "./components/Messages";
+import { Messages } from "./pages/Messages";
 
 function App() {
   useContext(AuthContext);

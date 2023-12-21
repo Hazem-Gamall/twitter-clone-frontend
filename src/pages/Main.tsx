@@ -1,7 +1,7 @@
 import { Grid, GridItem } from "@chakra-ui/react";
 import { Sidebar } from "../components/Sidebar";
 import { Home } from "./Home";
-import { Trending } from "../components/Trending";
+import { Trending } from "./Trending";
 import { Route, Routes } from "react-router-dom";
 import { RequireAuth } from "../components/RequireAuth";
 import { Profile } from "./Profile";

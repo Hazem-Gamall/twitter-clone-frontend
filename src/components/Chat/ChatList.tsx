@@ -7,10 +7,10 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import IChat from "../types/Chat";
-import { userChatsServiceFactory } from "../services/httpServiceFactories";
-import useAuth from "../hooks/useAuth";
-import useInfiniteScroll from "../hooks/useInfiniteScroll";
+import IChat from "../../types/Chat";
+import { userChatsServiceFactory } from "../../services/httpServiceFactories";
+import useAuth from "../../hooks/useAuth";
+import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 import { NavLink, useParams } from "react-router-dom";
 import { ChatComposeModal } from "./ChatComposeModal";
 

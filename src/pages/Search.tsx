@@ -4,7 +4,7 @@ import { TopBar } from "../components/Profile/TopBar";
 import {
   PostSearchResults,
   UserSearchResults,
-} from "../components/SearchResults";
+} from "../components/Search/SearchResults";
 
 export const Search = () => {
   const [searchParams] = useSearchParams();

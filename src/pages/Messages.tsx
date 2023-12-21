@@ -1,7 +1,7 @@
 import { Grid, GridItem } from "@chakra-ui/react";
-import { Sidebar } from "./Sidebar";
-import { Chat } from "./Chat";
-import { ChatList } from "./ChatList";
+import { Sidebar } from "../components/Sidebar";
+import { Chat } from "../components/Chat/Chat";
+import { ChatList } from "../components/Chat/ChatList";
 import { Route, Routes } from "react-router-dom";
 
 export const Messages = () => {

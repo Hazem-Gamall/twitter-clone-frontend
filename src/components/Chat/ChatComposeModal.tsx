@@ -18,15 +18,15 @@ import {
 
 import { LuMailPlus } from "react-icons/lu";
 import { useState } from "react";
-import useList from "../hooks/useList";
+import useList from "../../hooks/useList";
 import {
   searchServiceFactory,
   userChatsServiceFactory,
-} from "../services/httpServiceFactories";
-import { IUserProfile } from "../types/User";
-import useAuth from "../hooks/useAuth";
+} from "../../services/httpServiceFactories";
+import { IUserProfile } from "../../types/User";
+import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import IChat from "../types/Chat";
+import IChat from "../../types/Chat";
 
 export const ChatComposeModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();

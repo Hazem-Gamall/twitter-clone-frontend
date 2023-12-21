@@ -8,7 +8,7 @@ import {
   HStack,
   Button,
 } from "@chakra-ui/react";
-import { SearchBar } from "./SearchBar";
+import { SearchBar } from "../components/Search/SearchBar";
 
 const TrendEntry = () => {
   return (
