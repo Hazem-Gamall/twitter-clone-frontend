@@ -9,9 +9,14 @@ import { API_BASE_URL } from "../services/apiClient";
 
 export const Notifications = () => {
   const { auth } = useAuth();
-  const { data, setData, isLoading } = useInfiniteScroll<INotification>(
-    notificationsServiceFactory(auth?.username as string)
-  );
+  const { data, setData, isLoading, lastElementRef } =
+    useInfiniteScroll<INotification>(
+      notificationsServiceFactory(auth?.username as string),
+      {},
+      [],
+      0,
+      10
+    );
 
   useEffect(() => {
     const eventSource = new EventSource(`${API_BASE_URL}/notifications/sse/`, {
@@ -32,18 +37,17 @@ export const Notifications = () => {
 
   return (
     <>
-      {isLoading ? (
-        <Spinner alignSelf={"center"} />
-      ) : (
-        data.map((notification) => (
+      {data &&
+        data.map((notification, ind) => (
           <NotificationItem
             key={notification.id}
             viewNotification={viewNotification}
             username={auth?.username as string}
+            ref={ind === data.length - 1 ? lastElementRef : null}
             notification={notification}
           />
-        ))
-      )}
+        ))}
+      {isLoading && <Spinner alignSelf={"center"} />}
     </>
   );
 };
