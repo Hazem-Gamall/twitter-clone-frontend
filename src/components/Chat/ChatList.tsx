@@ -2,19 +2,24 @@ import {
   Avatar,
   Card,
   CardBody,
+  Grid,
+  GridItem,
   HStack,
   Spinner,
   Text,
-  VStack,
 } from "@chakra-ui/react";
+import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 import IChat from "../../types/Chat";
+import { useParams } from "react-router-dom";
 import { userChatsServiceFactory } from "../../services/httpServiceFactories";
 import useAuth from "../../hooks/useAuth";
-import useInfiniteScroll from "../../hooks/useInfiniteScroll";
-import { NavLink, useParams } from "react-router-dom";
 import { ChatComposeModal } from "./ChatComposeModal";
 
-export const ChatList = () => {
+interface Props {
+  onClick: (chatId: number) => void;
+}
+
+export const ChatList = ({ onClick }: Props) => {
   const { auth } = useAuth();
   console.log("username", auth?.username);
   const { chat_id } = useParams();
@@ -35,23 +40,31 @@ export const ChatList = () => {
         : chat.first_user_profile;
     return (
       <Card
+        _hover={{ cursor: "pointer" }}
         key={chat.id}
-        as={NavLink}
-        to={`/messages/${chat.id}`}
+        onClick={() => onClick(chat.id)}
         width={"100%"}
         borderRadius={0}
         bg={chat.id === parseInt(chat_id as string) ? "gray.800" : "black"}
         ref={index === data.length - 1 ? lastElementRef : null}
       >
         <CardBody>
-          <HStack alignItems={"flex-start"}>
-            <Avatar src={`/${otherUserProfile.avatar}`}></Avatar>
-            <Text fontWeight={"bold"}>{otherUserProfile.user.name}</Text>
-            <Text fontWeight={"light"} color={"gray.500"}>
-              @{otherUserProfile.user.username} &#183;{" "}
-              {chat.last_edit.substring(0, 3)}
-            </Text>
-          </HStack>
+          <Grid templateAreas={`"avatar content"`} templateColumns={"1fr 4fr"}>
+            <GridItem area={"avatar"}>
+              <Avatar src={`/${otherUserProfile.avatar}`}></Avatar>
+            </GridItem>
+            <GridItem area={"content"}>
+              <HStack alignItems={"flex-start"}>
+                <Text fontWeight={"bold"}>{otherUserProfile.user.name}</Text>
+                <Text fontWeight={"light"} color={"gray.500"}>
+                  @{otherUserProfile.user.username} &#183;{" "}
+                  {chat.last_edit.substring(0, 3)}
+                </Text>
+              </HStack>
+
+              <Text>{chat.last_message?.text}</Text>
+            </GridItem>
+          </Grid>
         </CardBody>
       </Card>
     );
@@ -60,18 +73,7 @@ export const ChatList = () => {
   return (
     <>
       <ChatComposeModal />
-      {isLoading ? (
-        <Spinner />
-      ) : (
-        <VStack
-          overflowY={"scroll"}
-          alignItems={"flex-start"}
-          align={"stretch"}
-          height={"80vh"}
-        >
-          {children}
-        </VStack>
-      )}
+      {isLoading ? <Spinner /> : children}
     </>
   );
 };

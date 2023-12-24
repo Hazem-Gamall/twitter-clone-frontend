@@ -1,8 +1,9 @@
 import { Grid, GridItem } from "@chakra-ui/react";
 import { Sidebar } from "../components/Sidebar";
 import { Chat } from "../components/Chat/Chat";
-import { ChatList } from "../components/Chat/ChatList";
+import { ChatListContainer } from "../components/Chat/ChatListContainer";
 import { Route, Routes } from "react-router-dom";
+import { ChatContainer } from "../components/Chat/ChatContainer";
 
 export const Messages = () => {
   return (
@@ -24,8 +25,8 @@ export const Messages = () => {
 
         <GridItem area={"chat-list"}>
           <Routes>
-            <Route path="/:chat_id" element={<ChatList />} />
-            <Route path="/" element={<ChatList />} />
+            <Route path="/:chat_id" element={<ChatListContainer />} />
+            <Route path="/" element={<ChatListContainer />} />
           </Routes>
         </GridItem>
 
@@ -35,7 +36,7 @@ export const Messages = () => {
           area={"chat"}
         >
           <Routes>
-            <Route path="/:chat_id" element={<Chat />} />
+            <Route path="/:chat_id" element={<ChatContainer />} />
             <Route path="/" element={<div>gello</div>} />
           </Routes>
         </GridItem>

@@ -27,9 +27,15 @@ import useRefreshToken from "../../hooks/useRefreshToken";
 
 export const WS_URL = import.meta.env.VITE_WS_URL;
 
-export const Chat = () => {
+interface Props {
+  chatId?: number;
+  numberOfMessages?: number;
+}
+
+export const Chat = ({ chatId, numberOfMessages = 15 }: Props) => {
   const { auth } = useAuth();
-  const { chat_id } = useParams();
+  let { chat_id } = useParams();
+  if (chatId) chat_id = chatId.toString();
   const chatHttpService = userChatsServiceFactory(auth?.username as string);
   const { data: chat, isLoading: isChatLoading } = useRetrieve<IChat>(
     chatHttpService,
@@ -46,7 +52,13 @@ export const Chat = () => {
     parseInt(chat_id as string)
   );
   const { data, isLoading, setData, lastElementRef } =
-    useInfiniteScroll<IMessage>(messagesHttpService, {}, [chat_id], 0, 15);
+    useInfiniteScroll<IMessage>(
+      messagesHttpService,
+      {},
+      [chat_id],
+      0,
+      numberOfMessages
+    );
 
   useEffect(() => {
     if (isChatLoading) return;
@@ -99,18 +111,17 @@ export const Chat = () => {
   console.log("data here", data);
   return (
     <Grid>
+      <HStack bg={"transparent"} position={"sticky"} top={0} px={3}>
+        <Avatar
+          as={Link}
+          to={`/${otherUserProfile?.user.username}`}
+          src={`/${otherUserProfile?.avatar}`}
+        />
+        <Text>{otherUserProfile?.user.name}</Text>
+      </HStack>
       <GridItem>
-        <HStack bg={"transparent"} position={"sticky"} px={3}>
-          <Avatar
-            as={Link}
-            to={`/${otherUserProfile?.user.username}`}
-            src={`/${otherUserProfile?.avatar}`}
-          />
-          <Text>{otherUserProfile?.user.name}</Text>
-        </HStack>
         <VStack
-          height={"80vh"}
-          overflowY={"auto"}
+          maxH={"100%"}
           flexDirection={"column-reverse"}
           align={"stretch"}
         >

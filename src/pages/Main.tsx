@@ -7,6 +7,7 @@ import { RequireAuth } from "../components/RequireAuth";
 import { Profile } from "./Profile";
 import { Search } from "./Search";
 import { Notifications } from "./Notifications";
+import { ChatWindow } from "../components/ChatWindow";
 
 export const Main = () => {
   return (
@@ -49,6 +50,7 @@ export const Main = () => {
           area={"trending"}
         >
           <Trending />
+          <ChatWindow />
         </GridItem>
       </Grid>
     </>
