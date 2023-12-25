@@ -8,8 +8,20 @@ import { Profile } from "./Profile";
 import { Search } from "./Search";
 import { Notifications } from "./Notifications";
 import { ChatWindow } from "../components/ChatWindow";
+import { API_BASE_URL } from "../services/apiClient";
+import { useEffect, useState } from "react";
 
 export const Main = () => {
+  const [hasNotification, setHasNotification] = useState(false);
+  useEffect(() => {
+    const eventSource = new EventSource(`${API_BASE_URL}/notifications/sse/`, {
+      withCredentials: true,
+    });
+    eventSource.onmessage = () => {
+      setHasNotification(true);
+    };
+    return () => eventSource.close();
+  }, []);
   return (
     <>
       <Grid
@@ -24,7 +36,7 @@ export const Main = () => {
           borderRightColor={"gray.800"}
           pr={3}
         >
-          <Sidebar />
+          <Sidebar hasNotification={hasNotification} />
         </GridItem>
 
         <GridItem area={"main"}>
