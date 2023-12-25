@@ -11,9 +11,13 @@ import useAuth from "../hooks/useAuth";
 
 interface Props {
   hasNotification?: boolean;
+  hasMessage?: boolean;
 }
 
-export const Sidebar = ({ hasNotification = false }: Props) => {
+export const Sidebar = ({
+  hasNotification = false,
+  hasMessage = false,
+}: Props) => {
   const { auth, setAuth } = useAuth();
   return (
     <VStack position={"fixed"} px={3} align={"start"}>
@@ -47,6 +51,11 @@ export const Sidebar = ({ hasNotification = false }: Props) => {
 
       <SidebarButton to="/messages" icon={FiMail}>
         Messages
+        {hasMessage && (
+          <Badge ml={2} boxSize={2} borderRadius={35} bg="red">
+            &#8203;
+          </Badge>
+        )}
       </SidebarButton>
 
       <SidebarButton to="/lists" icon={RiFileListLine}>

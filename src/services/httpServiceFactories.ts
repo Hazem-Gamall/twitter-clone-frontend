@@ -81,3 +81,7 @@ export const searchServiceFactory = (filter: string) => {
 export const notificationsServiceFactory = (username: string) => {
   return httpServiceFactory(HttpService, `/users/${username}/notifications`);
 };
+
+export const genericServiceFactory = (path: string) => {
+  return httpServiceFactory(HttpService, path);
+};

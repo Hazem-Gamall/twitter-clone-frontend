@@ -14,7 +14,12 @@ import { ChatList } from "./Chat/ChatList";
 import { useState } from "react";
 import { Chat } from "./Chat/Chat";
 
-export const ChatWindow = () => {
+interface Props {
+  hasMessage: boolean;
+  setHasMessage: (hasMessage: boolean) => void;
+}
+
+export const ChatWindow = ({ hasMessage = false, setHasMessage }: Props) => {
   const { isOpen, onToggle } = useDisclosure();
   const [chatId, setChatId] = useState(-1);
   const [inChat, setInChat] = useState(false);
@@ -22,13 +27,17 @@ export const ChatWindow = () => {
   return (
     <Box position={"sticky"} bottom={"0px"} pl={10} bg={"black"}>
       <HStack
-        onClick={onToggle}
+        onClick={() => {
+          onToggle();
+          setHasMessage(false);
+        }}
         justifyContent={"space-between"}
         borderWidth={2}
         borderBottomWidth={0}
         borderRadius={10}
         borderBottomRadius={0}
         p={2}
+        bg={hasMessage ? "#1D9BF0" : ""}
         _hover={{ cursor: "pointer" }}
       >
         <Heading as={"h2"}>Messages</Heading>
@@ -70,12 +79,14 @@ export const ChatWindow = () => {
             borderWidth={2}
             borderTopWidth={0}
           >
-            <ChatList
-              onClick={(clicked_chat_id) => {
-                setChatId(clicked_chat_id);
-                setInChat(true);
-              }}
-            />
+            {isOpen && (
+              <ChatList
+                onClick={(clicked_chat_id) => {
+                  setChatId(clicked_chat_id);
+                  setInChat(true);
+                }}
+              />
+            )}
           </Box>
         )}
       </Collapse>

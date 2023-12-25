@@ -1,6 +1,5 @@
 import { Grid, GridItem } from "@chakra-ui/react";
 import { Sidebar } from "../components/Sidebar";
-import { Chat } from "../components/Chat/Chat";
 import { ChatListContainer } from "../components/Chat/ChatListContainer";
 import { Route, Routes } from "react-router-dom";
 import { ChatContainer } from "../components/Chat/ChatContainer";

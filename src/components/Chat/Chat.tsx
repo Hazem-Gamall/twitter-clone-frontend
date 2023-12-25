@@ -24,6 +24,7 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 import { IUserProfile } from "../../types/User";
 import useRefreshToken from "../../hooks/useRefreshToken";
+import { ChatMessage } from "./ChatMessage";
 
 export const WS_URL = import.meta.env.VITE_WS_URL;
 
@@ -111,7 +112,7 @@ export const Chat = ({ chatId, numberOfMessages = 15 }: Props) => {
   console.log("data here", data);
   return (
     <Grid>
-      <HStack bg={"transparent"} position={"sticky"} top={0} px={3}>
+      <HStack bg="black" position={"sticky"} top={0} p={3}>
         <Avatar
           as={Link}
           to={`/${otherUserProfile?.user.username}`}
@@ -135,33 +136,20 @@ export const Chat = ({ chatId, numberOfMessages = 15 }: Props) => {
             >
               {data && (
                 <>
-                  {isLoading && <Spinner />}
                   {data.map((message, index) => (
-                    <Box
-                      ref={
-                        index === data.length - 1
-                          ? (ref) => lastElementRef(ref)
-                          : null
+                    <ChatMessage
+                      setMessage={(message) =>
+                        setData((messages) =>
+                          messages.map((m) =>
+                            m.id === message.id ? { ...m, seen: true } : m
+                          )
+                        )
                       }
-                      borderRadius={30}
-                      p={2}
-                      alignSelf={
-                        message.author.user.username ===
-                        auth?.userProfile.user.username
-                          ? "flex-end"
-                          : "flex-start"
-                      }
-                      bg={
-                        message.author.user.username ===
-                        auth?.userProfile.user.username
-                          ? "blue"
-                          : "gray"
-                      }
-                      key={message.id}
-                    >
-                      {message.text}
-                    </Box>
+                      message={message}
+                      ref={index === data.length - 1 ? lastElementRef : null}
+                    />
                   ))}
+                  {isLoading && <Spinner />}
                 </>
               )}
             </VStack>

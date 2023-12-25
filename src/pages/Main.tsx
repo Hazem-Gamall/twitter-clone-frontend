@@ -13,6 +13,17 @@ import { useEffect, useState } from "react";
 
 export const Main = () => {
   const [hasNotification, setHasNotification] = useState(false);
+  const [hasMessage, setHasMessage] = useState(false);
+  useEffect(() => {
+    const eventSource = new EventSource(`${API_BASE_URL}/chats/sse/`, {
+      withCredentials: true,
+    });
+    eventSource.onmessage = () => {
+      setHasMessage(true);
+    };
+    return () => eventSource.close();
+  }, []);
+
   useEffect(() => {
     const eventSource = new EventSource(`${API_BASE_URL}/notifications/sse/`, {
       withCredentials: true,
@@ -36,7 +47,7 @@ export const Main = () => {
           borderRightColor={"gray.800"}
           pr={3}
         >
-          <Sidebar hasNotification={hasNotification} />
+          <Sidebar hasNotification={hasNotification} hasMessage={hasMessage} />
         </GridItem>
 
         <GridItem area={"main"}>
@@ -62,7 +73,7 @@ export const Main = () => {
           area={"trending"}
         >
           <Trending />
-          <ChatWindow />
+          <ChatWindow hasMessage={hasMessage} setHasMessage={setHasMessage} />
         </GridItem>
       </Grid>
     </>

@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Badge,
   Card,
   CardBody,
   Grid,
@@ -61,8 +62,15 @@ export const ChatList = ({ onClick }: Props) => {
                   {chat.last_edit.substring(0, 3)}
                 </Text>
               </HStack>
-
-              <Text>{chat.last_message?.text}</Text>
+              <HStack>
+                <Text>{chat.last_message.text}</Text>
+                {!chat.last_message.seen &&
+                  chat.last_message.author.user.username !== auth?.username && (
+                    <Badge ml={2} boxSize={2} borderRadius={35} bg="red">
+                      &#8203;
+                    </Badge>
+                  )}
+              </HStack>
             </GridItem>
           </Grid>
         </CardBody>
