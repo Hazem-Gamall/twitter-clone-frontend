@@ -23,6 +23,7 @@ const SearchResults = ({
   filter: string;
   query: string;
 }) => {
+  if (!query) return;
   const httpService = searchServiceFactory(filter);
   const { data, isLoading, error, lastElementRef } = useInfiniteScroll(
     httpService,
