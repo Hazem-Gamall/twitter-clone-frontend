@@ -11,12 +11,14 @@ import useAuth from "../hooks/useAuth";
 
 interface Props {
   hasNotification?: boolean;
+  setHasNotification?: (hasNotification: boolean) => void;
   hasMessage?: boolean;
 }
 
 export const Sidebar = ({
   hasNotification = false,
   hasMessage = false,
+  setHasNotification,
 }: Props) => {
   const { auth, setAuth } = useAuth();
   return (
@@ -40,7 +42,11 @@ export const Sidebar = ({
         Explore
       </SidebarButton>
 
-      <SidebarButton to="/notifications" icon={RiNotification2Line}>
+      <SidebarButton
+        to="/notifications"
+        icon={RiNotification2Line}
+        onClick={() => setHasNotification && setHasNotification(false)}
+      >
         Notifications
         {hasNotification && (
           <Badge ml={2} boxSize={2} borderRadius={35} bg="red">

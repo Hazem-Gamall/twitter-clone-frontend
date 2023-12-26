@@ -49,7 +49,11 @@ export const Main = () => {
           borderRightColor={"gray.800"}
           pr={3}
         >
-          <Sidebar hasNotification={hasNotification} hasMessage={hasMessage} />
+          <Sidebar
+            hasNotification={hasNotification}
+            setHasNotification={setHasNotification}
+            hasMessage={hasMessage}
+          />
         </GridItem>
 
         <GridItem area={"main"}>
