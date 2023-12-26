@@ -1,5 +1,10 @@
-[contenteditable="true"]:empty:before {
+[contenteditable="true"]:empty:before,
+[contenteditable="true"]:has(br:empty)::after {
   content: attr(placeholder);
   color: grey;
   pointer-events: none;
+}
+
+[contenteditable="true"] br {
+  display: none;
 }
