@@ -17,6 +17,7 @@ import usePosts from "../../hooks/usePosts";
 import { postsServiceFatory } from "../../services/httpServiceFactories";
 import useAuth from "../../hooks/useAuth";
 import mentionPattern from "../../utils/mentionPattern";
+import formatDate from "../../utils/formatDate";
 
 const isTextAfterLastMatch = (trimIndex: number, text: string) =>
   trimIndex < text.length;
@@ -90,7 +91,8 @@ export const PostContent = ({ post }: { post: IPost }) => {
             fontWeight={"light"}
             color={"gray.500"}
           >
-            @{post.post_user.username} &#183; {post.creation}
+            @{post.post_user.username} &#183;{" "}
+            {formatDate(new Date(post.creation))}
           </ChakraLink>
         </HStack>
         <Menu>
