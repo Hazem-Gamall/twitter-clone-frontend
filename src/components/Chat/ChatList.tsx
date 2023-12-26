@@ -15,6 +15,7 @@ import { useParams } from "react-router-dom";
 import { userChatsServiceFactory } from "../../services/httpServiceFactories";
 import useAuth from "../../hooks/useAuth";
 import { ChatComposeModal } from "./ChatComposeModal";
+import formatDate from "../../utils/formatDate";
 
 interface Props {
   onClick: (chatId: number) => void;
@@ -59,7 +60,7 @@ export const ChatList = ({ onClick }: Props) => {
                 <Text fontWeight={"bold"}>{otherUserProfile.user.name}</Text>
                 <Text fontWeight={"light"} color={"gray.500"}>
                   @{otherUserProfile.user.username} &#183;{" "}
-                  {chat.last_edit.substring(0, 3)}
+                  {formatDate(new Date(chat.last_message.last_edit))}
                 </Text>
               </HStack>
               <HStack>
