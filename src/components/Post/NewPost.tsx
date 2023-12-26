@@ -114,7 +114,7 @@ export const NewPost = ({ reply_post, handlePostSubmit }: Props) => {
   return (
     <form onSubmit={handleSubmit}>
       <VStack alignItems={"flex-end"} align={"stretch"}>
-        <HStack width={"100%"} align={"stretch"}>
+        <HStack width={"100%"} align={"stretch"} px={5}>
           <Avatar
             src={auth?.userProfile.avatar}
             name={auth?.userProfile.user.name}
