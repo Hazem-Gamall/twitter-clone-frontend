@@ -57,14 +57,23 @@ export const ChatList = ({ onClick }: Props) => {
             </GridItem>
             <GridItem area={"content"}>
               <HStack alignItems={"flex-start"}>
-                <Text fontWeight={"bold"}>{otherUserProfile.user.name}</Text>
-                <Text fontWeight={"light"} color={"gray.500"}>
+                <Text fontWeight={"bold"} fontSize={"sm"}>
+                  {otherUserProfile.user.name}
+                </Text>
+                <Text fontWeight={"light"} color={"gray.500"} fontSize={"sm"}>
                   @{otherUserProfile.user.username} &#183;{" "}
                   {formatDate(new Date(chat.last_message.last_edit))}
                 </Text>
               </HStack>
               <HStack>
-                <Text>{chat.last_message.text}</Text>
+                <Text
+                  width={"25vh"}
+                  textOverflow={"ellipsis"}
+                  whiteSpace={"nowrap"}
+                  overflow={"hidden"}
+                >
+                  {chat.last_message.text}
+                </Text>
                 {!chat.last_message.seen &&
                   chat.last_message.author.user.username !== auth?.username && (
                     <Badge ml={2} boxSize={2} borderRadius={35} bg="red">
