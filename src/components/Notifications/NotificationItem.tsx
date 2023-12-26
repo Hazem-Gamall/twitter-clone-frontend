@@ -16,7 +16,7 @@ import {
 import { Link } from "react-router-dom";
 import { Post } from "../Post/Post";
 import { useEffect } from "react";
-import useApiClient from "../../hooks/useApiClient";
+import { genericServiceFactory } from "../../services/httpServiceFactories";
 
 interface NotificationProps {
   notification: INotification;
@@ -67,13 +67,17 @@ export const NotificationItem = forwardRef(
       M: "blue",
     };
 
-    const apiClient = useApiClient();
+    const service = genericServiceFactory(
+      `/notifications/${notification.id}/viewed`
+    );
 
     useEffect(() => {
-      if (!notification.viewed)
-        apiClient
-          .get(`/notifications/${notification.id}/viewed`)
-          .then(() => setTimeout(() => viewNotification(notification), 5000));
+      if (notification.viewed) return;
+      const { request, cancel } = service.list();
+      request.then(() =>
+        setTimeout(() => viewNotification(notification), 5000)
+      );
+      return () => cancel();
     }, []);
 
     return (
