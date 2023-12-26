@@ -59,7 +59,7 @@ export const Post = forwardRef(
         )}
         <CardBody py={0}>
           <Grid
-            templateAreas={`"avatar content" "none btns"`}
+            templateAreas={`"avatar content" "avatar btns"`}
             templateColumns={"1fr 10fr"}
           >
             <GridItem area={"avatar"}>
