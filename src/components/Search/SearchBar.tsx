@@ -3,15 +3,21 @@ import { FormEvent, useRef } from "react";
 import { BsSearch } from "react-icons/bs";
 import { createSearchParams, useNavigate } from "react-router-dom";
 
-export const SearchBar = () => {
+interface Props {
+  navigateToSearch?: boolean;
+}
+
+export const SearchBar = ({ navigateToSearch }: Props) => {
   const searchRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const handleSubmit = (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
     if (searchRef.current) {
+      const q = searchRef.current.value;
+      if (!q) return;
       navigate({
-        pathname: "search",
-        search: createSearchParams({ q: searchRef.current.value }).toString(),
+        pathname: navigateToSearch ? "search" : "",
+        search: createSearchParams({ q }).toString(),
       });
     }
   };

@@ -1,7 +1,7 @@
-import { Grid, GridItem } from "@chakra-ui/react";
+import { Grid, GridItem, VStack } from "@chakra-ui/react";
 import { Sidebar } from "../components/Sidebar";
 import { Home } from "./Home";
-import { Trending } from "./Trending";
+import { Trend } from "./Trending";
 import { Route, Routes } from "react-router-dom";
 import { RequireAuth } from "../components/RequireAuth";
 import { Profile } from "./Profile";
@@ -10,6 +10,7 @@ import { Notifications } from "./Notifications";
 import { ChatWindow } from "../components/ChatWindow";
 import { API_BASE_URL } from "../services/apiClient";
 import { useEffect, useState } from "react";
+import { SearchBar } from "../components/Search/SearchBar";
 
 export const Main = () => {
   const [hasNotification, setHasNotification] = useState(false);
@@ -40,6 +41,7 @@ export const Main = () => {
         templateColumns={"0.7fr 2fr 1.2fr"}
         py={3}
         px={5}
+        height={"100vh"}
       >
         <GridItem
           area={"sidebar"}
@@ -56,6 +58,7 @@ export const Main = () => {
               <Route path="/home" element={<Home />} />
               <Route path="/:username/*" element={<Profile />} />
               <Route path="search" element={<Search />} />
+              <Route path="explore" element={<Search />} />
               <Route path="notifications" element={<Notifications />} />
               <Route
                 path="*"
@@ -72,7 +75,13 @@ export const Main = () => {
           borderLeftColor={"gray.800"}
           area={"trending"}
         >
-          <Trending />
+          <VStack px={5} mr={3} spacing={10} height={"100%"}>
+            <Routes>
+              <Route path="search" element={<Trend />} />
+              <Route path="explore" element={<Trend />} />
+              <Route path="*" element={<SearchBar navigateToSearch />} />
+            </Routes>
+          </VStack>
           <ChatWindow hasMessage={hasMessage} setHasMessage={setHasMessage} />
         </GridItem>
       </Grid>
