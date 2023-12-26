@@ -25,7 +25,7 @@ export const ChatWindow = ({ hasMessage = false, setHasMessage }: Props) => {
   const [inChat, setInChat] = useState(false);
 
   return (
-    <Box position={"sticky"} bottom={"0px"} pl={10} bg={"black"}>
+    <Box position={"fixed"} bottom={"0px"} bg={"black"} ml={10} width={"26vw"}>
       <HStack
         onClick={() => {
           onToggle();
