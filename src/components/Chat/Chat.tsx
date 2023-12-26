@@ -112,7 +112,7 @@ export const Chat = ({ chatId, numberOfMessages = 15 }: Props) => {
   console.log("data here", data);
   return (
     <Grid>
-      <HStack bg="black" position={"sticky"} top={0} p={3}>
+      <HStack bg="black" position={"sticky"} top={0} p={3} zIndex={1}>
         <Avatar
           as={Link}
           to={`/${otherUserProfile?.user.username}`}

@@ -51,44 +51,39 @@ export const ChatWindow = ({ hasMessage = false, setHasMessage }: Props) => {
         </HStack>
       </HStack>
       <Collapse in={isOpen} animateOpacity>
-        {inChat ? (
-          <>
-            {" "}
-            <IconButton
-              aria-label="back"
-              icon={<IoMdArrowBack />}
-              onClick={() => setInChat(false)}
-              borderRadius={35}
-              bg="black"
-            />
-            <VStack
-              height={"50vh"}
-              overflowY={"scroll"}
-              borderWidth={2}
-              borderTopWidth={0}
-              flexDirection={"column-reverse"}
-              align={"stretch"}
-            >
-              <Chat chatId={chatId} numberOfMessages={5} />
-            </VStack>
-          </>
-        ) : (
-          <Box
-            height={"50vh"}
-            overflowY={"scroll"}
-            borderWidth={2}
-            borderTopWidth={0}
-          >
-            {isOpen && (
-              <ChatList
-                onClick={(clicked_chat_id) => {
-                  setChatId(clicked_chat_id);
-                  setInChat(true);
-                }}
+        <Box borderWidth={2} borderTopWidth={0}>
+          {inChat ? (
+            <>
+              {" "}
+              <IconButton
+                aria-label="back"
+                icon={<IoMdArrowBack />}
+                onClick={() => setInChat(false)}
+                borderRadius={35}
+                bg="black"
               />
-            )}
-          </Box>
-        )}
+              <VStack
+                height={"70vh"}
+                overflowY={"scroll"}
+                flexDirection={"column-reverse"}
+                align={"stretch"}
+              >
+                <Chat chatId={chatId} numberOfMessages={5} />
+              </VStack>
+            </>
+          ) : (
+            <Box height={"70vh"} overflowY={"scroll"}>
+              {isOpen && (
+                <ChatList
+                  onClick={(clicked_chat_id) => {
+                    setChatId(clicked_chat_id);
+                    setInChat(true);
+                  }}
+                />
+              )}
+            </Box>
+          )}
+        </Box>
       </Collapse>
     </Box>
   );
