@@ -14,6 +14,7 @@ const useRetrieve = <T>(httpService: HttpService, id: string, deps?: [any]) => {
         .then((resp) => {
           setData(resp.data);
           setIsLoading(false);
+          setError("");
         })
         .catch((error) => {
           if (error instanceof CanceledError) return;
