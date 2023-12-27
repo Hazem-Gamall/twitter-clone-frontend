@@ -34,31 +34,31 @@ export const UserDetail = ({ userProfile, setUserProfile }: Props) => {
         src={userProfile.cover_picture}
       />
       <VStack align={"stretch"} mx={3}>
-        <HStack justifyContent={"flex-end"}>
+        <HStack justifyContent={"space-between"}>
           <Avatar
             name={userProfile.user.name}
             src={userProfile.avatar}
-            position={"absolute"}
             border={"4px"}
             color={"black"}
-            left={280}
-            top={230}
+            mt={"-5vw"}
             boxSize={130}
           />
-          {userProfile.user.username === auth?.username ? (
-            <AuthUserDetailButtons
-              userProfile={userProfile}
-              setUserProfile={setUserProfile}
-            />
-          ) : (
-            <OtherUserDetailButtons
-              userProfile={userProfile}
-              setUserProfile={setUserProfile}
-            />
-          )}
+          <HStack justifyContent={"flex-end"}>
+            {userProfile.user.username === auth?.username ? (
+              <AuthUserDetailButtons
+                userProfile={userProfile}
+                setUserProfile={setUserProfile}
+              />
+            ) : (
+              <OtherUserDetailButtons
+                userProfile={userProfile}
+                setUserProfile={setUserProfile}
+              />
+            )}
+          </HStack>
         </HStack>
 
-        <VStack ml={1} mt={10} alignItems={"flex-start"}>
+        <VStack ml={1} alignItems={"flex-start"}>
           <VStack spacing={0} alignItems={"flex-start"}>
             <Heading fontSize={"2xl"}>{userProfile.user.name}</Heading>
             <Text color={"gray.600"}>@{userProfile.user.username}</Text>
