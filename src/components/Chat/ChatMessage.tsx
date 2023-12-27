@@ -11,7 +11,7 @@ interface Props {
 
 export const ChatMessage = forwardRef(({ message, setMessage }: Props, ref) => {
   const { auth } = useAuth();
-  const service = genericServiceFactory(`/chats/messages`);
+  const service = genericServiceFactory(`/chats/messages/seen`);
 
   useEffect(() => {
     if (message.seen) return;
