@@ -83,7 +83,15 @@ export const Main = () => {
             <Routes>
               <Route path="search" element={<Trend />} />
               <Route path="explore" element={<Trend />} />
-              <Route path="*" element={<SearchBar navigateToSearch />} />
+              <Route
+                path="*"
+                element={
+                  <>
+                    <SearchBar navigateToSearch />
+                    <Trend />
+                  </>
+                }
+              />
             </Routes>
           </VStack>
           <ChatWindow hasMessage={hasMessage} setHasMessage={setHasMessage} />
