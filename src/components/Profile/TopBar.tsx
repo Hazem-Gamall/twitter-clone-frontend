@@ -7,19 +7,26 @@ interface Props {
   postsCount?: number;
 }
 
-export const TopBar = ({ username, postsCount }: Props) => {
+export const BackButton = () => {
   const navigate = useNavigate();
+
+  return (
+    <IconButton
+      aria-label=""
+      icon={<IoArrowBackOutline />}
+      variant={"ghost"}
+      fontSize={"xl"}
+      borderRadius={30}
+      onClick={() => navigate(-1)}
+    />
+  );
+};
+
+export const TopBar = ({ username, postsCount }: Props) => {
   return (
     <>
       <HStack justifyContent={"flex-start"} px={5}>
-        <IconButton
-          aria-label=""
-          icon={<IoArrowBackOutline />}
-          variant={"ghost"}
-          fontSize={"xl"}
-          borderRadius={30}
-          onClick={() => navigate(-1)}
-        />
+        <BackButton />
         <VStack spacing={0} alignItems={"flex-start"} pl={3}>
           <Heading as="h5" fontSize={"lg"}>
             {username}

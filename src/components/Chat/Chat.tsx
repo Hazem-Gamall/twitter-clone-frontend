@@ -11,25 +11,32 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import useAuth from "../hooks/useAuth";
+import useAuth from "../../hooks/useAuth";
 import {
   userChatMessagesServiceFactory,
   userChatsServiceFactory,
-} from "../services/httpServiceFactories";
-import IChat from "../types/Chat";
-import IMessage from "../types/Message";
+} from "../../services/httpServiceFactories";
+import IChat from "../../types/Chat";
+import IMessage from "../../types/Message";
 import { Link, useParams } from "react-router-dom";
-import useRetrieve from "../hooks/useRetrieve";
+import useRetrieve from "../../hooks/useRetrieve";
 import { FormEvent, useEffect, useRef, useState } from "react";
-import useInfiniteScroll from "../hooks/useInfiniteScroll";
-import { IUserProfile } from "../types/User";
-import useRefreshToken from "../hooks/useRefreshToken";
+import useInfiniteScroll from "../../hooks/useInfiniteScroll";
+import { IUserProfile } from "../../types/User";
+import useRefreshToken from "../../hooks/useRefreshToken";
+import { ChatMessage } from "./ChatMessage";
 
 export const WS_URL = import.meta.env.VITE_WS_URL;
 
-export const Chat = () => {
+interface Props {
+  chatId?: number;
+  numberOfMessages?: number;
+}
+
+export const Chat = ({ chatId, numberOfMessages = 15 }: Props) => {
   const { auth } = useAuth();
-  const { chat_id } = useParams();
+  let { chat_id } = useParams();
+  if (chatId) chat_id = chatId.toString();
   const chatHttpService = userChatsServiceFactory(auth?.username as string);
   const { data: chat, isLoading: isChatLoading } = useRetrieve<IChat>(
     chatHttpService,
@@ -46,7 +53,13 @@ export const Chat = () => {
     parseInt(chat_id as string)
   );
   const { data, isLoading, setData, lastElementRef } =
-    useInfiniteScroll<IMessage>(messagesHttpService, {}, [chat_id], 0, 15);
+    useInfiniteScroll<IMessage>(
+      messagesHttpService,
+      {},
+      [chat_id],
+      0,
+      numberOfMessages
+    );
 
   useEffect(() => {
     if (isChatLoading) return;
@@ -99,18 +112,17 @@ export const Chat = () => {
   console.log("data here", data);
   return (
     <Grid>
+      <HStack bg="black" position={"sticky"} top={0} p={3} zIndex={1}>
+        <Avatar
+          as={Link}
+          to={`/${otherUserProfile?.user.username}`}
+          src={`/${otherUserProfile?.avatar}`}
+        />
+        <Text>{otherUserProfile?.user.name}</Text>
+      </HStack>
       <GridItem>
-        <HStack bg={"transparent"} position={"sticky"} px={3}>
-          <Avatar
-            as={Link}
-            to={`/${otherUserProfile?.user.username}`}
-            src={`/${otherUserProfile?.avatar}`}
-          />
-          <Text>{otherUserProfile?.user.name}</Text>
-        </HStack>
         <VStack
-          height={"80vh"}
-          overflowY={"auto"}
+          maxH={"100%"}
           flexDirection={"column-reverse"}
           align={"stretch"}
         >
@@ -124,33 +136,20 @@ export const Chat = () => {
             >
               {data && (
                 <>
-                  {isLoading && <Spinner />}
                   {data.map((message, index) => (
-                    <Box
-                      ref={
-                        index === data.length - 1
-                          ? (ref) => lastElementRef(ref)
-                          : null
+                    <ChatMessage
+                      setMessage={(message) =>
+                        setData((messages) =>
+                          messages.map((m) =>
+                            m.id === message.id ? { ...m, seen: true } : m
+                          )
+                        )
                       }
-                      borderRadius={30}
-                      p={2}
-                      alignSelf={
-                        message.author.user.username ===
-                        auth?.userProfile.user.username
-                          ? "flex-end"
-                          : "flex-start"
-                      }
-                      bg={
-                        message.author.user.username ===
-                        auth?.userProfile.user.username
-                          ? "blue"
-                          : "gray"
-                      }
-                      key={message.id}
-                    >
-                      {message.text}
-                    </Box>
+                      message={message}
+                      ref={index === data.length - 1 ? lastElementRef : null}
+                    />
                   ))}
+                  {isLoading && <Spinner />}
                 </>
               )}
             </VStack>

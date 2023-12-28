@@ -1,8 +1,15 @@
 interface User {
+  id: number;
   name: string;
   username: string;
   email: string;
   date_joined: string;
+}
+
+interface IFollowersInCommon {
+  users: IUserProfile[];
+  count: number;
+  remaining: number;
 }
 
 export interface IUserProfile {
@@ -14,4 +21,5 @@ export interface IUserProfile {
   avatar?: string;
   cover_picture?: string;
   bio?: string;
+  followers_in_common: IFollowersInCommon;
 }

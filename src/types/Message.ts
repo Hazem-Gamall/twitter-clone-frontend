@@ -8,4 +8,5 @@ export default interface IMessage {
   author: IUserProfile;
   creating: string;
   last_edit: string;
+  seen: boolean;
 }

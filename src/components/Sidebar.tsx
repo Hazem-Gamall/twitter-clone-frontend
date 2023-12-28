@@ -1,4 +1,4 @@
-import { Button, IconButton, VStack } from "@chakra-ui/react";
+import { Badge, Button, IconButton, VStack } from "@chakra-ui/react";
 import { FaXTwitter } from "react-icons/fa6";
 import { CgHome } from "react-icons/cg";
 import { BsSearch, BsPeople, BsPerson } from "react-icons/bs";
@@ -9,7 +9,17 @@ import { Link } from "react-router-dom";
 import getObjectFromJWT from "../utils/getObjectFromJwt";
 import useAuth from "../hooks/useAuth";
 
-export const Sidebar = () => {
+interface Props {
+  hasNotification?: boolean;
+  setHasNotification?: (hasNotification: boolean) => void;
+  hasMessage?: boolean;
+}
+
+export const Sidebar = ({
+  hasNotification = false,
+  hasMessage = false,
+  setHasNotification,
+}: Props) => {
   const { auth, setAuth } = useAuth();
   return (
     <VStack position={"fixed"} px={3} align={"start"}>
@@ -32,12 +42,26 @@ export const Sidebar = () => {
         Explore
       </SidebarButton>
 
-      <SidebarButton to="/notifications" icon={RiNotification2Line}>
+      <SidebarButton
+        to="/notifications"
+        icon={RiNotification2Line}
+        onClick={() => setHasNotification && setHasNotification(false)}
+      >
         Notifications
+        {hasNotification && (
+          <Badge ml={2} boxSize={2} borderRadius={35} bg="red">
+            &#8203;
+          </Badge>
+        )}
       </SidebarButton>
 
       <SidebarButton to="/messages" icon={FiMail}>
         Messages
+        {hasMessage && (
+          <Badge ml={2} boxSize={2} borderRadius={35} bg="red">
+            &#8203;
+          </Badge>
+        )}
       </SidebarButton>
 
       <SidebarButton to="/lists" icon={RiFileListLine}>

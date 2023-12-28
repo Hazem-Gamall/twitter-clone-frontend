@@ -18,6 +18,36 @@ import { AuthUserDetailButtons } from "./UserDetailButtons/AuthUserDetailButtons
 import { OtherUserDetailButtons } from "./UserDetailButtons/OtherUserDetailButtons";
 import formatDate from "../../utils/formatDate";
 
+const FollowersInCommonText = ({
+  userProfile,
+}: {
+  userProfile: IUserProfile;
+}) => {
+  const { auth } = useAuth();
+  let text = "";
+  const followersInCommon = userProfile.followers_in_common;
+  if (userProfile.user.id === auth?.userProfile.user.id) {
+    text = "";
+  } else if (followersInCommon.count === 0) {
+    text = "Not followed by anyone you're following";
+  } else if (followersInCommon.remaining === 0) {
+    text = `
+        Followed by
+        ${followersInCommon.users.map(
+          (up, ind) =>
+            `${up.user.name}${
+              ind === followersInCommon.users.length - 1 ? "" : ", "
+            }`
+        )}
+      `;
+  } else {
+    text = `Followed by ${followersInCommon.users.map(
+      (up) => `${up.user.username}, `
+    )} and ${followersInCommon.remaining} others you know`;
+  }
+  return <Text color={"gray.600"}>{text}</Text>;
+};
+
 interface Props {
   userProfile: IUserProfile;
   setUserProfile: (userProfile: IUserProfile) => void;
@@ -34,31 +64,31 @@ export const UserDetail = ({ userProfile, setUserProfile }: Props) => {
         src={userProfile.cover_picture}
       />
       <VStack align={"stretch"} mx={3}>
-        <HStack justifyContent={"flex-end"}>
+        <HStack justifyContent={"space-between"}>
           <Avatar
             name={userProfile.user.name}
             src={userProfile.avatar}
-            position={"absolute"}
             border={"4px"}
             color={"black"}
-            left={280}
-            top={230}
+            mt={"-5vw"}
             boxSize={130}
           />
-          {userProfile.user.username === auth?.username ? (
-            <AuthUserDetailButtons
-              userProfile={userProfile}
-              setUserProfile={setUserProfile}
-            />
-          ) : (
-            <OtherUserDetailButtons
-              userProfile={userProfile}
-              setUserProfile={setUserProfile}
-            />
-          )}
+          <HStack justifyContent={"flex-end"}>
+            {userProfile.user.username === auth?.username ? (
+              <AuthUserDetailButtons
+                userProfile={userProfile}
+                setUserProfile={setUserProfile}
+              />
+            ) : (
+              <OtherUserDetailButtons
+                userProfile={userProfile}
+                setUserProfile={setUserProfile}
+              />
+            )}
+          </HStack>
         </HStack>
 
-        <VStack ml={1} mt={10} alignItems={"flex-start"}>
+        <VStack ml={1} alignItems={"flex-start"}>
           <VStack spacing={0} alignItems={"flex-start"}>
             <Heading fontSize={"2xl"}>{userProfile.user.name}</Heading>
             <Text color={"gray.600"}>@{userProfile.user.username}</Text>
@@ -97,7 +127,7 @@ export const UserDetail = ({ userProfile, setUserProfile }: Props) => {
             as={Link}
             to={`/${userProfile.user.username}/followers_you_follow`}
           >
-            <Text color={"gray.600"}>Followed by</Text>
+            <FollowersInCommonText userProfile={userProfile} />
           </ChakraLink>
         </VStack>
       </VStack>

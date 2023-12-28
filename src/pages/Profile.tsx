@@ -36,23 +36,7 @@ const UserProfile = () => {
                 userProfile={userProfile}
                 setUserProfile={setUserProfile}
               />
-              <Routes>
-                <Route
-                  path="/"
-                  element={
-                    <ProfileContent userProfile={userProfile} type="main" />
-                  }
-                />
-                <Route
-                  path="/with_replies"
-                  element={
-                    <ProfileContent
-                      userProfile={userProfile}
-                      type="with_replies"
-                    />
-                  }
-                />
-              </Routes>
+              <ProfileContent userProfile={userProfile} />
             </>
           )}
         </VStack>

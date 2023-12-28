@@ -1,10 +1,11 @@
 import { Link, createSearchParams, useSearchParams } from "react-router-dom";
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
+import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import { TopBar } from "../components/Profile/TopBar";
 import {
   PostSearchResults,
   UserSearchResults,
-} from "../components/SearchResults";
+} from "../components/Search/SearchResults";
+import { SearchBar } from "../components/Search/SearchBar";
 
 export const Search = () => {
   const [searchParams] = useSearchParams();
@@ -15,6 +16,9 @@ export const Search = () => {
   return (
     <>
       <TopBar username="Search" />
+      <Box px={6}>
+        <SearchBar />
+      </Box>
       <Tabs isFitted index={tabIndex}>
         <TabList>
           <Tab

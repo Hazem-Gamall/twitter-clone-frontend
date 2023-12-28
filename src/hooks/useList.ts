@@ -15,6 +15,7 @@ const useList = <T>(httpService: HttpService, params = {}, deps?: any[]) => {
           if (resp) {
             setData(resp.data);
             setIsLoading(false);
+            setError("");
           }
         })
         .catch((error) => {

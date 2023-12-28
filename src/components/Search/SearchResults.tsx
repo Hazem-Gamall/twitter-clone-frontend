@@ -1,10 +1,10 @@
 import { Spinner, VStack, forwardRef } from "@chakra-ui/react";
-import { Post } from "./Post/Post";
-import { UserCard } from "./Profile/UserCard";
-import { searchServiceFactory } from "../services/httpServiceFactories";
-import IPost from "../types/Post";
-import { IUserProfile } from "../types/User";
-import useInfiniteScroll from "../hooks/useInfiniteScroll";
+import { Post } from "../Post/Post";
+import { UserCard } from "../Profile/UserCard";
+import { searchServiceFactory } from "../../services/httpServiceFactories";
+import IPost from "../../types/Post";
+import { IUserProfile } from "../../types/User";
+import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 
 const UserResult = forwardRef(
   ({ userProfile }: { userProfile: IUserProfile }, ref) => {
@@ -23,6 +23,7 @@ const SearchResults = ({
   filter: string;
   query: string;
 }) => {
+  if (!query) return;
   const httpService = searchServiceFactory(filter);
   const { data, isLoading, error, lastElementRef } = useInfiniteScroll(
     httpService,

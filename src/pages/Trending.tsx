@@ -8,7 +8,6 @@ import {
   HStack,
   Button,
 } from "@chakra-ui/react";
-import { SearchBar } from "./SearchBar";
 
 const TrendEntry = () => {
   return (
@@ -35,7 +34,7 @@ const TrendEntry = () => {
   );
 };
 
-const Trend = () => {
+export const Trend = () => {
   return (
     <Card width={"100%"} borderRadius={15} pt={2}>
       <CardHeader py={1}>
@@ -47,14 +46,5 @@ const Trend = () => {
         </VStack>
       </CardBody>
     </Card>
-  );
-};
-
-export const Trending = () => {
-  return (
-    <VStack px={5} mr={3} spacing={10} height={"100%"}>
-      <SearchBar />
-      <Trend />
-    </VStack>
   );
 };

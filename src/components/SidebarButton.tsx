@@ -7,13 +7,15 @@ interface Props {
   icon: IconType;
   children?: ReactNode;
   to: string;
+  onClick?: () => void;
 }
 
-export const SidebarButton = ({ icon, children, to }: Props) => {
+export const SidebarButton = ({ icon, children, to, onClick }: Props) => {
   return (
     <Button
       as={NavLink}
       to={to}
+      onClick={onClick}
       p={4}
       borderRadius={30}
       size={"lg"}
