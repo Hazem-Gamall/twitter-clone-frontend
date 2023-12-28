@@ -26,10 +26,9 @@ export const HomeContent = ({ forYouFilter }: Props) => {
   );
   if (error) return <div>Error:{error}</div>;
   useEffect(() => {
-    if (isLoading) return;
     if (setPosts) setPosts(data);
   }, [data]);
-  console.log("posts", posts);
+  console.log(`posts ${forYouFilter}`, posts);
 
   return (
     <VStack align={"stretch"}>

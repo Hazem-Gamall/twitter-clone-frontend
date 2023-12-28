@@ -16,7 +16,6 @@ import { FiMoreHorizontal } from "react-icons/fi";
 import usePosts from "../../hooks/usePosts";
 import { postsServiceFatory } from "../../services/httpServiceFactories";
 import useAuth from "../../hooks/useAuth";
-import mentionPattern from "../../utils/mentionPattern";
 import formatDate from "../../utils/formatDate";
 
 const isTextAfterLastMatch = (trimIndex: number, text: string) =>
@@ -29,16 +28,11 @@ const PostText = ({
   text: string;
   mentions: Mention[];
 }) => {
-  const matches = text.matchAll(mentionPattern);
-
   let trimIndex = 0;
   let children = [];
-  console.log("matches length", [...matches].length);
 
   for (const mention of mentions) {
     const mentionText = text.substring(mention.start_index, mention.end_index);
-    console.log("text", text);
-    console.log("mentionText", mentionText);
 
     children.push(
       <span>{text.substring(trimIndex, mention.start_index)}</span>,
