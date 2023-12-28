@@ -3,7 +3,7 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import { IUserProfile } from "../../types/User";
 import { PostsTab } from "./tabs/PostsTab";
 import { PostsProvider } from "../../context/PostsProvider";
-
+import { isOfTypePostFilters } from "../../types/PostsFilter";
 interface Props {
   userProfile: IUserProfile;
 }
@@ -12,7 +12,8 @@ export const ProfileContent = ({ userProfile }: Props) => {
   let { username } = useParams();
   username = username as string;
   const location = useLocation();
-  const type = location.pathname.split("/")[2] || "";
+  const route = location.pathname.split("/").pop() || "";
+  const filter = isOfTypePostFilters(route) ? route : "";
 
   const postFiltersIndex: { [key: string]: number } = {
     "": 0,
@@ -20,7 +21,7 @@ export const ProfileContent = ({ userProfile }: Props) => {
     media: 2,
     likes: 3,
   };
-  const tabIndex = postFiltersIndex[type];
+  const tabIndex = postFiltersIndex[filter];
 
   return (
     <Tabs isFitted isLazy index={tabIndex}>
@@ -59,13 +60,13 @@ export const ProfileContent = ({ userProfile }: Props) => {
 
         <TabPanel height={"70vh"} p={0}>
           <PostsProvider>
-            <PostsTab type="media_only" />
+            <PostsTab type="media" />
           </PostsProvider>
         </TabPanel>
 
         <TabPanel height={"70vh"} p={0}>
           <PostsProvider>
-            <PostsTab type="likes_only" />
+            <PostsTab type="likes" />
           </PostsProvider>
         </TabPanel>
       </TabPanels>

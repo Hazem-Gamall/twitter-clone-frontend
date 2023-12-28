@@ -1,1 +1,5 @@
-export type IPostsFilter = "" | "with_replies" | "likes_only" | "media_only";
+export type IPostFilters = "" | "with_replies" | "likes" | "media";
+
+export const isOfTypePostFilters = (str: string) => {
+  return ["", "with_replies", "likes", "media"].includes(str);
+};

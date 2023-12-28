@@ -7,9 +7,9 @@ import { userPostsServiceFactory } from "../../../services/httpServiceFactories"
 import { useParams } from "react-router-dom";
 import useInfiniteScroll from "../../../hooks/useInfiniteScroll";
 import { PostList } from "../../Post/PostList";
-import { IPostsFilter } from "../../../types/PostsFilter";
+import { IPostFilters } from "../../../types/PostsFilter";
 interface Props {
-  type?: IPostsFilter;
+  type?: IPostFilters;
 }
 
 export const PostsTab = memo(({ type = "" }: Props) => {
