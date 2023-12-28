@@ -151,6 +151,7 @@ export const PostContentEditable = forwardRef(
         <Box
           ref={divRef}
           contentEditable
+          //@ts-ignore
           placeholder="What is happening?!"
           wordBreak={"break-word"}
           fontSize={"2xl"}
