@@ -7,11 +7,12 @@ import { userPostsServiceFactory } from "../../../services/httpServiceFactories"
 import { useParams } from "react-router-dom";
 import useInfiniteScroll from "../../../hooks/useInfiniteScroll";
 import { PostList } from "../../Post/PostList";
+import { IPostsFilter } from "../../../types/PostsFilter";
 interface Props {
-  type: "main" | "with_replies";
+  type?: IPostsFilter;
 }
 
-export const PostsTab = memo(({ type = "main" }: Props) => {
+export const PostsTab = memo(({ type = "" }: Props) => {
   let { username } = useParams();
   username = username as string;
 
@@ -20,9 +21,7 @@ export const PostsTab = memo(({ type = "main" }: Props) => {
 
   const { data, isLoading, error, lastElementRef } = useInfiniteScroll<IPost>(
     httpService,
-    {
-      ...(type === "with_replies" && { with_replies: true }),
-    }
+    { filter: type }
   );
 
   useEffect(() => {
