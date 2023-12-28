@@ -18,6 +18,36 @@ import { AuthUserDetailButtons } from "./UserDetailButtons/AuthUserDetailButtons
 import { OtherUserDetailButtons } from "./UserDetailButtons/OtherUserDetailButtons";
 import formatDate from "../../utils/formatDate";
 
+const FollowersInCommonText = ({
+  userProfile,
+}: {
+  userProfile: IUserProfile;
+}) => {
+  const { auth } = useAuth();
+  let text = "";
+  const followersInCommon = userProfile.followers_in_common;
+  if (userProfile.user.id === auth?.userProfile.user.id) {
+    text = "";
+  } else if (followersInCommon.count === 0) {
+    text = "Not followed by anyone you're following";
+  } else if (followersInCommon.remaining === 0) {
+    text = `
+        Followed by
+        ${followersInCommon.users.map(
+          (up, ind) =>
+            `${up.user.name}${
+              ind === followersInCommon.users.length - 1 ? "" : ", "
+            }`
+        )}
+      `;
+  } else {
+    text = `Followed by ${followersInCommon.users.map(
+      (up) => `${up.user.username}, `
+    )} and ${followersInCommon.remaining} others you know`;
+  }
+  return <Text color={"gray.600"}>{text}</Text>;
+};
+
 interface Props {
   userProfile: IUserProfile;
   setUserProfile: (userProfile: IUserProfile) => void;
@@ -97,7 +127,7 @@ export const UserDetail = ({ userProfile, setUserProfile }: Props) => {
             as={Link}
             to={`/${userProfile.user.username}/followers_you_follow`}
           >
-            <Text color={"gray.600"}>Followed by</Text>
+            <FollowersInCommonText userProfile={userProfile} />
           </ChakraLink>
         </VStack>
       </VStack>

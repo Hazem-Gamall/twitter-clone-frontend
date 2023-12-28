@@ -6,6 +6,12 @@ interface User {
   date_joined: string;
 }
 
+interface IFollowersInCommon {
+  users: IUserProfile[];
+  count: number;
+  remaining: number;
+}
+
 export interface IUserProfile {
   user: User;
   date_of_birth: string;
@@ -15,4 +21,5 @@ export interface IUserProfile {
   avatar?: string;
   cover_picture?: string;
   bio?: string;
+  followers_in_common: IFollowersInCommon;
 }
