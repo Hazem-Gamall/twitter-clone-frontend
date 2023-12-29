@@ -19,7 +19,9 @@ export const Main = () => {
     const eventSource = new EventSource(`${API_BASE_URL}/chats/sse/`, {
       withCredentials: true,
     });
-    eventSource.onmessage = () => {
+    eventSource.onmessage = (ev) => {
+      const data = JSON.parse(ev.data);
+      if (data.ping) return;
       setHasMessage(true);
     };
     return () => eventSource.close();
@@ -29,7 +31,9 @@ export const Main = () => {
     const eventSource = new EventSource(`${API_BASE_URL}/notifications/sse/`, {
       withCredentials: true,
     });
-    eventSource.onmessage = () => {
+    eventSource.onmessage = (ev) => {
+      const data = JSON.parse(ev.data);
+      if (data.ping) return;
       setHasNotification(true);
     };
     return () => eventSource.close();
