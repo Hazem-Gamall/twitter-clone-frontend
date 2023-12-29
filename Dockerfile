@@ -1,4 +1,4 @@
-FROM node:lts-alpine as builder
+FROM node:lts-alpine
 
 WORKDIR /app
 COPY ./package.json ./
@@ -6,8 +6,3 @@ RUN npm install
 
 COPY . .
 RUN npm run build
-
-FROM nginx:stable-alpine
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-EXPOSE 80
-COPY --from=builder /app/dist /usr/share/nginx/html
