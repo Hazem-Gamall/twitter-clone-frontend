@@ -24,6 +24,7 @@ export const Notifications = () => {
     });
     eventSource.onmessage = (ev) => {
       const notification = JSON.parse(ev.data);
+      if (notification.ping) return;
       setData((prev) => [notification, ...prev]);
     };
     return () => eventSource.close();
@@ -34,7 +35,6 @@ export const Notifications = () => {
       data.map((n) => (n.id === notification.id ? { ...n, viewed: true } : n))
     );
   };
-
   return (
     <>
       {data &&

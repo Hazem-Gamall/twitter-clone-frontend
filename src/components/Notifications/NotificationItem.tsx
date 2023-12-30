@@ -13,7 +13,7 @@ import {
   VStack,
   forwardRef,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Post } from "../Post/Post";
 import { useEffect } from "react";
 import { genericServiceFactory } from "../../services/httpServiceFactories";
@@ -53,6 +53,7 @@ interface Props {
 
 export const NotificationItem = forwardRef(
   ({ username, notification, viewNotification }: Props, ref) => {
+    const navigate = useNavigate();
     const notification_type_to_icon: { [key: string]: any } = {
       R: BiReply,
       T: BiRepost,
@@ -84,11 +85,12 @@ export const NotificationItem = forwardRef(
       <>
         <Card
           ref={ref}
-          as={Link}
-          to={`/${username}/status/${notification.post.id}`}
+          onClick={() =>
+            navigate(`/${username}/status/${notification.post.id}`)
+          }
           borderRadius={0}
           bg={notification.viewed ? "black" : "gray.800"}
-          _hover={{ background: "gray.900" }}
+          _hover={{ background: "gray.900", cursor: "pointer" }}
         >
           <Grid
             gridTemplateAreas={`"type content"`}
